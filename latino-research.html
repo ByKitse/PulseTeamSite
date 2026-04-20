@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Latino Content Strategy — Pulse Reels</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3250;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --text: #e8eaf6;
+      --muted: #8b8fa8;
+      --green: #34d399;
+      --yellow: #fbbf24;
+      --red: #f87171;
+      --blue: #60a5fa;
+      --pink: #f472b6;
+      --orange: #fb923c;
+      --teal: #2dd4bf;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .back-link {
+      font-size: 0.83rem;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--text); }
+
+    .header-title { font-size: 1rem; font-weight: 700; }
+    .header-title span { color: var(--orange); }
+
+    .header-badge {
+      font-size: 0.72rem;
+      background: rgba(251,146,60,0.15);
+      color: var(--orange);
+      border: 1px solid rgba(251,146,60,0.25);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
+
+    /* HERO */
+    .page-hero { margin-bottom: 3rem; }
+    .page-hero .eyebrow {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 0.75rem;
+    }
+    .page-hero h1 {
+      font-size: 2.2rem; font-weight: 900; letter-spacing: -0.04em;
+      line-height: 1.1; margin-bottom: 0.75rem;
+    }
+    .page-hero h1 span { color: var(--orange); }
+    .page-hero p {
+      font-size: 0.95rem; color: var(--muted); max-width: 640px; line-height: 1.65;
+    }
+
+    /* BIG STAT ROW */
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .stat-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 1.25rem;
+    }
+    .stat-block .num {
+      font-size: 1.7rem; font-weight: 800; letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .stat-block .label {
+      font-size: 0.7rem; color: var(--muted); margin-top: 0.35rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .orange { color: var(--orange); }
+    .green  { color: var(--green); }
+    .blue   { color: var(--blue); }
+    .purple { color: var(--accent2); }
+    .pink   { color: var(--pink); }
+    .teal   { color: var(--teal); }
+
+    /* SECTION */
+    .section { margin-bottom: 3.5rem; }
+    .section-header {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1.5rem; padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-num {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--surface2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; color: var(--muted);
+      flex-shrink: 0;
+    }
+    .section-title { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; }
+    .section-subtitle { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+    /* TABLE */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      background: var(--surface);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .data-table th {
+      background: var(--surface2);
+      padding: 0.65rem 1rem;
+      text-align: left;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid rgba(46,50,80,0.5);
+      color: var(--text);
+      vertical-align: top;
+      line-height: 1.45;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* CARDS GRID */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .card-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .card-title { font-size: 0.95rem; font-weight: 700; letter-spacing: -0.01em; }
+    .card-body { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+
+    /* TIER BADGE */
+    .tier {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 2px 8px; border-radius: 20px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .tier-1 { background: rgba(52,211,153,0.15); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+    .tier-2 { background: rgba(251,146,60,0.15); color: var(--orange); border: 1px solid rgba(251,146,60,0.3); }
+    .tier-3 { background: rgba(167,139,250,0.15); color: var(--accent2); border: 1px solid rgba(167,139,250,0.3); }
+
+    /* STATUS PILLS */
+    .pill {
+      display: inline-block; font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      padding: 2px 8px; border-radius: 20px;
+    }
+    .oversaturated { background: rgba(248,113,113,0.15); color: var(--red); }
+    .underserved   { background: rgba(52,211,153,0.15); color: var(--green); }
+    .working       { background: rgba(96,165,250,0.15); color: var(--blue); }
+    .critical      { background: rgba(251,191,36,0.15); color: var(--yellow); }
+
+    /* CALL-OUT BOX */
+    .callout {
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid;
+    }
+    .callout-orange { background: rgba(251,146,60,0.07); border-color: var(--orange); }
+    .callout-green  { background: rgba(52,211,153,0.07); border-color: var(--green); }
+    .callout-blue   { background: rgba(96,165,250,0.07); border-color: var(--blue); }
+    .callout-purple { background: rgba(167,139,250,0.07); border-color: var(--accent2); }
+    .callout-yellow { background: rgba(251,191,36,0.07); border-color: var(--yellow); }
+    .callout-title  { font-size: 0.78rem; font-weight: 700; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .callout p, .callout li { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .callout ul { padding-left: 1.1rem; margin-top: 0.35rem; }
+    .callout strong { color: var(--text); }
+
+    /* TWO-COL */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* LANGUAGE SPLIT */
+    .lang-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .lang-gen { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .lang-tag { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.6rem; }
+    .lang-detail { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+    .lang-rec {
+      display: inline-block; margin-top: 0.5rem;
+      font-size: 0.7rem; font-weight: 700;
+      background: rgba(96,165,250,0.12); color: var(--blue);
+      border: 1px solid rgba(96,165,250,0.25); border-radius: 5px;
+      padding: 2px 10px;
+    }
+
+    /* SCRIPT PITCH CARDS */
+    .pitch-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .pitch-head {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      margin-bottom: 0.85rem;
+    }
+    .pitch-num {
+      width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; font-weight: 800;
+    }
+    .pitch-num.t1 { background: rgba(52,211,153,0.12); color: var(--green); border: 1px solid rgba(52,211,153,0.25); }
+    .pitch-num.t2 { background: rgba(251,146,60,0.12); color: var(--orange); border: 1px solid rgba(251,146,60,0.25); }
+    .pitch-num.t3 { background: rgba(167,139,250,0.12); color: var(--accent2); border: 1px solid rgba(167,139,250,0.25); }
+    .pitch-title { font-size: 1rem; font-weight: 800; letter-spacing: -0.02em; }
+    .pitch-logline { font-size: 0.8rem; color: var(--accent2); margin-top: 2px; font-style: italic; }
+    .pitch-body { font-size: 0.83rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.85rem; }
+    .pitch-meta {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .meta-tag {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 4px; padding: 2px 8px;
+      font-size: 0.7rem; color: var(--muted);
+    }
+
+    /* PLATFORM COMPETITOR */
+    .competitor {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .competitor-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 0.6rem;
+    }
+    .competitor-name { font-size: 0.95rem; font-weight: 700; }
+    .competitor-body { font-size: 0.82rem; color: var(--muted); line-height: 1.55; margin-bottom: 0.6rem; }
+    .competitor-weak { font-size: 0.78rem; color: var(--yellow); }
+    .competitor-weak strong { color: var(--yellow); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 2rem;
+      text-align: center;
+      font-size: 0.73rem;
+      color: var(--muted);
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="index.html">&#8592; Home</a>
+  <div class="header-title">Pulse <span>Reels</span> — Latino Content Strategy</div>
+  <span class="header-badge">Deep Dive · Mar 2026</span>
+</header>
+
+<div class="page">
+
+  <div class="page-hero">
+    <div class="eyebrow">Research Brief · March 2026</div>
+    <h1>The <span>Latino</span> Microdrama<br>Opportunity</h1>
+    <p>A deep-dive into global microdrama performance data, Latino/Hispanic audience behavior, language strategy, cultural nuances, competitor landscape, and script recommendations for Pulse Reels Batch 2.</p>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip">
+    <div class="stat-block">
+      <div class="num orange">$11B</div>
+      <div class="label">Global microdrama market 2025</div>
+    </div>
+    <div class="stat-block">
+      <div class="num green">35.7min</div>
+      <div class="label">ReelShort daily watch/user — beats Netflix (24.8)</div>
+    </div>
+    <div class="stat-block">
+      <div class="num blue">27×</div>
+      <div class="label">DramaWave LatAm downloads surge Q1 2025</div>
+    </div>
+    <div class="stat-block">
+      <div class="num purple">$4.1T</div>
+      <div class="label">US Latino purchasing power</div>
+    </div>
+    <div class="stat-block">
+      <div class="num pink">24%</div>
+      <div class="label">US box office tickets sold by Latinos</div>
+    </div>
+    <div class="stat-block">
+      <div class="num teal">55.8%</div>
+      <div class="label">Hispanic TV time is streaming (vs 46% general US)</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: MARKET -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div>
+        <div class="section-title">The Market — Hard Numbers</div>
+        <div class="section-subtitle">Why this format is the fastest-growing entertainment vertical on the planet</div>
+      </div>
+    </div>
+
+    <div class="callout callout-orange">
+      <div class="callout-title">⚡ The Core Insight</div>
+      <p>US mobile users now spend <strong>more time per day on microdrama apps than on Netflix, Disney+, or Amazon Prime Video.</strong> This is not a trend — it's a primary viewing habit. And Latin America is the fastest-growing region with zero authentic content serving it.</p>
+    </div>
+
+    <table class="data-table" style="margin-bottom:1.25rem">
+      <thead>
+        <tr>
+          <th>App</th>
+          <th>Q1 2025 Revenue</th>
+          <th>Cumulative</th>
+          <th>LatAm Signal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ReelShort</strong></td>
+          <td class="green">$130M</td>
+          <td>$490M</td>
+          <td>No Latino targeting</td>
+        </tr>
+        <tr>
+          <td><strong>DramaBox</strong></td>
+          <td class="green">$120M</td>
+          <td>$450M</td>
+          <td>No Latino targeting</td>
+        </tr>
+        <tr>
+          <td><strong>DramaWave</strong></td>
+          <td class="orange">—</td>
+          <td>53M downloads</td>
+          <td style="color:var(--orange);font-weight:600">#1 LatAm app — 27× surge</td>
+        </tr>
+        <tr>
+          <td><strong>ViX MicrO</strong></td>
+          <td class="blue">Ad-supported</td>
+          <td>900M+ social views</td>
+          <td style="color:var(--green);font-weight:600">Only Latino-native player</td>
+        </tr>
+        <tr>
+          <td><strong>ShortMax</strong></td>
+          <td>$7.2M (May '25)</td>
+          <td>—</td>
+          <td>+279% MoM growth</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-blue">
+      <div class="callout-title">The LatAm Paradox</div>
+      <p>DramaWave — <strong>a Chinese-origin app distributing Chinese dramas subtitled in Spanish</strong> — became the #1 most-downloaded microdrama app in Latin America. Mexico is its #2 global market (12.28%). The audience is there. They are watching a Chinese product because nothing better exists. That's the opportunity.</p>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Format Metric</th>
+          <th>Sweet Spot</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Episode length</td><td class="green">60–90 seconds</td><td>Never under 45s. 2min max on premium.</td></tr>
+        <tr><td>Episodes per arc</td><td>60–100</td><td>Top performers run 80 eps per season.</td></tr>
+        <tr><td>Free before paywall</td><td>7–10 episodes</td><td>Hook window. Non-negotiable.</td></tr>
+        <tr><td>Paywall price</td><td>$0.50/ep or ~$17/wk</td><td>Micropayment outperforms subscription.</td></tr>
+        <tr><td>Production cost</td><td>$150K–$250K</td><td>S-class premium: $400–600K.</td></tr>
+        <tr><td>Marketing:Production ratio</td><td class="orange">9:1</td><td>Spend 9x more on ads than production.</td></tr>
+        <tr><td>Release cadence</td><td>Daily drops</td><td>Creates appointment viewing habit.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 2: LATINO AUDIENCE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div>
+        <div class="section-title">The Latino Audience — Who They Are</div>
+        <div class="section-subtitle">Demographics, streaming behavior, and the massive representation gap</div>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-bottom:1.25rem">
+      <div class="callout callout-green" style="margin:0">
+        <div class="callout-title">Consumption Overindex</div>
+        <ul>
+          <li><strong>55.8%</strong> of Hispanic TV time is streaming (vs 46% US avg)</li>
+          <li><strong>96%</strong> of Hispanic households subscribe to at least one streaming service (vs 88% general US)</li>
+          <li>Avg <strong>6.4 SVOD services</strong>/household and $76/mo spent (vs $56 avg)</li>
+          <li><strong>29%</strong> of all US daily mobile TV viewership</li>
+          <li><strong>24%</strong> of all US streaming subscriptions</li>
+        </ul>
+      </div>
+      <div class="callout callout-purple" style="margin:0">
+        <div class="callout-title">The Representation Gap = Your Business Case</div>
+        <ul>
+          <li>Latinos are <strong>&lt;10%</strong> of lead roles in scripted TV/film</li>
+          <li><strong>1.1%</strong> of top streaming scripted shows were created by Latinos</li>
+          <li><strong>56%</strong> of Hispanics wish for more representation on social feeds (63% among Spanish-dominant)</li>
+          <li>McKinsey: improving Latino representation could add <strong>$12–18B/year</strong> in Hollywood revenue</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-yellow">
+      <div class="callout-title">The Math That Matters</div>
+      <p>A demographic that drives <strong>24–29% of US streaming consumption</strong> receives <strong>less than 10%</strong> of on-screen representation. This gap is not just a cultural issue — it is a <strong>$12–18 billion market failure</strong> and your entire business case.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3: CULTURAL NUANCES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div>
+        <div class="section-title">Cultural Nuances — What the Scripts Must Get Right</div>
+        <div class="section-subtitle">The specific cultural truths that separate authentic content from stereotyped content</div>
+      </div>
+    </div>
+
+    <div class="cards-grid" style="margin-bottom:1.5rem">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">The Abuela Is Not a Prop</div>
+          <span class="tier tier-1">Critical</span>
+        </div>
+        <div class="card-body">The matriarch — grandmother, mother, tía — is the moral center of Latino stories. She is not decoration. When the grandmother's secret is the <em>engine</em> of the plot (not a callback), stories perform significantly better. Her wisdom and her wounds drive everything. <em>Lo Que Guardó la Abuela</em> got this right.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Family Loyalty Is the Core Conflict</div>
+          <span class="tier tier-1">Critical</span>
+        </div>
+        <div class="card-body">In Anglo drama: individual vs. society. In Latino drama: <strong>individual vs. family</strong>. The most devastating thing isn't losing love — it's being cut off from the family. Build your cliffhangers around family loyalty being tested, weaponized, or broken. Betrayal by family lands harder than any romantic betrayal.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Class Mobility = Hope, Not Fantasy</div>
+          <span class="tier tier-2">Important</span>
+        </div>
+        <div class="card-body">For a community where immigrant aspiration is lived reality, the rags-to-riches arc isn't escapism — it's a mirror. The transformation must feel earned and specific, not magically bestowed. The audience will accept the fantasy only if the struggle is real first. Show the work before the crown.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Machismo — Subvert It, Don't Erase It</div>
+          <span class="tier tier-2">Important</span>
+        </div>
+        <div class="card-body">The old telenovela male lead — controlling, jealous, possessive coded as romantic — is actively repellent to Gen Z Latino audiences. The new archetype that resonates: powerful AND emotionally intelligent, changed by the woman, not the reverse. His vulnerability is strength. His jealousy costs him, not rewards him.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Regional Specificity Matters</div>
+          <span class="tier tier-2">Important</span>
+        </div>
+        <div class="card-body">Mexico ≠ Colombia ≠ Dominican Republic ≠ Puerto Rico. Folklore, food, slang, social dynamics differ significantly. "Latino" is not a monolith. Specific cultural markers — a Oaxacan village, cumbia not salsa, the specific saints in a specific state — signal authenticity to audiences who've been burned by generic pan-Latin content before.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Supernatural Is Already There</div>
+          <span class="tier tier-1">Critical</span>
+        </div>
+        <div class="card-body">Belief in folk spirituality — curanderismo, brujería, mal de ojo, susto, Santos, Santería — is not fringe in Latino culture, it's embedded. Treating it as exotic horror undermines your audience. When the curandera lights a candle, it should feel ordinary and sacred simultaneously. The horror comes from this world being real, not from it being foreign.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-orange">
+      <div class="callout-title">What Kills Authenticity Instantly</div>
+      <ul>
+        <li>Spanish words used only as flavor (not as functional communication)</li>
+        <li>Catholic imagery treated as purely aesthetic, not living belief</li>
+        <li>All Latino characters in service roles (maid, gardener) without subverting the dynamic</li>
+        <li>Immigration stories framed only as tragedy — audiences want aspiration, not victimhood</li>
+        <li>Narco/cartel as shorthand for Latino identity</li>
+        <li>Accents played for comedy or exoticism</li>
+        <li>Pan-Latin casting (a Colombian accent playing a Mexican character in a story about Mexican culture)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 4: LANGUAGE STRATEGY -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div>
+        <div class="section-title">Language Strategy — Spanish, English, or Spanglish?</div>
+        <div class="section-subtitle">The data on what each generation needs and what the top platforms have learned</div>
+      </div>
+    </div>
+
+    <div class="lang-bar">
+      <div class="lang-gen">First Generation / Spanish-Dominant</div>
+      <div class="lang-tag">Primarily immigrants, 40+, Spanish is primary language</div>
+      <div class="lang-detail">Need Spanish-native audio. Dubbed content feels inauthentic. This is a non-negotiable for this segment. They are fiercely loyal to platforms that produce genuinely in Spanish. ViX's core base.</div>
+      <span class="lang-rec">Produce in Spanish · No dubbing</span>
+    </div>
+    <div class="lang-bar">
+      <div class="lang-gen">Second Generation / Bilingual Millennials</div>
+      <div class="lang-tag">US-raised, code-switch naturally, 25–42</div>
+      <div class="lang-detail">Consume both languages, but respond most strongly to content that mirrors how they actually speak: Spanish in private/emotional moments, English in professional/public contexts. Spanglish that is written with intention — not randomness — creates immediate belonging. <em>"Sometimes I'll start a sentence in English y la termino en español"</em> is a reality, not a novelty.</div>
+      <span class="lang-rec">Spanglish scripts · Spanish audio · English subtitles</span>
+    </div>
+    <div class="lang-bar">
+      <div class="lang-gen">Gen Z / English-Dominant Latinos</div>
+      <div class="lang-tag">US-born, primarily English, 16–28</div>
+      <div class="lang-detail">Don't need Spanish audio — but they need cultural truth. <em>Mija, abuela, comadre, te quiero, güey, oye</em> — specific terms of endearment, places, foods, dynamics. They've been watching generic TV their whole lives and can instantly detect when something is built for them vs. built about them. Cultural specificity is the hook, not language.</div>
+      <span class="lang-rec">English with cultural markers · Spanish terms of endearment intact</span>
+    </div>
+
+    <div class="callout callout-green" style="margin-top:1.25rem">
+      <div class="callout-title">✓ The Recommendation</div>
+      <p><strong>Write natively in Spanglish. Produce audio in Spanish. Subtitle in English.</strong> Never produce in English and dub to Spanish — this reads as inauthentic and performs measurably worse with your target demographic. The proof: <em>La Casa de Papel</em> — made entirely in Spanish — became Netflix's most-watched non-English series ever with <strong>100M+ hours in H1 2025</strong>. Authenticity travels. Dubs don't.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-title">Code-Switching as a Script Tool</div>
+      <p>UCLA sociolinguistics research confirms that intentional code-switching creates <strong>in-group belonging signals</strong> that drive engagement and shares among bilingual audiences. Write scenes so characters switch to English in professional/public settings and Spanish in private/emotional ones. When the abuela speaks only Spanish and the granddaughter responds in English — that's not a translation problem, that's a scene about generational distance. Use the language gap as drama.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 5: TROPE MAP -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div>
+        <div class="section-title">Story Trope Map — What's Oversaturated vs. What's Untouched</div>
+        <div class="section-subtitle">Where to play and where to avoid</div>
+      </div>
+    </div>
+
+    <table class="data-table" style="margin-bottom:1.5rem">
+      <thead>
+        <tr>
+          <th>Theme / Trope</th>
+          <th>Status</th>
+          <th>Why / Opportunity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Narco / cartel stories</strong></td>
+          <td><span class="pill oversaturated">Oversaturated</span></td>
+          <td>Narcos, El Chapo, Somos — audience fatigue is real. Associating Latino identity with crime is also reductionist. Avoid.</td>
+        </tr>
+        <tr>
+          <td><strong>Maid falls for rich man</strong></td>
+          <td><span class="pill oversaturated">Oversaturated</span></td>
+          <td>Classic telenovela cliché. Audiences know the beats. Only works if the dynamic is genuinely subverted — she ends up owning the house.</td>
+        </tr>
+        <tr>
+          <td><strong>Immigration tragedy</strong></td>
+          <td><span class="pill oversaturated">Oversaturated</span></td>
+          <td>Used repeatedly as trauma porn. Audiences want aspiration, not victimhood. Immigration as backstory, not as the story.</td>
+        </tr>
+        <tr>
+          <td><strong>Class revenge + transformation</strong></td>
+          <td><span class="pill working">Working Well</span></td>
+          <td>ViX's #1 performer. Active sweet spot. Use with new cultural angles — the transformation needs specificity.</td>
+        </tr>
+        <tr>
+          <td><strong>Secret identity / inheritance</strong></td>
+          <td><span class="pill working">Working Well</span></td>
+          <td>Reliable engine. Not yet saturated in authentic Spanish-language microdrama. Plenty of room.</td>
+        </tr>
+        <tr>
+          <td><strong>Curandera / brujería protagonist</strong></td>
+          <td><span class="pill underserved">Severely Underserved</span></td>
+          <td>No microdrama version exists anywhere. La Llorona got 4.9M Netflix hours in ONE week in 2024 — 6 years after release. The audience is ravenous.</td>
+        </tr>
+        <tr>
+          <td><strong>Nagual / shapeshifter romance</strong></td>
+          <td><span class="pill underserved">Severely Underserved</span></td>
+          <td>The Latino answer to ReelShort's werewolf formula. Mexican nagual mythology is rich, specific, and entirely unused in microdrama.</td>
+        </tr>
+        <tr>
+          <td><strong>Multigenerational matriarch drama</strong></td>
+          <td><span class="pill underserved">Underserved</span></td>
+          <td>Abuela as protagonist, not prop. The matriarch with secrets as the center of a multi-episode arc — done well, this is a franchise.</td>
+        </tr>
+        <tr>
+          <td><strong>Quinceañera drama</strong></td>
+          <td><span class="pill underserved">Underserved</span></td>
+          <td>Almost no premium versions exist. Visually spectacular, culturally specific, natural story fulcrum (everything explodes on the night of the quinceañera).</td>
+        </tr>
+        <tr>
+          <td><strong>Afro-Latino identity + culture</strong></td>
+          <td><span class="pill underserved">Severely Underserved</span></td>
+          <td>Almost entirely absent from streaming. Candomblé, Santería, Afro-Colombian / Afro-Dominican families. First-mover gets massive press coverage alone.</td>
+        </tr>
+        <tr>
+          <td><strong>Latino LGBTQ+ romance</strong></td>
+          <td><span class="pill underserved">Underserved</span></td>
+          <td>Significant audience gap. Navigating family loyalty + coming out in multigenerational Catholic households is genuine unexplored dramatic territory.</td>
+        </tr>
+        <tr>
+          <td><strong>Machismo subversion / new masculinity</strong></td>
+          <td><span class="pill underserved">Underserved</span></td>
+          <td>Gen Z Latino male audience wants new models. The man who changes is more compelling than the man who dominates.</td>
+        </tr>
+        <tr>
+          <td><strong>Immigration as triumph (not trauma)</strong></td>
+          <td><span class="pill underserved">Underserved</span></td>
+          <td>The first-gen success story told as aspirational arc — not tragedy, not obstacle. Aspiration beats victimhood for engagement.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 6: VIRAL FORMULAS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div>
+        <div class="section-title">What's Viral in 2025–2026 — The Episode Formulas</div>
+        <div class="section-subtitle">The specific structures that drive binge behavior and clip shares</div>
+      </div>
+    </div>
+
+    <div class="cards-grid" style="margin-bottom:1.5rem">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">01 — Reborn Payback</div>
+          <span class="tier tier-1">Proven #1</span>
+        </div>
+        <div class="card-body">Humiliation → transformation → domination. Character is publicly shamed → disappears → returns changed and more powerful. The audience is promised revenge in episode 1. Every episode is a step toward that moment. Pure catharsis engine. The "she finds out" moment is the hook. <em>Me fui gata volví perra</em> titles itself after this exact arc.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">02 — Secret Identity Cascade</div>
+          <span class="tier tier-1">Proven #1</span>
+        </div>
+        <div class="card-body">Multiple hidden identities revealed one per episode. Pacing rule: one mask off per episode. The audience must always wonder "what else is she hiding?" Works best when the protagonist is masking power — pretending to be poor or weak when secretly powerful. Status reversal built into the DNA.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">03 — Contract / Fake Relationship</div>
+          <span class="tier tier-2">High Performer</span>
+        </div>
+        <div class="card-body">Two people agree to pretend for mutual benefit. Each hides resources the other needs. They start to genuinely feel things. One discovers a secret. Cliffhanger. The formula: mutual deception creates involuntary intimacy. The "contract" is just a way to keep two people in the same room long enough to fall in love.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">04 — Enemies to Lovers + Status Flip</div>
+          <span class="tier tier-2">High Performer</span>
+        </div>
+        <div class="card-body">Not just enemies to lovers — the status must flip. She starts below him; by episode 40 she's above him. He hates her because he doesn't know who she really is. Discovery of truth forces proximity. Key: <em>he must be changed by her</em>, not the other way around. Audiences reward the male lead who evolves.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">05 — Supernatural Danger + Desire</div>
+          <span class="tier tier-2">Growing Fast</span>
+        </div>
+        <div class="card-body">Romance + threat from an entity that is attracted to her. ReelShort's werewolf alpha formula drove 1.5M new users on a single title. For Latino adaptation: nagual (shapeshifter), brujo rival, curandera's familiar. The tension: she's drawn to something that could destroy her, and he knows it. Thrillers retain 40% better than pure romance.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">06 — Workplace Power Inversion</div>
+          <span class="tier tier-3">Emerging</span>
+        </div>
+        <div class="card-body">"New intern doesn't know she's the real owner's daughter / an undercover investigator / his boss's boss." Urban class-gap formula. Particularly strong in 2025–26. The reveal of her real identity usually hits around episode 15–20 and should be the single biggest cliffhanger of the first act.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-purple">
+      <div class="callout-title">What Makes a Clip Go Viral (Platform Algorithm Logic)</div>
+      <ul>
+        <li><strong>The Reveal clip</strong> — episode where protagonist's real identity/power is discovered. Must work as a standalone 60-second clip with no context.</li>
+        <li><strong>The Confrontation clip</strong> — high-emotion public scene. Boardroom. Family dinner. Quinceañera. The villain is exposed in front of everyone.</li>
+        <li><strong>The Transformation clip</strong> — she shows up changed. New look, new energy, new power. The "she's back" moment.</li>
+        <li><strong>Every episode must function as a standalone teaser</strong> — a viewer who sees any random clip must immediately understand the stakes and want to watch from the beginning.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 7: COMPETITORS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <div>
+        <div class="section-title">Competitor Landscape — Who's in the Latino Microdrama Space</div>
+        <div class="section-subtitle">What each player is doing, and where their blind spots are</div>
+      </div>
+    </div>
+
+    <div class="competitor">
+      <div class="competitor-head">
+        <div class="competitor-name">ViX MicrO <span style="font-size:0.72rem;color:var(--muted);font-weight:400">(TelevisaUnivision)</span></div>
+        <span class="tier tier-1">Incumbent</span>
+      </div>
+      <div class="competitor-body"><strong>Scale:</strong> 40 originals in 2025, goal of 300. 900M+ social views. 6M daily connected users. 80M minutes watched. Production at San Ángel studio in Mexico City, iPhone 16 + Sony FX3, ~20-person crews, drawing from a 5,000-student arts school.<br><br><strong>Model:</strong> Free on mobile app, ad-insertion + sponsorships, testing micropayments. Distribution funnel: first 5 eps on Instagram/TikTok/Facebook/X → full series on ViX app. This is the proven playbook.</div>
+      <div class="competitor-weak">⚠ Weakness: Conservative genres. No supernatural or folk horror. No premium genre bets. Production is competent but not distinctive. "Volume over quality" strategy.</div>
+    </div>
+
+    <div class="competitor">
+      <div class="competitor-head">
+        <div class="competitor-name">Idilio <span style="font-size:0.72rem;color:var(--muted);font-weight:400">(Andreessen Horowitz-backed)</span></div>
+        <span class="tier tier-2">New Entrant</span>
+      </div>
+      <div class="competitor-body"><strong>Founder:</strong> Gabriela Tafur — former Miss Colombia, Miss Universe Top 5, Stanford MBA, Forbes 30 Under 30. Launched September 2025. 5-series co-production deal with GammaTime (former Miramax CEO Bill Block). Targeting both US Spanish-speaking and Latin American markets in English and Spanish.<br><br>Partners include Alexis Ohanian and Kris Jenner as investors in GammaTime.</div>
+      <div class="competitor-weak">⚠ Weakness: Very new, no proven content track record. Premium positioning may limit speed to scale. High-profile but unproven execution.</div>
+    </div>
+
+    <div class="competitor">
+      <div class="competitor-head">
+        <div class="competitor-name">DramaWave <span style="font-size:0.72rem;color:var(--muted);font-weight:400">(Chinese-origin, LatAm expansion)</span></div>
+        <span class="tier tier-2">Accidental Competitor</span>
+      </div>
+      <div class="competitor-body"><strong>#1 most-downloaded microdrama app in Latin America Q1 2025.</strong> Mexico = 12.28% of global downloads. The entire content library is Chinese dramas subtitled in Spanish — audiences are engaging with the format but not served by the culture. This is the largest single proof-of-concept for LatAm microdrama demand.</div>
+      <div class="competitor-weak">⚠ Weakness: The content is not Latino. They proved the market exists; they cannot serve it authentically. Their audience is yours to take.</div>
+    </div>
+
+    <div class="competitor">
+      <div class="competitor-head">
+        <div class="competitor-name">Elefantec Global + My Drama (Holywater)</div>
+        <span class="tier tier-3">Watch</span>
+      </div>
+      <div class="competitor-body">Mexican production company (Elefantec) + Holywater's My Drama platform in a formal Spanish-language microdrama pact. Elefantec provides cultural authenticity; My Drama provides global distribution infrastructure. This is the model that could scale quickly if they pick the right genres.</div>
+      <div class="competitor-weak">⚠ No flagship titles yet. Watch for their first release to assess quality and genre direction.</div>
+    </div>
+
+    <div class="callout callout-green" style="margin-top:1.25rem">
+      <div class="callout-title">The White Space Nobody Is Filling</div>
+      <ul>
+        <li><strong>Latino supernatural / folk horror microdrama</strong> — does not exist on any platform</li>
+        <li><strong>Authentic code-switching bilingual drama for US Latinos</strong> — no one has built this</li>
+        <li><strong>Afro-Latino stories</strong> — entirely absent from all microdrama formats</li>
+        <li><strong>Curandera protagonist</strong> — no microdrama version exists anywhere in the world</li>
+        <li><strong>Quinceañera drama with real stakes</strong> — almost no premium versions exist</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 8: SCRIPT RECOMMENDATIONS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <div>
+        <div class="section-title">Script Recommendations — Pulse Batch 2</div>
+        <div class="section-subtitle">Prioritized by risk/reward profile. Tier 1 = safest bet. Tier 2 = differentiating. Tier 3 = franchise.</div>
+      </div>
+    </div>
+
+    <div class="pitch-card">
+      <div class="pitch-head">
+        <div class="pitch-num t1">T1</div>
+        <div>
+          <div class="pitch-title">The Revenge Heiress — "La Heredera Regresa"</div>
+          <div class="pitch-logline">She was erased from the family. She came back as the owner.</div>
+        </div>
+      </div>
+      <div class="pitch-body">A daughter from a powerful Mexican business dynasty is cast out — illegitimate child revelation, or a family coup engineered by a jealous stepmother — and builds herself up in secret over five years. She returns under a false name, infiltrates the company that stole from her, and methodically dismantles everyone who was involved — while falling for the son of the man who destroyed her family.<br><br>Set in Mexico City's corporate world or a Texas ranching dynasty. Spanglish throughout. Every episode ends on a boardroom move or a personal revelation. The identity is revealed to the love interest at episode 40. Season 2: she has power — can she keep it, and can she love someone whose father was her enemy?</div>
+      <div class="pitch-meta">
+        <span class="meta-tag">80 eps</span><span class="meta-tag">Spanglish</span><span class="meta-tag">Mexico City / Texas</span><span class="meta-tag">Class revenge</span><span class="meta-tag">Secret identity</span><span class="meta-tag">Corporate drama</span><span class="meta-tag">Proven formula + Latino specificity</span>
+      </div>
+    </div>
+
+    <div class="pitch-card">
+      <div class="pitch-head">
+        <div class="pitch-num t1">T1</div>
+        <div>
+          <div class="pitch-title">Fake Novio — "Para la Abuela"</div>
+          <div class="pitch-logline">He agreed to one fake dinner. She agreed to one fake wedding. Nobody agreed to actually fall in love.</div>
+        </div>
+      </div>
+      <div class="pitch-body">Two strangers — a driven Latina lawyer with a dying abuela who needs to see her married, and a Colombian architect who needs to impress his conservative business partners with a stable home life — strike a deal. The cultural pressure cooker of a large Mexican-American family, a Día de los Muertos gathering, and a traditional grandmother who immediately sees through the lie drives every episode.<br><br>The specificity of the cultural pressure — not generic "family pressure" but the particular weight of a Catholic grandmother's final wishes — makes this feel fresh against the proven fake-relationship trope.</div>
+      <div class="pitch-meta">
+        <span class="meta-tag">60 eps</span><span class="meta-tag">Spanglish</span><span class="meta-tag">US Latino family</span><span class="meta-tag">Fake relationship</span><span class="meta-tag">Abuela as engine</span><span class="meta-tag">Día de los Muertos</span><span class="meta-tag">Safe bet</span>
+      </div>
+    </div>
+
+    <div class="pitch-card">
+      <div class="pitch-head">
+        <div class="pitch-num t2">T2</div>
+        <div>
+          <div class="pitch-title">The Curandera's Granddaughter — "La Guardiana de la Luz"</div>
+          <div class="pitch-logline">Her abuela left her a house, a debt, and enemies she doesn't know exist yet.</div>
+        </div>
+      </div>
+      <div class="pitch-body">A modern young woman inherits her abuela's curandera practice in a small Oaxacan town — and discovers the practice comes with debts, enemies, and a sacred responsibility she didn't ask for. The rival brujo family, who has wanted the abuela's grimoire for generations, sends their youngest son to get close to her. Every episode: one supernatural revelation + one romantic escalation.<br><br>The folk practices — limpia, copal, mal de ojo, the specific herbs and prayers — are treated as real, ordinary, and sacred. Not horror props. The horror comes from what happens when these protections fail. This show does not exist anywhere on any platform. First mover wins this category.</div>
+      <div class="pitch-meta">
+        <span class="meta-tag">80 eps</span><span class="meta-tag">Spanish-native</span><span class="meta-tag">Oaxaca, Mexico</span><span class="meta-tag">Supernatural romance</span><span class="meta-tag">Curandera</span><span class="meta-tag">Brujería rival</span><span class="meta-tag">Category-defining</span>
+      </div>
+    </div>
+
+    <div class="pitch-card">
+      <div class="pitch-head">
+        <div class="pitch-num t2">T2</div>
+        <div>
+          <div class="pitch-title">Nagual — "El Que Cuida"</div>
+          <div class="pitch-logline">He has been protecting her family for three generations. She just found out.</div>
+        </div>
+      </div>
+      <div class="pitch-body">Mexican nagual mythology — a human who can transform into an animal — applied to an enemies-to-lovers arc. He has been the guardian of her family for generations, shapeshifting to protect them from threats they never knew about. She is the first in the family to discover what he is, around episode 15. Everything before that is: why is this stranger always around? Everything after: can I love something that has been lying to protect me, and is not entirely human?<br><br>The Latino answer to ReelShort's werewolf alpha formula. Nagual mythology is rich, regionally specific (strong in central Mexico), and entirely unused in the microdrama format.</div>
+      <div class="pitch-meta">
+        <span class="meta-tag">80 eps</span><span class="meta-tag">Spanglish</span><span class="meta-tag">Central Mexico</span><span class="meta-tag">Nagual mythology</span><span class="meta-tag">Supernatural romance</span><span class="meta-tag">Enemies to lovers</span><span class="meta-tag">High differentiation</span>
+      </div>
+    </div>
+
+    <div class="pitch-card">
+      <div class="pitch-head">
+        <div class="pitch-num t3">T3</div>
+        <div>
+          <div class="pitch-title">Afro-Latino Legacy — "Las Hijas de Ochún"</div>
+          <div class="pitch-logline">The family fortune came from something her great-grandmother sold. She's going to find out what.</div>
+        </div>
+      </div>
+      <div class="pitch-body">An Afro-Colombian matriarch holds a secret connecting her family's African heritage to Spanish colonial wealth. Her granddaughter, a journalist in New York, starts investigating the family history and discovers a multi-generational conspiracy — involving a deal made with a Santería orisha, a colonial land theft, and a rival family that has been covering it up for 150 years.<br><br>Santería and Candomblé elements treated with respect and specificity. Afro-Colombian and Black Dominican cultural details woven throughout. This does not exist anywhere in microdrama format. The press coverage alone for being the first would drive significant organic reach.</div>
+      <div class="pitch-meta">
+        <span class="meta-tag">80 eps</span><span class="meta-tag">Spanish/English</span><span class="meta-tag">Colombia / New York</span><span class="meta-tag">Afro-Latino</span><span class="meta-tag">Santería</span><span class="meta-tag">Legacy mystery</span><span class="meta-tag">Franchise potential</span>
+      </div>
+    </div>
+
+    <div class="pitch-card">
+      <div class="pitch-head">
+        <div class="pitch-num t3">T3</div>
+        <div>
+          <div class="pitch-title">Quinceañera Underworld — "La Noche de los Quince"</div>
+          <div class="pitch-logline">Everything she knew about her family ended at midnight on her fifteenth birthday.</div>
+        </div>
+      </div>
+      <div class="pitch-body">The night of her quinceañera, something goes wrong — a guest she's never met arrives, a secret explodes during the waltz, and by midnight she knows her family is not what she thought. The entire first season is the night itself, told in real-time across 60 episodes. Her father is not who she thought. The waltz partner knows something. The grandmother is the only one telling the truth — but in riddles.<br><br>The quinceañera setting is visually spectacular, deeply culturally specific, and almost entirely unused in premium content. Season 2 follows her one year later, already transformed.</div>
+      <div class="pitch-meta">
+        <span class="meta-tag">60 eps</span><span class="meta-tag">Spanglish</span><span class="meta-tag">US Latino family</span><span class="meta-tag">Coming of age</span><span class="meta-tag">Family conspiracy</span><span class="meta-tag">Real-time format</span><span class="meta-tag">Franchise</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 9: EPISODE STRUCTURE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">09</div>
+      <div>
+        <div class="section-title">Episode Architecture — The Proven Structure</div>
+        <div class="section-subtitle">Based on top-performing platform data from ReelShort, DramaBox, and ViX MicrO</div>
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Episode Range</th>
+          <th>Story Function</th>
+          <th>Cliffhanger Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Ep 1</strong></td>
+          <td>Establish protagonist's pain in first 15 seconds. Status quo. Inciting disruption at end.</td>
+          <td>Status-quo-shattering revelation. First mask crack.</td>
+        </tr>
+        <tr>
+          <td><strong>Eps 2–10</strong> <span style="color:var(--green);font-size:0.7rem">FREE</span></td>
+          <td>Build the stakes. Introduce antagonist. First romantic tension. Free distribution on TikTok/IG.</td>
+          <td>Each episode ends mid-confrontation. Force the choice.</td>
+        </tr>
+        <tr>
+          <td><strong>Ep 10</strong> <span style="color:var(--yellow);font-size:0.7rem">PAYWALL</span></td>
+          <td>Point of no return. Protagonist commits to action. Stakes doubled.</td>
+          <td>She makes the choice that cannot be undone. Paywall hits immediately after.</td>
+        </tr>
+        <tr>
+          <td><strong>Eps 11–40</strong></td>
+          <td>Escalation. One reveal per episode. Romantic tension peaks at ep 25.</td>
+          <td>Alternating: relationship threat / identity threat / external threat.</td>
+        </tr>
+        <tr>
+          <td><strong>Ep 40</strong></td>
+          <td>Mid-series crisis. Everything is lost. The price of her choices arrives.</td>
+          <td>Her biggest secret is exposed to the person she most wanted to protect.</td>
+        </tr>
+        <tr>
+          <td><strong>Eps 41–70</strong></td>
+          <td>Reconstruction. New alliances. Hidden cards revealed. She rebuilds smarter.</td>
+          <td>Each episode: one step closer to confrontation with the final antagonist.</td>
+        </tr>
+        <tr>
+          <td><strong>Eps 71–80</strong></td>
+          <td>Resolution arc. Revenge completed. Romantic confirmation. Season 1 ends.</td>
+          <td>Final episode <em>must</em> seed Season 2 with a new question, not a full resolution.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 10: iOS vs ANDROID PLATFORM STRATEGY -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <div>
+        <div class="section-title">iOS vs Android — Platform Strategy for Latino Audiences</div>
+        <div class="section-subtitle">Why the platform decision changes when your target is Latino. Data from Sensor Tower, StatCounter, MundoHispano, Pew Research, Berger 2026.</div>
+      </div>
+    </div>
+
+    <!-- PLATFORM STAT STRIP -->
+    <div class="stat-strip" style="margin-bottom:2rem">
+      <div class="stat-block">
+        <div class="num orange">54%</div>
+        <div class="label">US Latinos on Android (vs 40% general US)</div>
+      </div>
+      <div class="stat-block">
+        <div class="num green">75–88%</div>
+        <div class="label">LATAM Android share (Mexico–Argentina)</div>
+      </div>
+      <div class="stat-block">
+        <div class="num blue">7.4x</div>
+        <div class="label">iOS ARPU vs Android ($10.40 vs $1.40/mo)</div>
+      </div>
+      <div class="stat-block">
+        <div class="num purple">28%</div>
+        <div class="label">Hispanic adults smartphone-dependent (no broadband)</div>
+      </div>
+      <div class="stat-block">
+        <div class="num pink">3x</div>
+        <div class="label">Hispanic males 13–24 more likely on Android vs iOS</div>
+      </div>
+    </div>
+
+    <!-- THE CORE TENSION -->
+    <div class="card" style="margin-bottom:1.5rem;border-left:3px solid var(--orange);padding:1.5rem">
+      <div class="card-title" style="margin-bottom:0.5rem;font-size:1rem">The Core Tension</div>
+      <div class="card-body">
+        <strong style="color:var(--text)">iOS dominates revenue</strong> — 63% of microdrama app revenue comes from iOS despite fewer downloads. iOS users spend $10.40/month on apps vs Android's $1.40.<br><br>
+        <strong style="color:var(--text)">Android dominates Latino reach</strong> — 54% of US Latinos use Android. In Mexico it's 75%, Brazil 84%, Argentina 87%. An iOS-only launch cuts off the majority of the target audience.<br><br>
+        <strong style="color:var(--text)">The math:</strong> DramaWave gets 86% of downloads from Android. ReelShort's #1 download market is Brazil (22%), followed by US (9%) and Mexico (8%). The LATAM audience is massive — and almost entirely on Android.
+      </div>
+    </div>
+
+    <!-- US LATINO PLATFORM BREAKDOWN -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--orange)">US Latino Audience — Platform Split</div>
+    <table class="data-table" style="margin-bottom:2rem">
+      <thead>
+        <tr>
+          <th>Segment</th>
+          <th>Android</th>
+          <th>iOS</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Spanish-speaking US overall</strong></td>
+          <td><strong style="color:var(--orange)">53.7%</strong></td>
+          <td>40.2%</td>
+          <td>AbogadosNow / Industry Data</td>
+        </tr>
+        <tr>
+          <td><strong>Hispanic males 13–24</strong></td>
+          <td><strong style="color:var(--orange)">~75%</strong></td>
+          <td>~25%</td>
+          <td>MundoHispano (3x Android preference)</td>
+        </tr>
+        <tr>
+          <td><strong>Hispanic females 18–34</strong></td>
+          <td><strong style="color:var(--orange)">59%</strong></td>
+          <td>41%</td>
+          <td>MundoHispano / Fashion+Lifestyle</td>
+        </tr>
+        <tr>
+          <td><strong>Hispanic males 18–34</strong></td>
+          <td><strong style="color:var(--orange)">66%</strong></td>
+          <td>34%</td>
+          <td>MundoHispano / Auto+Motor</td>
+        </tr>
+        <tr>
+          <td><strong>MundoHispano total audience</strong></td>
+          <td><strong style="color:var(--orange)">63%</strong></td>
+          <td>37%</td>
+          <td>MundoHispano (31M monthly page views)</td>
+        </tr>
+        <tr>
+          <td><strong>Smartphone-dependent (no broadband)</strong></td>
+          <td><strong style="color:var(--orange)">~90%+</strong></td>
+          <td>&lt;10%</td>
+          <td>Pew Research (28% of Hispanic adults)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- LATAM PLATFORM TABLE -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--teal)">Latin America — Country-Level Platform Split</div>
+    <table class="data-table" style="margin-bottom:2rem">
+      <thead>
+        <tr>
+          <th>Country</th>
+          <th>Android</th>
+          <th>iOS</th>
+          <th>ReelShort Download Share</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Brazil</strong></td>
+          <td><strong style="color:var(--teal)">83.9%</strong></td>
+          <td>15.9%</td>
+          <td><strong style="color:var(--green)">21.96%</strong> (#1 globally)</td>
+        </tr>
+        <tr>
+          <td><strong>Mexico</strong></td>
+          <td><strong style="color:var(--teal)">75.4%</strong></td>
+          <td>24.5%</td>
+          <td><strong style="color:var(--green)">7.74%</strong> (#3 globally)</td>
+        </tr>
+        <tr>
+          <td><strong>Argentina</strong></td>
+          <td><strong style="color:var(--teal)">87.3%</strong></td>
+          <td>12.5%</td>
+          <td>Significant (top 10)</td>
+        </tr>
+        <tr>
+          <td><strong>Colombia</strong></td>
+          <td><strong style="color:var(--teal)">64.9%</strong></td>
+          <td>34.9%</td>
+          <td>Growing market</td>
+        </tr>
+        <tr>
+          <td><strong>Chile</strong></td>
+          <td><strong style="color:var(--teal)">93.0%</strong></td>
+          <td>6.9%</td>
+          <td>Emerging</td>
+        </tr>
+        <tr>
+          <td><strong>Peru</strong></td>
+          <td><strong style="color:var(--teal)">83.8%</strong></td>
+          <td>15.5%</td>
+          <td>Emerging</td>
+        </tr>
+        <tr>
+          <td><strong>Dominican Republic</strong></td>
+          <td>52.7%</td>
+          <td><strong style="color:var(--blue)">47.0%</strong></td>
+          <td>Only LATAM country near parity</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- MOBILE BEHAVIOR -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--pink)">Latino Mobile Behavior — Why This Matters for Microdrama</div>
+    <div class="cards-grid" style="margin-bottom:2rem">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Mobile-First Viewing</div>
+          <span class="tier tier-1">Critical</span>
+        </div>
+        <div class="card-body"><strong style="color:var(--text)">30.4% of Hispanics prefer streaming on mobile</strong> vs 11.3% non-Hispanic — nearly 3x the rate. 90% of Hispanic consumers regularly watch video on smartphones (vs 80% non-Hispanic). 96% of MundoHispano traffic is mobile. This audience watches on their phone, not a TV.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Smartphone Dependency</div>
+          <span class="tier tier-2">High Impact</span>
+        </div>
+        <div class="card-body"><strong style="color:var(--text)">28% of Hispanic adults have no broadband</strong> — their phone is their only internet. They are almost entirely on Android (price-point constraint). 93% of Hispanic adults own smartphones. 14+ hours/week on mobile for app, audio, video, and web. The phone IS the entertainment center.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">App Engagement</div>
+          <span class="tier tier-1">Critical</span>
+        </div>
+        <div class="card-body"><strong style="color:var(--text)">61% of Hispanics have downloaded an app to share with others.</strong> The share-with-family pattern is stronger in Latino communities — one person discovers, downloads, and passes it to siblings/parents/friends. Android app downloads in Hispanic audiences are 88% higher than iOS since 2016.</div>
+      </div>
+    </div>
+
+    <!-- MICRODRAMA PLATFORM ECONOMICS -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--accent2)">Microdrama App Revenue by Platform</div>
+    <table class="data-table" style="margin-bottom:2rem">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>iOS</th>
+          <th>Android</th>
+          <th>Implication</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Share of downloads</strong></td>
+          <td>33%</td>
+          <td><strong style="color:var(--orange)">67%</strong></td>
+          <td>Android drives discovery and scale</td>
+        </tr>
+        <tr>
+          <td><strong>Share of revenue</strong></td>
+          <td><strong style="color:var(--blue)">63%</strong></td>
+          <td>37%</td>
+          <td>iOS drives per-user monetization</td>
+        </tr>
+        <tr>
+          <td><strong>ARPU (monthly)</strong></td>
+          <td><strong style="color:var(--blue)">$10.40</strong></td>
+          <td>$1.40</td>
+          <td>iOS users pay 7.4x more per user</td>
+        </tr>
+        <tr>
+          <td><strong>DramaWave downloads (LATAM-focused)</strong></td>
+          <td>14%</td>
+          <td><strong style="color:var(--orange)">86%</strong></td>
+          <td>LATAM play = Android play</td>
+        </tr>
+        <tr>
+          <td><strong>Android monetization model</strong></td>
+          <td colspan="2" style="text-align:center">Ad-supported + micro-transactions (coin/token system)</td>
+          <td>DramaBox: $323M revenue, $10M profit — proves Android monetization works</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- COMPETITOR PLATFORM TABLE -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--green)">Competitor Platform Availability</div>
+    <table class="data-table" style="margin-bottom:2rem">
+      <thead>
+        <tr>
+          <th>App</th>
+          <th>iOS</th>
+          <th>Android</th>
+          <th>Web</th>
+          <th>Q1 2025 Revenue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ReelShort</strong></td>
+          <td style="color:var(--green)">Yes</td>
+          <td style="color:var(--green)">Yes</td>
+          <td style="color:var(--green)">reelshort.com</td>
+          <td><strong>$130M</strong> (+31% QoQ)</td>
+        </tr>
+        <tr>
+          <td><strong>DramaBox</strong></td>
+          <td style="color:var(--green)">Yes</td>
+          <td style="color:var(--green)">Yes</td>
+          <td style="color:var(--green)">dramabox.com</td>
+          <td><strong>$120M</strong> (+29% QoQ)</td>
+        </tr>
+        <tr>
+          <td><strong>Kalos TV</strong></td>
+          <td style="color:var(--green)">Yes</td>
+          <td style="color:var(--green)">Yes</td>
+          <td style="color:var(--muted)">No</td>
+          <td>Emerging</td>
+        </tr>
+        <tr>
+          <td><strong>ShortMax</strong></td>
+          <td style="color:var(--green)">Yes</td>
+          <td style="color:var(--green)">Yes</td>
+          <td style="color:var(--muted)">No</td>
+          <td>Emerging</td>
+        </tr>
+        <tr>
+          <td><strong>GoodShort</strong></td>
+          <td style="color:var(--green)">Yes</td>
+          <td style="color:var(--green)">Yes</td>
+          <td style="color:var(--green)">goodshort.com</td>
+          <td>Emerging</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- BUILD COST COMPARISON -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--yellow)">Build Cost Comparison</div>
+    <table class="data-table" style="margin-bottom:2rem">
+      <thead>
+        <tr>
+          <th>Approach</th>
+          <th>Estimated Cost</th>
+          <th>Timeline</th>
+          <th>Platforms</th>
+          <th>Latino Reach</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>iOS Only (Native)</strong></td>
+          <td>$60K–$120K</td>
+          <td>12–16 weeks</td>
+          <td>iOS only</td>
+          <td style="color:var(--red)"><strong>~40% of US Latinos, &lt;25% LATAM</strong></td>
+        </tr>
+        <tr style="background:rgba(52,211,153,0.05)">
+          <td><strong style="color:var(--green)">Flutter (Both)</strong></td>
+          <td><strong style="color:var(--green)">$75K–$150K</strong></td>
+          <td><strong style="color:var(--green)">12–16 weeks</strong></td>
+          <td><strong style="color:var(--green)">iOS + Android</strong></td>
+          <td style="color:var(--green)"><strong>94%+ US Latinos, 100% LATAM</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Two Native Apps</strong></td>
+          <td>$120K–$240K</td>
+          <td>20–28 weeks</td>
+          <td>iOS + Android</td>
+          <td style="color:var(--green)">94%+ US Latinos, 100% LATAM</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="card" style="border-left:3px solid var(--green);margin-bottom:1.5rem;padding:1.25rem">
+      <div class="card-body"><strong style="color:var(--green)">Flutter is the clear winner.</strong> Same 12–16 week timeline as iOS-only. One codebase. 25–50% more than iOS-only, but reaches 2.3x more of the target audience. All competitors already ship both platforms. App store fees: iOS $99/year, Android $25 one-time. Annual maintenance: 15–20% of build cost.</div>
+    </div>
+
+    <!-- STRATEGIC RECOMMENDATION -->
+    <div class="card" style="background:linear-gradient(135deg,rgba(251,146,60,0.08),rgba(45,212,191,0.08));border:1px solid rgba(251,146,60,0.3);padding:1.75rem">
+      <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--orange);margin-bottom:0.5rem">Platform Recommendation</div>
+      <div class="card-title" style="font-size:1.05rem;margin-bottom:0.75rem">Launch Both via Flutter — Day One</div>
+      <div class="card-body" style="line-height:1.65">
+        <strong style="color:var(--text)">For a general US audience, iOS-first makes sense.</strong> Higher ARPU, faster monetization, simpler scope.<br><br>
+        <strong style="color:var(--text)">For a Latino-targeted microdrama app, iOS-only cuts off your majority audience.</strong> The data is unambiguous: US Latinos skew 54% Android, LATAM is 75–88% Android, and the smartphone-dependent segment (28% of Hispanic adults) is almost entirely Android.<br><br>
+        <strong style="color:var(--text)">The extra $15K–$30K for Flutter dual-platform is trivial</strong> relative to losing 54–87% of your target demographic. ReelShort's top download markets are Brazil (#1), US (#2), Mexico (#3) — all Android-heavy. Every single competitor ships both platforms.<br><br>
+        <strong style="color:var(--text)">Android monetization is solved:</strong> DramaBox proved it with $323M revenue on an ad-supported + coin/token micro-transaction model. The "Android gap" in ARPU is real, but the scale advantage (2x+ more users, 88% higher downloads in Hispanic audiences) more than compensates — especially with ad revenue on top.<br><br>
+        <strong style="color:var(--orange)">Bottom line:</strong> Ship both. Flutter. Same timeline. The cost of waiting on Android isn't $15K–$30K saved — it's the first-mover window in a LATAM market that's growing 69% YoY in microdrama downloads.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 11: US MARKET iOS vs ANDROID BY DEMOGRAPHICS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">11</div>
+      <div>
+        <div class="section-title">US Market — iOS vs Android by Gender, Age, and Income</div>
+        <div class="section-subtitle">The full demographic picture. Data from Piper Sandler, Statista, Deloitte, DemandSage, Sensor Tower, Flurry 2024–2026.</div>
+      </div>
+    </div>
+
+    <!-- STAT STRIP -->
+    <div class="stat-strip" style="margin-bottom:2rem">
+      <div class="stat-block">
+        <div class="num blue">59.8%</div>
+        <div class="label">US overall iOS market share</div>
+      </div>
+      <div class="stat-block">
+        <div class="num orange">88%</div>
+        <div class="label">US teens who own an iPhone (Piper Sandler 2025)</div>
+      </div>
+      <div class="stat-block">
+        <div class="num green">4x</div>
+        <div class="label">Young women choose Apple over Samsung (Flurry)</div>
+      </div>
+      <div class="stat-block">
+        <div class="num purple">$107K</div>
+        <div class="label">Median household income — iPhone users (Deloitte)</div>
+      </div>
+      <div class="stat-block">
+        <div class="num pink">63%</div>
+        <div class="label">Microdrama app revenue from iOS</div>
+      </div>
+    </div>
+
+    <!-- BY AGE -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--blue)">By Age Group</div>
+    <table class="data-table" style="margin-bottom:2rem">
+      <thead>
+        <tr>
+          <th>Age Group</th>
+          <th>iPhone (iOS)</th>
+          <th>Android</th>
+          <th>Insight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Teens (13–17)</strong></td>
+          <td><strong style="color:var(--blue)">88%</strong></td>
+          <td>12%</td>
+          <td>Piper Sandler Spring 2025 (6,455 teens, 43 states). Was 66% in 2015 — steadily growing.</td>
+        </tr>
+        <tr>
+          <td><strong>18–24</strong></td>
+          <td><strong style="color:var(--blue)">68%</strong></td>
+          <td>32%</td>
+          <td>iPhone dominant. Up from 57% in 2020. Gen Z lock-in is real.</td>
+        </tr>
+        <tr>
+          <td><strong>25–34</strong></td>
+          <td><strong style="color:var(--blue)">~58%</strong></td>
+          <td>~42%</td>
+          <td>Largest single iPhone cohort (27% of all iPhone users). Core microdrama demo.</td>
+        </tr>
+        <tr>
+          <td><strong>35–44</strong></td>
+          <td>~47%</td>
+          <td><strong style="color:var(--orange)">~53%</strong></td>
+          <td>The crossover point. Android takes the lead around age 35.</td>
+        </tr>
+        <tr>
+          <td><strong>45–54</strong></td>
+          <td>~43%</td>
+          <td><strong style="color:var(--orange)">~57%</strong></td>
+          <td>Android increasingly dominant with age.</td>
+        </tr>
+        <tr>
+          <td><strong>55+</strong></td>
+          <td>~38%</td>
+          <td><strong style="color:var(--orange)">~62%</strong></td>
+          <td>Least relevant for microdrama — negligible viewership in this cohort.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- BY GENDER -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--pink)">By Gender</div>
+    <table class="data-table" style="margin-bottom:2rem">
+      <thead>
+        <tr>
+          <th>Gender</th>
+          <th>iPhone Preference</th>
+          <th>Android Preference</th>
+          <th>Key Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Women (all ages)</strong></td>
+          <td><strong style="color:var(--pink)">Higher</strong></td>
+          <td>Lower</td>
+          <td>Two-thirds of all Apple device owners are female. Women skew iPhone across every age bracket.</td>
+        </tr>
+        <tr>
+          <td><strong>Men (all ages)</strong></td>
+          <td>Lower</td>
+          <td><strong style="color:var(--orange)">Higher</strong></td>
+          <td>62% of Samsung's mobile audience is male. Men skew Android globally.</td>
+        </tr>
+        <tr>
+          <td><strong>Gen Z / Millennial Women</strong></td>
+          <td><strong style="color:var(--pink)">4x over Samsung</strong></td>
+          <td>Minority</td>
+          <td>Flurry 2024: young women choose Apple at 4x the rate of Samsung. This is the microdrama core demo.</td>
+        </tr>
+        <tr>
+          <td><strong>Hispanic Women 18–34</strong></td>
+          <td>41%</td>
+          <td><strong style="color:var(--orange)">59%</strong></td>
+          <td>The Latino gender exception: even young Latina women skew Android — unlike the general US pattern.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- BY INCOME -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--green)">By Household Income</div>
+    <table class="data-table" style="margin-bottom:2rem">
+      <thead>
+        <tr>
+          <th>Income Bracket</th>
+          <th>iPhone</th>
+          <th>Android</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Under $50K</strong></td>
+          <td>~40%</td>
+          <td><strong style="color:var(--orange)">~60%</strong></td>
+          <td>TekRevol 2026 / DemandSage</td>
+        </tr>
+        <tr>
+          <td><strong>$50K–$75K</strong></td>
+          <td>~50%</td>
+          <td>~50%</td>
+          <td>Roughly split — the crossover zone</td>
+        </tr>
+        <tr>
+          <td><strong>$75K–$100K</strong></td>
+          <td><strong style="color:var(--blue)">~58%</strong></td>
+          <td>~42%</td>
+          <td>iPhone takes the lead</td>
+        </tr>
+        <tr>
+          <td><strong>$100K+</strong></td>
+          <td><strong style="color:var(--blue)">~65%+</strong></td>
+          <td>~35%</td>
+          <td>iPhone dominant. 48% more likely to earn $125K+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="cards-grid" style="grid-template-columns:1fr 1fr;margin-bottom:2rem">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">iPhone Median Income</div>
+        </div>
+        <div class="card-body"><strong style="color:var(--blue);font-size:1.3rem">$107,000</strong><br>Median household income of iPhone users. They spend ~$101/month on tech. (Deloitte 2024)</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Android Median Income</div>
+        </div>
+        <div class="card-body"><strong style="color:var(--orange);font-size:1.3rem">$69,000</strong><br>Median household income of Android users. They spend ~$51/month on tech. (Deloitte 2024)</div>
+      </div>
+    </div>
+
+    <!-- BY ETHNICITY -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--accent2)">By Ethnicity (US)</div>
+    <table class="data-table" style="margin-bottom:2rem">
+      <thead>
+        <tr>
+          <th>Ethnicity</th>
+          <th>iPhone</th>
+          <th>Android</th>
+          <th>Smartphone-Dependent (no broadband)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>White (non-Hispanic)</strong></td>
+          <td><strong style="color:var(--blue)">~60%</strong></td>
+          <td>~40%</td>
+          <td>12%</td>
+        </tr>
+        <tr>
+          <td><strong>Hispanic / Latino</strong></td>
+          <td>40%</td>
+          <td><strong style="color:var(--orange)">54%</strong></td>
+          <td><strong style="color:var(--orange)">22%</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Black / African American</strong></td>
+          <td>~40%</td>
+          <td><strong style="color:var(--orange)">~55%</strong></td>
+          <td><strong style="color:var(--orange)">19%</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Asian / Pacific Islander</strong></td>
+          <td><strong style="color:var(--blue)">~48%</strong></td>
+          <td>~47%</td>
+          <td>8%</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="card" style="border-left:3px solid var(--accent2);margin-bottom:2rem;padding:1.25rem">
+      <div class="card-body"><strong style="color:var(--text)">The ethnicity pattern tracks income.</strong> White and Asian Americans skew iPhone; Hispanic and Black Americans skew Android. The smartphone-dependent column is key — 22% of Hispanic and 19% of Black adults have no broadband, making their phone their sole internet device. These users are overwhelmingly on Android due to price-point constraints. (Pew Research 2024)</div>
+    </div>
+
+    <!-- BY GEOGRAPHY -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--teal)">By Geography (Urban vs Rural)</div>
+    <div class="cards-grid" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:2rem">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Urban / Metro</div>
+          <span class="tier tier-1">iOS Dominant</span>
+        </div>
+        <div class="card-body">iPhone dominates in dense, high-income metros. <strong style="color:var(--text)">New York: 72.6% iOS. California: 66.2% iOS.</strong> The Applied Geographic Solutions data shows 2.7 Apple users per 1 Android user nationally in metro clusters.</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Suburban</div>
+          <span class="tier tier-2">Competitive</span>
+        </div>
+        <div class="card-body">iPhone holds majority in most suburbs, but Android is competitive — especially in Sun Belt suburbs with large Hispanic populations (Phoenix, Houston, San Antonio, Miami metro edges).</div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Rural</div>
+          <span class="tier tier-3">Android Stronger</span>
+        </div>
+        <div class="card-body">Android holds ground in rural America. Southern and Midwestern rural areas skew Android. The "Forgotten Towns" geodemographic segment is heavily Android. Less relevant for microdrama targeting.</div>
+      </div>
+    </div>
+
+    <!-- BY EDUCATION -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--yellow)">By Education Level</div>
+    <table class="data-table" style="margin-bottom:2rem">
+      <thead>
+        <tr>
+          <th>Education</th>
+          <th>iPhone Share</th>
+          <th>Android Share</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Graduate / PhD</strong></td>
+          <td><strong style="color:var(--blue)">~70%+</strong></td>
+          <td>~30%</td>
+          <td>27% of all iPhone users have graduate degrees (vs 8% of Android users)</td>
+        </tr>
+        <tr>
+          <td><strong>College degree</strong></td>
+          <td><strong style="color:var(--blue)">55%</strong></td>
+          <td>45%</td>
+          <td>iPhone users are 55% more likely to hold a 4-year degree</td>
+        </tr>
+        <tr>
+          <td><strong>College students</strong></td>
+          <td><strong style="color:var(--blue)">85%</strong></td>
+          <td>15%</td>
+          <td>EDUCAUSE 2021 (UCF study). Mirrors the teen iPhone dominance.</td>
+        </tr>
+        <tr>
+          <td><strong>Some college, no degree</strong></td>
+          <td>~50%</td>
+          <td>~50%</td>
+          <td>Roughly split</td>
+        </tr>
+        <tr>
+          <td><strong>High school or less</strong></td>
+          <td>~35%</td>
+          <td><strong style="color:var(--orange)">~65%</strong></td>
+          <td>Only 9% of iPhone users have HS education or less</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- MICRODRAMA AUDIENCE CROSS-REFERENCE -->
+    <div style="font-size:0.88rem;font-weight:700;margin-bottom:0.75rem;color:var(--pink)">The Microdrama Core Demo — Platform Cross-Reference</div>
+    <table class="data-table" style="margin-bottom:1.5rem">
+      <thead>
+        <tr>
+          <th>Microdrama Audience Segment</th>
+          <th>% of Viewers</th>
+          <th>Platform Lean</th>
+          <th>Revenue Implication</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Women 25–35 (core paying demo)</strong></td>
+          <td><strong style="color:var(--pink)">~24%</strong></td>
+          <td style="color:var(--blue)"><strong>iOS (~60–68%)</strong></td>
+          <td>This cohort drives the majority of in-app purchases. Young women choose Apple at 4x Samsung rate.</td>
+        </tr>
+        <tr>
+          <td><strong>Latina Women 25–35</strong></td>
+          <td>Growing segment</td>
+          <td style="color:var(--orange)"><strong>Android (~59%)</strong></td>
+          <td>The exception to the rule: even young Latina women skew Android. iOS-only misses the majority.</td>
+        </tr>
+        <tr>
+          <td><strong>Women 16–24 (Gen Z pipeline)</strong></td>
+          <td>21%</td>
+          <td style="color:var(--blue)"><strong>iOS (~72%+)</strong></td>
+          <td>Future paying customers. 88% teen iPhone ownership creates a locked-in pipeline.</td>
+        </tr>
+        <tr>
+          <td><strong>Women 35–44 (expansion demo)</strong></td>
+          <td>22%</td>
+          <td>Split (~50/50)</td>
+          <td>Affluent urban women 30–60 are the secondary audience. Platform split at this age.</td>
+        </tr>
+        <tr>
+          <td><strong>Men (all ages)</strong></td>
+          <td>~30%</td>
+          <td style="color:var(--orange)"><strong>Android-leaning</strong></td>
+          <td>Smaller audience share. 62% of Samsung users are male. Action/thriller genres index higher.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- STRATEGIC INSIGHT -->
+    <div class="card" style="background:linear-gradient(135deg,rgba(96,165,250,0.08),rgba(236,72,153,0.08));border:1px solid rgba(96,165,250,0.3);padding:1.75rem">
+      <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem">What This Means for Pulse</div>
+      <div class="card-title" style="font-size:1.05rem;margin-bottom:0.75rem">Two Different Stories Depending on Your Target</div>
+      <div class="card-body" style="line-height:1.65">
+        <strong style="color:var(--blue)">If targeting the general US microdrama audience (women 25–35):</strong> iOS is where the money is. 63% of microdrama revenue comes from iOS. Your core demo (young women) is 60–68% iPhone. Gen Z pipeline is 88% iPhone. iOS-first is defensible.<br><br>
+        <strong style="color:var(--orange)">If targeting Latino audiences specifically:</strong> The demo inverts. Even young Latina women are 59% Android. US Latinos overall are 54% Android. LATAM is 75–88% Android. iOS-only loses your majority audience.<br><br>
+        <strong style="color:var(--green)">The answer is the same either way: ship both via Flutter.</strong> The general-market revenue advantage of iOS is real — but you capture it AND the Latino scale audience with one codebase and the same 12–16 week timeline. The $15K–$30K delta to add Android is negligible compared to either losing 54% of your Latino audience (if you go iOS-only) or 63% of your revenue per user (if you go Android-only).<br><br>
+        <strong style="color:var(--pink)">The microdrama-specific insight:</strong> ~30% of Gen Z and Millennials are already familiar with microdramas (Deloitte 2025). Among those, nearly half are watching more than they were a year ago. The audience exists on both platforms. ReelShort pulled $130M in Q1 2025 alone. Don't leave either side of the market on the table.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Pulse Reels — Internal Research Brief &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; Sources: Sensor Tower, Nielsen, Omdia, UCLA, LDC, Variety, Deadline, StreamTV Insider, Real Reel, StatCounter, MundoHispano, Pew Research, AbogadosNow, Appfigures, Piper Sandler, Deloitte, DemandSage, Flurry, Bloomberg Intelligence, Applied Geographic Solutions
+</footer>
+
+</body>
+</html>

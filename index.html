@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulse Reels — Team Content Portal</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3250;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --text: #e8eaf6;
+      --muted: #8b8fa8;
+      --green: #34d399;
+      --yellow: #fbbf24;
+      --red: #f87171;
+      --blue: #60a5fa;
+      --pink: #f472b6;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2.5rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--accent), var(--pink));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .logo-text {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-text span { color: var(--pink); }
+
+    .header-badge {
+      font-size: 0.72rem;
+      background: rgba(108,99,255,0.15);
+      color: var(--accent2);
+      border: 1px solid rgba(108,99,255,0.25);
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .page { max-width: 1100px; margin: 0 auto; padding: 3.5rem 2rem 5rem; }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 span { color: var(--pink); }
+
+    .hero p {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* STAT ROW */
+    .stats {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-bottom: 3.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--accent2);
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 2px;
+    }
+
+    .stat-divider {
+      width: 1px;
+      background: var(--border);
+      align-self: stretch;
+    }
+
+    /* SECTION */
+    .section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.1rem;
+    }
+
+    /* HUB CARDS */
+    .hub-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 700px) { .hub-grid { grid-template-columns: 1fr; } }
+
+    .hub-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: border-color 0.15s, transform 0.1s;
+    }
+
+    .hub-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .hub-card.horror:hover { border-color: var(--red); }
+    .hub-card.research:hover { border-color: #fb923c; }
+
+    .card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .hub-card.horror .card-title { color: var(--red); }
+
+    .card-desc {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.25rem;
+    }
+
+    .tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin-top: auto;
+      padding-top: 0.5rem;
+    }
+
+    .hub-card.horror .card-cta { color: var(--red); }
+
+    /* SCRIPTS GRID */
+    .scripts-section { margin-bottom: 3rem; }
+
+    .scripts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .script-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      transition: border-color 0.15s;
+    }
+
+    .script-card:hover { border-color: var(--accent2); }
+    .script-card.horror:hover { border-color: var(--red); }
+
+    .script-show {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .script-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .script-meta {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .script-links {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.35rem;
+    }
+
+    .script-btn {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(108,99,255,0.1);
+      color: var(--accent2);
+      border: 1px solid rgba(108,99,255,0.2);
+      border-radius: 5px;
+      padding: 3px 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .script-btn:hover { background: rgba(108,99,255,0.22); }
+
+    .script-btn.s1 {
+      background: rgba(244,114,182,0.1);
+      color: var(--pink);
+      border-color: rgba(244,114,182,0.2);
+    }
+
+    .script-btn.s1:hover { background: rgba(244,114,182,0.2); }
+
+    .script-btn.horror {
+      background: rgba(248,113,113,0.1);
+      color: var(--red);
+      border-color: rgba(248,113,113,0.2);
+    }
+
+    .script-btn.horror:hover { background: rgba(248,113,113,0.2); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">P</div>
+    <div class="logo-text">Pulse <span>Reels</span></div>
+  </div>
+  <div class="header-badge">Team Content Portal</div>
+</header>
+
+<div class="page">
+
+  <div class="hero">
+    <div class="hero-eyebrow">Production · March 2026 · Batch 1</div>
+    <h1>Everything <span>Pulse</span> in one place.</h1>
+    <p>Research, story pitches, production scripts, and Blumhouse horror pitches — all in one portal for the team. Click any card to open.</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">10</div>
+      <div class="stat-label">Story Pitches</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Shows Scripted</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">10</div>
+      <div class="stat-label">Full Scripts</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">120</div>
+      <div class="stat-label">Episodes Written</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Horror Pitches</div>
+    </div>
+  </div>
+
+  <!-- HUB LINKS -->
+  <div class="section-label">Content Hubs</div>
+  <div class="hub-grid" style="grid-template-columns:1fr 1fr 1fr 1fr">
+    <a class="hub-card" href="pulse.html">
+      <div class="card-icon">&#127916;</div>
+      <div class="card-title">Microdrama Hub</div>
+      <div class="card-desc">Industry research, genre strategy, competitor analysis, Latino &amp; Asian audience data, and all 10 story pitches with full episode breakdowns.</div>
+      <div class="card-tags">
+        <span class="tag">Market Research</span>
+        <span class="tag">Genres</span>
+        <span class="tag">Competitors</span>
+        <span class="tag">Animal Trend</span>
+        <span class="tag">10 Story Pitches</span>
+      </div>
+      <div class="card-cta">Open Hub &#8594;</div>
+    </a>
+
+    <a class="hub-card research" href="latino-research.html">
+      <div class="card-icon">&#127760;</div>
+      <div class="card-title" style="color:#fb923c">Latino Content Strategy</div>
+      <div class="card-desc">Deep-dive: Latino audience data, language strategy, cultural nuances, oversaturated vs. underserved tropes, competitor landscape, and 6 script recommendations for Batch 2.</div>
+      <div class="card-tags">
+        <span class="tag">$4.1T Market</span>
+        <span class="tag">Language Guide</span>
+        <span class="tag">Trope Map</span>
+        <span class="tag">6 Script Pitches</span>
+        <span class="tag">Competitors</span>
+      </div>
+      <div class="card-cta" style="color:#fb923c">Read Brief &#8594;</div>
+    </a>
+
+    <a class="hub-card" href="emotion-library.html" style="border-color:rgba(167,139,250,0.2)">
+      <div class="card-icon">&#127916;</div>
+      <div class="card-title" style="color:#a78bfa">Emotion Library</div>
+      <div class="card-desc">7 core emotions mapped to neuroscience, reference scenes, cinematic triggers, microdrama beat timing, and copy-paste AI prompts. Gen Z fear taxonomy built with Atlas Pictures.</div>
+      <div class="card-tags">
+        <span class="tag">7 Emotions</span>
+        <span class="tag">Gen Z Fears</span>
+        <span class="tag">AI Prompts</span>
+        <span class="tag">Scene Breakdowns</span>
+        <span class="tag">Atlas × Pulse</span>
+      </div>
+      <div class="card-cta" style="color:#a78bfa">Open Library &#8594;</div>
+    </a>
+
+    <a class="hub-card horror" href="horror-pitches.html">
+      <div class="card-icon">&#9760;</div>
+      <div class="card-title">Blumhouse Horror Pitches</div>
+      <div class="card-desc">Three original horror microdrama pitches developed for the Pulse × Blumhouse partnership. Full 12-episode breakdowns, scare scales, viral moments, and Season 2 directions.</div>
+      <div class="card-tags">
+        <span class="tag">The Feed</span>
+        <span class="tag">La Última Inquilina</span>
+        <span class="tag">Lo Que Guardó la Abuela</span>
+      </div>
+      <div class="card-cta">View Pitches &#8594;</div>
+    </a>
+  </div>
+
+  <!-- SCRIPTS -->
+  <div class="scripts-section">
+    <div class="section-label">Production Scripts — Ready for Editors</div>
+    <div class="scripts-grid">
+
+      <div class="script-card">
+        <div class="script-show">The Cat Who Knew Too Much</div>
+        <div class="script-title">Luna the Siamese Witness</div>
+        <div class="script-meta">Animal Mystery · 12 eps/season · General US</div>
+        <div class="script-links">
+          <a class="script-btn s1" href="scripts/cat-s1.html">S1</a>
+          <a class="script-btn" href="scripts/cat-s2.html">S2</a>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-show">Maid of Fortune</div>
+        <div class="script-title">Rosa &amp; the Gala Mistake</div>
+        <div class="script-meta">Rags-to-riches Romance · 12 eps/season · Latino</div>
+        <div class="script-links">
+          <a class="script-btn s1" href="scripts/maid-s1.html">S1</a>
+          <a class="script-btn" href="scripts/maid-s2.html">S2</a>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-show">Paws &amp; Billionaires</div>
+        <div class="script-title">Biscuit, Butter &amp; the Lawsuit</div>
+        <div class="script-meta">Animal Comedy/Romance · 12 eps/season · General US</div>
+        <div class="script-links">
+          <a class="script-btn s1" href="scripts/paws-s1.html">S1</a>
+          <a class="script-btn" href="scripts/paws-s2.html">S2</a>
+        </div>
+      </div>
+
+      <div class="script-card">
+        <div class="script-show">My Billionaire Dad Is Also My Boss</div>
+        <div class="script-title">Catalina vs. Rodrigo Salinas</div>
+        <div class="script-meta">Family Drama/Revenge · 12 eps/season · Latino</div>
+        <div class="script-links">
+          <a class="script-btn s1" href="scripts/dad-s1.html">S1</a>
+          <a class="script-btn" href="scripts/dad-s2.html">S2</a>
+        </div>
+      </div>
+
+      <div class="script-card horror">
+        <div class="script-show" style="color:#f87171">Lo Que Guardó la Abuela</div>
+        <div class="script-title">What Grandma Kept</div>
+        <div class="script-meta">Latino Folk Horror · 12 eps/season · Blumhouse</div>
+        <div class="script-links">
+          <a class="script-btn horror" href="scripts/abuela-s1.html">S1</a>
+          <a class="script-btn horror" href="scripts/abuela-s2.html">S2</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>Pulse Reels — Confidential Team Portal &nbsp;·&nbsp; March 2026</span>
+  <span>5 shows &nbsp;·&nbsp; 10 scripts &nbsp;·&nbsp; 120 episodes</span>
+</footer>
+
+</body>
+</html>

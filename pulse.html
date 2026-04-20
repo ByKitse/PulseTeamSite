@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulse Reels — Microdrama Hub</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3250;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --text: #e8eaf6;
+      --muted: #8b8fa8;
+      --green: #34d399;
+      --yellow: #fbbf24;
+      --red: #f87171;
+      --blue: #60a5fa;
+      --pink: #f472b6;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .back-link {
+      font-size: 0.83rem;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.15s;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    .header-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .header-title span { color: var(--pink); }
+
+    .header-badge {
+      font-size: 0.72rem;
+      background: rgba(244,114,182,0.15);
+      color: var(--pink);
+      border: 1px solid rgba(244,114,182,0.25);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    /* PAGE LAYOUT */
+    .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+
+    .page-hero {
+      margin-bottom: 2.5rem;
+    }
+
+    .page-hero h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-hero h1 span { color: var(--pink); }
+
+    .page-hero p {
+      font-size: 0.93rem;
+      color: var(--muted);
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    /* NAV TABS */
+    .tabs {
+      display: flex;
+      gap: 0.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 2rem;
+      width: fit-content;
+    }
+
+    .tab {
+      padding: 0.5rem 1.1rem;
+      border-radius: 7px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--muted);
+      background: none;
+      border: none;
+      transition: all 0.15s;
+    }
+
+    .tab:hover { color: var(--text); }
+    .tab.active { background: var(--surface2); color: var(--text); }
+
+    /* SECTION */
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* CARDS GRID */
+    .cards-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .cards-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    .info-card h3 {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .big-stat {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.2rem;
+    }
+
+    .big-stat.pink   { color: var(--pink); }
+    .big-stat.purple { color: var(--accent2); }
+    .big-stat.green  { color: var(--green); }
+    .big-stat.yellow { color: var(--yellow); }
+    .big-stat.blue   { color: var(--blue); }
+
+    .stat-sub { font-size: 0.78rem; color: var(--muted); }
+
+    /* SECTION TITLE */
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* LIST STYLES */
+    .bullet-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .bullet-item {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: var(--text);
+    }
+
+    .bullet-item::before {
+      content: "›";
+      color: var(--accent2);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* COMPETITOR TABLE */
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-bottom: 1rem;
+    }
+
+    .comp-table th {
+      text-align: left;
+      padding: 0.6rem 0.9rem;
+      background: var(--surface2);
+      color: var(--muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comp-table th:first-child { border-radius: 8px 0 0 0; }
+    .comp-table th:last-child  { border-radius: 0 8px 0 0; }
+
+    .comp-table td {
+      padding: 0.7rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.4;
+    }
+
+    .comp-table tr:last-child td { border-bottom: none; }
+    .comp-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .comp-name { font-weight: 600; color: var(--text); }
+    .comp-rev  { color: var(--green); font-weight: 600; }
+
+    /* GENRE TAGS */
+    .genre-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .genre-tag {
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid;
+    }
+
+    .genre-tag.tier1 { background: rgba(244,114,182,0.12); color: var(--pink);   border-color: rgba(244,114,182,0.3); }
+    .genre-tag.tier2 { background: rgba(167,139,250,0.12); color: var(--accent2); border-color: rgba(167,139,250,0.3); }
+    .genre-tag.tier3 { background: rgba(96,165,250,0.12);  color: var(--blue);   border-color: rgba(96,165,250,0.3); }
+
+    /* STORY CARDS */
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .story-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.1s;
+    }
+
+    .story-card:hover { border-color: var(--pink); transform: translateY(-1px); }
+    .story-card.open  { border-color: var(--pink); }
+
+    .story-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .story-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .story-title {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.35rem;
+    }
+
+    .story-genre {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--pink);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.6rem;
+    }
+
+    .story-hook {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.5;
+      font-style: italic;
+      margin-bottom: 0.75rem;
+    }
+
+    .story-meta {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+
+    .meta-tag {
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .expand-icon {
+      color: var(--muted);
+      font-size: 0.9rem;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .story-card.open .expand-icon { transform: rotate(180deg); }
+
+    /* EPISODE BREAKDOWN */
+    .episode-breakdown {
+      display: none;
+      margin-top: 1rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+
+    .story-card.open .episode-breakdown { display: block; }
+
+    .season-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent2);
+      margin-bottom: 0.6rem;
+      margin-top: 0.75rem;
+    }
+
+    .season-label:first-child { margin-top: 0; }
+
+    .ep-row {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+      align-items: start;
+    }
+
+    .ep-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--muted);
+      padding-top: 2px;
+      text-align: right;
+    }
+
+    .ep-content {}
+
+    .ep-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+
+    .ep-what {
+      font-size: 0.76rem;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-bottom: 0.15rem;
+    }
+
+    .ep-cliff {
+      font-size: 0.73rem;
+      color: var(--pink);
+      line-height: 1.4;
+      font-style: italic;
+    }
+
+    .ep-cliff::before { content: "↓ "; }
+
+    .ep-paywall {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      background: rgba(251,191,36,0.15);
+      color: var(--yellow);
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-left: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    @media (max-width: 700px) {
+      .cards-2, .cards-3, .cards-4 { grid-template-columns: 1fr; }
+      .page { padding: 1.5rem 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="index.html">&#8592; Home</a>
+  <div class="header-title">Pulse <span>Reels</span> — Microdrama Hub</div>
+  <div style="display:flex;align-items:center;gap:0.75rem">
+    <a href="latino-research.html" style="font-size:0.72rem;font-weight:600;background:rgba(251,146,60,0.12);color:#fb923c;border:1px solid rgba(251,146,60,0.25);border-radius:5px;padding:3px 10px;text-decoration:none;letter-spacing:0.04em">&#127760; Latino Research</a>
+    <span class="header-badge">Batch 1 · Mar 2026</span>
+  </div>
+</header>
+
+<div class="page">
+
+  <div class="page-hero">
+    <h1>Microdrama Content <span>Hub</span></h1>
+    <p>Research, competitor intelligence, industry trends, and story development for Pulse Reels. Updated as new batches are created.</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('market')">Market</button>
+    <button class="tab" onclick="showTab('genres')">Genres & Strategy</button>
+    <button class="tab" onclick="showTab('competitors')">Competitors</button>
+    <button class="tab" onclick="showTab('animal')">Animal Trend</button>
+    <button class="tab" onclick="showTab('stories')">10 Story Ideas</button>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════ MARKET ═══ -->
+  <div id="tab-market" class="section active">
+    <div class="section-title">Market Overview</div>
+
+    <div class="cards-4">
+      <div class="info-card">
+        <h3>Global Revenue 2025</h3>
+        <div class="big-stat pink">$11B</div>
+        <div class="stat-sub">Projected $26B by 2030</div>
+      </div>
+      <div class="info-card">
+        <h3>US Revenue 2024</h3>
+        <div class="big-stat purple">$819M</div>
+        <div class="stat-sub">Projected $3.8B by 2030</div>
+      </div>
+      <div class="info-card">
+        <h3>ReelShort 2025</h3>
+        <div class="big-stat green">$1.2B</div>
+        <div class="stat-sub">+119% YoY gross spending</div>
+      </div>
+      <div class="info-card">
+        <h3>Monthly Growth</h3>
+        <div class="big-stat yellow">+446%</div>
+        <div class="stat-sub">Jan 2024 → Jan 2025 revenue</div>
+      </div>
+    </div>
+
+    <div class="cards-3">
+      <div class="info-card">
+        <h3>Primary Audience</h3>
+        <div class="bullet-list">
+          <div class="bullet-item">Women 25–45 are ~70% of core users</div>
+          <div class="bullet-item">Hispanic viewers: <strong>41%</strong> watch microdramas — nearly 2× the 22% average</div>
+          <div class="bullet-item">Gen Z (13–24): 35% consume microdramas</div>
+          <div class="bullet-item">46% of global users 18–34 watched at least one in 2025</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>Engagement</h3>
+        <div class="bullet-list">
+          <div class="bullet-item">ReelShort avg: <strong>35.7 min/day</strong> — beats Netflix (24.8), Prime (26.9), Disney+ (23)</div>
+          <div class="bullet-item">Average session: 20–22 episodes binge-watched</div>
+          <div class="bullet-item">20% of top downloaded entertainment apps in 2025 were microdrama apps</div>
+          <div class="bullet-item">2.3B total short drama downloads in 2025</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>Latino Market</h3>
+        <div class="bullet-list">
+          <div class="bullet-item">LatAm downloads +69% QoQ in Q1 2025 — nearly 100M downloads</div>
+          <div class="bullet-item">Brazil: #1 ReelShort download market (21.96%)</div>
+          <div class="bullet-item">TelevisaUnivision: 100 original microdrama titles planned for 2026</div>
+          <div class="bullet-item">Spanish version of "Double Life of My Billionaire Husband" → ~225M views</div>
+          <div class="bullet-item">Top LatAm themes: class reversal, mistaken identity, telenovela melodrama</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:2rem">What Makes Content Go Viral</div>
+    <div class="cards-2">
+      <div class="info-card">
+        <h3>The Detonation Formula</h3>
+        <div class="bullet-list">
+          <div class="bullet-item"><strong>First 3 sec:</strong> Visual shock or irresistible question — stops the scroll</div>
+          <div class="bullet-item"><strong>7 sec:</strong> Establish theme and stakes</div>
+          <div class="bullet-item"><strong>21 sec:</strong> Escalation — build tension</div>
+          <div class="bullet-item"><strong>Every episode:</strong> Must end on cliffhanger or open question</div>
+          <div class="bullet-item">Place the most cinematic moment in the first 15 seconds</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>Paywall Psychology</h3>
+        <div class="bullet-list">
+          <div class="bullet-item">Episodes 1–10 free — hook viewers, no commitment</div>
+          <div class="bullet-item">Paywall at Episode 10 — cliffhanger AT the wall, answer AFTER it</div>
+          <div class="bullet-item">Major revelations land 1–2 eps after paywall thresholds</div>
+          <div class="bullet-item">Micro-payments at $0.10–$0.25/ep feel incremental</div>
+          <div class="bullet-item">ARPDAU rivals mid-tier mobile games</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>Primal Triggers (every episode)</h3>
+        <div class="bullet-list">
+          <div class="bullet-item"><strong>Outrage</strong> — injustice, betrayal, disrespect</div>
+          <div class="bullet-item"><strong>Desire</strong> — romantic tension, longing, forbidden attraction</div>
+          <div class="bullet-item"><strong>Anticipation</strong> — what happens next? unanswered question</div>
+          <div class="bullet-item">The underdog protagonist always gets vindicated — universal dopamine hit</div>
+          <div class="bullet-item">60–94% of platform traffic comes from TikTok teasers</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>Episode Structure Blueprint</h3>
+        <div class="bullet-list">
+          <div class="bullet-item">0–15 sec: Pure hook — shock / mystery / emotion</div>
+          <div class="bullet-item">15–45 sec: Escalate dilemma, add complication, emotional spike</div>
+          <div class="bullet-item">45–60 sec: Cliffhanger or frozen moment with unlock prompt</div>
+          <div class="bullet-item">60–80% of shots should be close-ups</div>
+          <div class="bullet-item">Angle change every 3 seconds; one dominant emotion per character</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ GENRES ═══ -->
+  <div id="tab-genres" class="section">
+    <div class="section-title">Top Performing Genres</div>
+
+    <div style="margin-bottom:0.75rem;font-size:0.8rem;color:var(--muted)">
+      🔴 Tier 1 = dominant/proven &nbsp;&nbsp; 🟣 Tier 2 = strong/growing &nbsp;&nbsp; 🔵 Tier 3 = emerging
+    </div>
+
+    <div class="genre-grid">
+      <span class="genre-tag tier1">Billionaire / CEO Romance</span>
+      <span class="genre-tag tier1">Werewolf / Alpha Supernatural</span>
+      <span class="genre-tag tier1">Rags-to-Riches / Status Reversal</span>
+      <span class="genre-tag tier1">Revenge Arc / Hidden Past</span>
+      <span class="genre-tag tier2">Fake Marriage / Mistaken Identity</span>
+      <span class="genre-tag tier2">Hidden Heiress / Secret Wealth</span>
+      <span class="genre-tag tier2">Forbidden Romance / Class Divide</span>
+      <span class="genre-tag tier2">Corporate Betrayal / Intrigue</span>
+      <span class="genre-tag tier2">Organized Crime Romance</span>
+      <span class="genre-tag tier3">AI-Generated Animal Drama</span>
+      <span class="genre-tag tier3">Historical Epic (male-targeted)</span>
+      <span class="genre-tag tier3">Sci-Fi / Fantasy Romance</span>
+    </div>
+
+    <div class="section-title" style="margin-top:2rem">Audience Strategy by Demographic</div>
+    <div class="cards-3">
+      <div class="info-card">
+        <h3>General US (Women 25–45)</h3>
+        <div class="bullet-list">
+          <div class="bullet-item">Billionaire CEO + fake marriage = gold standard</div>
+          <div class="bullet-item">Werewolf/alpha romance — massive and growing</div>
+          <div class="bullet-item">Female revenge/empowerment arcs resonate deeply</div>
+          <div class="bullet-item">Premium "S-class" productions trending ($400K–600K budgets)</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>Latino / Hispanic</h3>
+        <div class="bullet-list">
+          <div class="bullet-item">41% watch rate — highest demographic index</div>
+          <div class="bullet-item">Telenovela DNA: class reversal, passion, family stakes</div>
+          <div class="bullet-item">Aspirational romance + mistaken identity = proven formula</div>
+          <div class="bullet-item">Bilingual or Spanish content earns disproportionate reach</div>
+          <div class="bullet-item">TelevisaUnivision, Telemundo entering space — competitive pressure</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>Asian (SEA / South Asian)</h3>
+        <div class="bullet-list">
+          <div class="bullet-item">Locally produced content earns 75% more than translated Chinese content</div>
+          <div class="bullet-item">Indonesia: family drama, rags-to-riches, underdog narratives</div>
+          <div class="bullet-item">Thailand: spicy rom-coms, CEO/boss dynamics</div>
+          <div class="bullet-item">India: crime, workplace thrillers, historical drama in local languages</div>
+          <div class="bullet-item">K-drama–adjacent content drives engagement in Philippines, Korea</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ COMPETITORS ═══ -->
+  <div id="tab-competitors" class="section">
+    <div class="section-title">Competitor Landscape</div>
+
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Platform</th>
+          <th>Revenue / Scale</th>
+          <th>Key Audience</th>
+          <th>Strength / Differentiator</th>
+          <th>Top Content</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="comp-name">ReelShort</span><br><span style="font-size:0.7rem;color:var(--muted)">COL Group</span></td>
+          <td><span class="comp-rev">$1.2B</span> 2025<br>50M MAU</td>
+          <td>Women 25–45, 70% female, US-heavy</td>
+          <td>#1 US market; polished English originals; strong TikTok funnel</td>
+          <td>The Double Life of My Billionaire Husband, Fated to My Forbidden Alpha</td>
+        </tr>
+        <tr>
+          <td><span class="comp-name">DramaBox</span><br><span style="font-size:0.7rem;color:var(--muted)">Dianzhong Tech</span></td>
+          <td><span class="comp-rev">$323M</span> 2024<br>84 markets — profitable</td>
+          <td>Global female audience</td>
+          <td>Only major profitable platform; widest genre range; Netflix-like UX</td>
+          <td>My Professor Is My Alpha Mate, Ties That Bind</td>
+        </tr>
+        <tr>
+          <td><span class="comp-name">ShortMax</span><br><span style="font-size:0.7rem;color:var(--muted)">Jiuzhou Culture</span></td>
+          <td><span class="comp-rev">+3,888% YoY</span><br>50M+ downloads</td>
+          <td>Southeast Asia: Indonesia, Thailand, Philippines</td>
+          <td>Fastest growing; gamification; binge-hour events; SEA cultural fit</td>
+          <td>Localized fantasy-revenge, male-targeted underdogs</td>
+        </tr>
+        <tr>
+          <td><span class="comp-name">FlexTV</span><br><span style="font-size:0.7rem;color:var(--muted)">Yuder</span></td>
+          <td>140K+ episodes<br>SEA-focused</td>
+          <td>Indonesia (telco-bundled)</td>
+          <td>Bundled with Telkomsel data plans — unique distribution</td>
+          <td>The Bride of the Wolf King, The Security Guard Is a Trillionaire</td>
+        </tr>
+        <tr>
+          <td><span class="comp-name">NetShort</span></td>
+          <td><span class="comp-rev">$18.9M/mo</span><br>#3 globally</td>
+          <td>US + global female</td>
+          <td>Family-conflict dual-villain formula</td>
+          <td>Evil Bride vs CEO's Secret Mom</td>
+        </tr>
+        <tr>
+          <td><span class="comp-name">GoodShort</span></td>
+          <td><span class="comp-rev">$17.3M/mo</span></td>
+          <td>66% US/Canada revenue</td>
+          <td>Heavily North American focus</td>
+          <td>Romance-led, female-dominant catalog</td>
+        </tr>
+        <tr>
+          <td><span class="comp-name">FlareFlow</span></td>
+          <td>Top 5 US Entertainment App<br>10M+ downloads</td>
+          <td>US broad</td>
+          <td>Cliffhanger-first formula; diverse genres; strong completion rates</td>
+          <td>Mommy, It Hurts… Where's Daddy?</td>
+        </tr>
+        <tr>
+          <td><span class="comp-name">Holywater / My Drama</span><br><span style="font-size:0.7rem;color:var(--muted)">Ukrainian, Fox-backed</span></td>
+          <td>3× growth 2025<br>$22M Series A Jan 2026</td>
+          <td>Western / English</td>
+          <td>AI-first; Fox Entertainment 200+ titles committed; celebrity talent</td>
+          <td>Wild Silence (Maksim Chmerkovskiy)</td>
+        </tr>
+        <tr>
+          <td><span class="comp-name">GammaTime</span><br><span style="font-size:0.7rem;color:var(--muted)">Fmr. Miramax CEO</span></td>
+          <td>$14M raised<br>Kim K / Kris Jenner investors</td>
+          <td>Premium US</td>
+          <td>First "premium" microdrama platform; CSI creator Anthony Zuiker</td>
+          <td>22 launch titles, franchise creator partnerships</td>
+        </tr>
+        <tr>
+          <td><span class="comp-name">TikTok PineDrama</span><br><span style="font-size:0.7rem;color:var(--muted)">ByteDance — Jan 2026</span></td>
+          <td>Just launched — free, no ads yet</td>
+          <td>TikTok's existing 1B+ users</td>
+          <td><strong style="color:var(--red)">Biggest potential disruptor.</strong> Algorithm advantage, existing user base, free entry</td>
+          <td>Thriller, romance, family serialized content</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-card" style="margin-top:1rem">
+      <h3>Strategic Implication for Pulse Reels</h3>
+      <div class="bullet-list">
+        <div class="bullet-item">TikTok PineDrama's January 2026 launch is the biggest competitive threat — free content with algorithm distribution advantage</div>
+        <div class="bullet-item">Holywater + Fox represent the "premium" tier trend — higher budgets, celeb talent, franchise thinking</div>
+        <div class="bullet-item">GammaTime shows investor appetite for credibility-backed platforms (CSI creator, celebrity investors)</div>
+        <div class="bullet-item">No competitor is yet doing AI-generated animal drama as a paid app feature — this is a clear blue ocean</div>
+        <div class="bullet-item">Latino content remains underpenetrated relative to audience size — TelevisaUnivision/Telemundo entering means the window is now</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ ANIMAL TREND ═══ -->
+  <div id="tab-animal" class="section">
+    <div class="section-title">Animal Content Trend</div>
+
+    <div class="cards-2" style="margin-bottom:1.5rem">
+      <div class="info-card">
+        <h3>What It Is</h3>
+        <div class="bullet-list">
+          <div class="bullet-item">Fully AI-generated short videos (59–90 sec) featuring photorealistic animals acting out human soap opera and drama</div>
+          <div class="bullet-item">Originated on Douyin (Chinese TikTok), spreading globally via TikTok, Instagram Reels, YouTube Shorts</div>
+          <div class="bullet-item">Animals are fully anthropomorphized — human emotions, voiceover, human social hierarchies</div>
+          <div class="bullet-item">NOT live-action werewolf content — AI-generated animal characters living human dramatic lives</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>Viral Examples</h3>
+        <div class="bullet-list">
+          <div class="bullet-item"><strong>"The Cat Daddy Chronicles"</strong> — feline raising a human baby. 1M+ followers, 200M+ views per video</div>
+          <div class="bullet-item"><strong>Ginger cat revenge arc</strong> — poor cat mocked by rich white cat, becomes successful, shocks detractors. ~150M views in weeks</div>
+          <div class="bullet-item"><strong>Dog royal drama</strong> — poor Bichon Frisé discovers royal heritage, faces palace bullying, gets romantic redemption from a prince</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>Production Economics</h3>
+        <div class="bullet-list">
+          <div class="bullet-item">Creator cost: under $7/month in AI tools to produce 2–3 videos daily</div>
+          <div class="bullet-item">Revenue: $170–$280 per video achieving 10M+ views</div>
+          <div class="bullet-item">~$3,000/month from two accounts each exceeding 1M followers</div>
+          <div class="bullet-item">Same core script is reused across different animal species — the emotional structure is the product</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>The Blue Ocean Opportunity</h3>
+        <div class="bullet-list">
+          <div class="bullet-item">Currently <strong>social-media native only</strong> — not yet on any paid microdrama app (ReelShort, DramaBox, etc.)</div>
+          <div class="bullet-item">Paid app model + AI animal drama = untapped convergence</div>
+          <div class="bullet-item">Key insight: "People don't sympathize with cats or dogs — they sympathize with the <em>emotions they carry</em>"</div>
+          <div class="bullet-item">The animal is just a vessel. The narrative tropes are identical to live-action hits</div>
+          <div class="bullet-item">Gen Z + Millennial crossover appeal is uniquely broad for this format</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3>Story Patterns That Work in Animal Format</h3>
+      <div class="genre-grid" style="margin-bottom:0">
+        <span class="genre-tag tier1">Rags-to-Riches</span>
+        <span class="genre-tag tier1">Bullying → Revenge → Triumph</span>
+        <span class="genre-tag tier1">Hidden Royal Identity</span>
+        <span class="genre-tag tier2">Romantic Redemption</span>
+        <span class="genre-tag tier2">Class Humiliation → Vindication</span>
+        <span class="genre-tag tier2">Loyalty / Betrayal</span>
+        <span class="genre-tag tier3">Mystery / Crime Witness</span>
+        <span class="genre-tag tier3">Cross-Family Romance</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════ STORIES ═══ -->
+  <div id="tab-stories" class="section">
+    <div class="section-title">10 Story Pitches — Batch 1 (March 2026)</div>
+    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:1.5rem">Each story: 2 seasons × 12 episodes × ~1 minute. Click any card to expand full episode breakdown.</p>
+
+    <!-- PRODUCTION SCRIPTS PANEL -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1.5rem">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+        <div>
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.6rem">Season 1</div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem">
+            <a href="scripts/cat-s1.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(244,114,182,0.1);color:var(--pink);border:1px solid rgba(244,114,182,0.25);border-radius:7px;padding:0.45rem 0.85rem;font-size:0.78rem;font-weight:600;text-decoration:none">&#128250; The Cat Who Knew Too Much</a>
+            <a href="scripts/maid-s1.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(244,114,182,0.1);color:var(--pink);border:1px solid rgba(244,114,182,0.25);border-radius:7px;padding:0.45rem 0.85rem;font-size:0.78rem;font-weight:600;text-decoration:none">&#128250; Maid of Fortune</a>
+            <a href="scripts/paws-s1.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(244,114,182,0.1);color:var(--pink);border:1px solid rgba(244,114,182,0.25);border-radius:7px;padding:0.45rem 0.85rem;font-size:0.78rem;font-weight:600;text-decoration:none">&#128250; Paws &amp; Billionaires</a>
+            <a href="scripts/dad-s1.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(244,114,182,0.1);color:var(--pink);border:1px solid rgba(244,114,182,0.25);border-radius:7px;padding:0.45rem 0.85rem;font-size:0.78rem;font-weight:600;text-decoration:none">&#128250; My Billionaire Dad Is Also My Boss</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.6rem">Season 2</div>
+          <div style="display:flex;flex-direction:column;gap:0.4rem">
+            <a href="scripts/cat-s2.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(108,99,255,0.1);color:var(--accent2);border:1px solid rgba(108,99,255,0.25);border-radius:7px;padding:0.45rem 0.85rem;font-size:0.78rem;font-weight:600;text-decoration:none">&#128250; The Copy Cat Killer</a>
+            <a href="scripts/maid-s2.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(108,99,255,0.1);color:var(--accent2);border:1px solid rgba(108,99,255,0.25);border-radius:7px;padding:0.45rem 0.85rem;font-size:0.78rem;font-weight:600;text-decoration:none">&#128250; The Empire She Built</a>
+            <a href="scripts/paws-s2.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(108,99,255,0.1);color:var(--accent2);border:1px solid rgba(108,99,255,0.25);border-radius:7px;padding:0.45rem 0.85rem;font-size:0.78rem;font-weight:600;text-decoration:none">&#128250; One Litter, Two Owners</a>
+            <a href="scripts/dad-s2.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(108,99,255,0.1);color:var(--accent2);border:1px solid rgba(108,99,255,0.25);border-radius:7px;padding:0.45rem 0.85rem;font-size:0.78rem;font-weight:600;text-decoration:none">&#128250; Salinas &amp; Daughter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stories-grid" id="storiesGrid"></div>
+  </div>
+
+</div>
+
+<!-- HORROR / BLUMHOUSE PANEL (sticky footer strip) -->
+<div style="position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,15,0.96);border-top:1px solid rgba(248,113,113,0.25);padding:0.75rem 2rem;display:flex;align-items:center;justify-content:space-between;z-index:50;backdrop-filter:blur(8px)">
+  <div style="display:flex;align-items:center;gap:0.75rem">
+    <span style="font-size:0.8rem;font-weight:700;color:#f87171;text-transform:uppercase;letter-spacing:0.08em">&#9760; Blumhouse / Horror</span>
+    <span style="font-size:0.75rem;color:#8b8fa8">3 pitches developed — The Feed · La Última Inquilina · Lo Que Guardó la Abuela</span>
+  </div>
+  <a href="horror-pitches.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(248,113,113,0.12);color:#f87171;border:1px solid rgba(248,113,113,0.3);border-radius:7px;padding:0.45rem 1rem;font-size:0.78rem;font-weight:600;text-decoration:none;transition:all 0.15s" onmouseover="this.style.background='rgba(248,113,113,0.22)'" onmouseout="this.style.background='rgba(248,113,113,0.12)'">View Pitches &#8594;</a>
+</div>
+
+<script>
+  // ── TAB NAVIGATION ──────────────────────────────────────────────────────────
+
+  function showTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    document.querySelectorAll('.tab').forEach(t => {
+      if (t.getAttribute('onclick') === `showTab('${id}')`) t.classList.add('active');
+    });
+  }
+
+  // ── STORY DATA ──────────────────────────────────────────────────────────────
+
+  const STORIES = [
+    {
+      num: 1,
+      title: "The Cat Who Knew Too Much",
+      genre: "Animal (AI) · Mystery-Thriller",
+      target: "General US · Viral animal content",
+      hook: "A cat saw everything. Nobody believes a cat.",
+      tags: ["animal", "ai-generated", "mystery", "thriller"],
+      seasons: [
+        {
+          name: "Season 1 — The Murder on Maple Street",
+          episodes: [
+            { n:1,  title:"The Night It Happened",   what:"Luna the Siamese watches her owner Elena get pushed down the stairs by a shadowy figure.",                                       cliff:"The killer looks directly at Luna — and smiles." },
+            { n:2,  title:"They Think It Was an Accident", what:"Detective Marcos arrives. Luna tries desperately to signal him. He pets her and moves on.",                              cliff:"Luna finds Elena's phone under the rug — cracked, a text unsent." },
+            { n:3,  title:"The Grieving Husband",     what:"Elena's husband David weeps for the cameras. Luna hisses at him every time he enters.",                                        cliff:"Luna watches David delete something on Elena's laptop." },
+            { n:4,  title:"The New Woman",            what:"David's 'childhood friend' Serena arrives to comfort him. Luna recognizes her perfume — she was there that night.",            cliff:"Luna scratches Serena's arm. Serena whispers: 'Smart cat. Too bad smart cats disappear.'" },
+            { n:5,  title:"Homeless",                 what:"David gives Luna to a shelter. At the shelter she meets a dog who was Elena's first pet — surrendered years ago.",              cliff:"He knows something too." },
+            { n:6,  title:"The Detective's Apartment", what:"Luna escapes the shelter and finds her way to Marcos's apartment. He lets her stay.",                                         cliff:"Luna knocks over a case file — Elena's case. A photo of Serena falls out." },
+            { n:7,  title:"What the Dog Remembered",  what:"Marcos tracks down the shelter dog. Luna and the dog lead him to a storage unit.",                                             cliff:"Inside: a burner phone. Elena's fingerprints. A life insurance policy worth $8 million." },
+            { n:8,  title:"The Trap",                 what:"Marcos begins surveilling David. Luna acts as an unwitting listening device — David confesses to Serena in a whisper.",         cliff:"Marcos doesn't have enough to arrest — and Serena has spotted the tail." },
+            { n:9,  title:"Gone",                     what:"Marcos comes home. Luna is gone. A note on his door: 'Drop the case.'",                                                        cliff:"Luna is locked in Serena's basement. She can hear David's voice upstairs." },
+            { n:10, title:"The Unsent Text",          what:"Marcos finds a cloud backup of Elena's phone. The unsent text: 'If something happens to me, check the garden.'", paywall:true, cliff:"Marcos drives to Elena's old house. David is already there — digging." },
+            { n:11, title:"What's Buried",            what:"Marcos confronts David. Luna escapes and scratches through Serena's bag — the original insurance policy falls out.",           cliff:"Serena pulls a gun." },
+            { n:12, title:"Luna Saves the Day",       what:"Luna leaps at Serena. The gun fires into the ceiling. Marcos tackles David. Both arrested.",                                   cliff:"Last shot: Luna on Marcos's lap. His phone buzzes — another case. Another cat in the photo." }
+          ]
+        },
+        {
+          name: "Season 2 — The Copy Cat Killer",
+          episodes: [
+            { n:1,  title:"Not the First",            what:"Marcos realizes David and Serena ran the same scheme twice before. Three women. Three 'accidents.'",                            cliff:"The third woman's cat is still alive — adopted by the new DA." },
+            { n:2,  title:"Felix",                    what:"A second cat Felix keeps appearing at crime scenes. Luna doesn't think it's coincidence.",                                      cliff:"Felix leads Luna to an address not on any case file." },
+            { n:3,  title:"The DA's Secret",          what:"The DA is receiving money from David's shell company — from prison.",                                                           cliff:"Luna finds a second burner phone. The DA's number is in it." },
+            { n:4,  title:"Internal Affairs",         what:"Marcos reports the DA. He's told to stand down.",                                                                              cliff:"Marcos is suspended. He and Luna are on their own." },
+            { n:5,  title:"Cats Don't Need Badges",   what:"Marcos goes rogue. Luna and Felix navigate the DA's house during a dinner party.",                                             cliff:"Felix finds a safe behind a painting." },
+            { n:6,  title:"The Safe",                 what:"Marcos cracks the safe — recordings of every bribe.",                                                                          cliff:"The DA's bodyguard spots Marcos. Chase through the house." },
+            { n:7,  title:"Viral",                    what:"Luna and Felix's apartment antics get caught on a Ring camera — 80M views. A tip comes in from a viewer.",                    cliff:"'The cats are right. I have proof.'" },
+            { n:8,  title:"The Witness",              what:"A former employee of David's law firm has been hiding. She recorded everything.",                                               cliff:"She'll only testify if Marcos gets her immunity — and the DA controls immunity." },
+            { n:9,  title:"The Trade",                what:"Marcos offers the DA a deal — immunity for the witness in exchange for burying recordings. He copies them first.",              cliff:"The DA agrees. Then immediately calls David in prison." },
+            { n:10, title:"Double Cross",             what:"An assassin shows up at Marcos's apartment. Luna trips him. The recording device in his jacket broadcasts to listening cops.", paywall:true, cliff:"David confesses from prison, thinking the call is private. It isn't." },
+            { n:11, title:"Justice, Finally",         what:"DA resigns. David gets three consecutive life sentences. Serena flips — names two more co-conspirators.",                      cliff:"Marcos gets a letter from a city Luna has never been to. Signed with a paw print." },
+            { n:12, title:"Luna's Next Case",         what:"Marcos and Luna board a plane. Felix stays to guard the city.",                                                                cliff:"Luna presses her nose to the window. Below: a house. A lit window. A shadow pushing someone." }
+          ]
+        }
+      ]
+    },
+    {
+      num: 2,
+      title: "Maid of Fortune",
+      genre: "Rags-to-Riches · Romance · Mistaken Identity",
+      target: "Latina women 25–45 · Telenovela audience",
+      hook: "One switched purse. One impossible lie. One billionaire who's about to fall hard.",
+      tags: ["latino", "romance", "rags-to-riches", "mistaken-identity"],
+      seasons: [
+        {
+          name: "Season 1 — The Purse, The Party, The Lie",
+          episodes: [
+            { n:1,  title:"Invisible",         what:"Rosa cleans penthouses. At a luxury hotel she picks up the wrong purse by mistake.",                                    cliff:"Inside: a gala invitation, a black card, and a note: 'Don't be late. They'll know.'" },
+            { n:2,  title:"What Would She Do", what:"Rosa's car breaks down near the gala. The valet takes her hand: 'Ms. Vega! Finally, they've been waiting.'",          cliff:"She has thirty seconds to decide. She walks in." },
+            { n:3,  title:"The Wrong Name",    what:"The real Ms. Vega is stuck at the airport. Rosa is seated at the head table.",                                         cliff:"The man next to her is the most beautiful person she's ever seen. He hates Daniela Vega." },
+            { n:4,  title:"Andrés",            what:"Andrés is cold and guarded — until Rosa accidentally makes him laugh. He looks at her like he's never seen her before.", cliff:"Someone at the gala recognizes her from the hotel she cleans." },
+            { n:5,  title:"The Real Daniela",  what:"Rosa gets a panicked call from Daniela: 'Play along, I'll explain, there's $50K in it for you.'",                     cliff:"Rosa agrees. When she turns around, Andrés is standing there. 'Who were you talking to?'" },
+            { n:6,  title:"The Family",        what:"Andrés introduces Rosa to his mother — the woman whose penthouse Rosa cleans every Tuesday.",                           cliff:"His mother: 'I knew I liked you, Daniela. You look so familiar.'" },
+            { n:7,  title:"Tuesday",           what:"Rosa shows up for work at the penthouse. Andrés is there unexpectedly. He sees her in a maid's uniform.",               cliff:"He assumes it's a bet or prank. She lets him believe it." },
+            { n:8,  title:"Daniela Arrives",   what:"Daniela shows up at a family brunch — furious, ready to expose everything.",                                            cliff:"Daniela takes one look at Andrés looking at Rosa and changes her mind. She sits down." },
+            { n:9,  title:"Blackmail",         what:"Daniela wants Rosa to steal a document from Andrés's office — a merger contract that would destroy Rosa's neighborhood.", cliff:"Rosa takes the contract — but reads it first." },
+            { n:10, title:"The Choice",        what:"Rosa confronts Daniela: expose the merger or she'll tell Andrés everything.", paywall:true,                              cliff:"Andrés walks in mid-confrontation. 'Rosa. That's your real name, isn't it.'" },
+            { n:11, title:"The Truth",         what:"Rosa tells him everything. He says: 'I knew. I've known for three weeks.'",                                              cliff:"'And you said nothing?' 'I was waiting for you to trust me.'" },
+            { n:12, title:"What She's Worth",  what:"Andrés offers Rosa a real job — not as a maid, but head of community relations.",                                       cliff:"'What happens when the neighborhood finds out who your company was going to destroy?'" }
+          ]
+        },
+        {
+          name: "Season 2 — The Empire She Built",
+          episodes: [
+            { n:1,  title:"Six Months Later",    what:"Rosa turned Andrés down. She leaked the merger plans. Her neighborhood was saved. She became a local hero.",              cliff:"Andrés shows up at her door with a folder. 'I want to fund your idea. No strings.'" },
+            { n:2,  title:"The Idea",            what:"Rosa is building a cleaning co-op — worker-owned, living wages. She needs capital.",                                     cliff:"Andrés's money comes with a condition: his board must approve. The board includes Daniela's father." },
+            { n:3,  title:"The Board",           what:"Rosa pitches to the board. Daniela's father tears her apart.",                                                           cliff:"Andrés votes against his own board. He's stripped of his voting rights." },
+            { n:4,  title:"Andrés Loses",        what:"His father's will is contested — leadership can be revoked by board no-confidence vote.",                                 cliff:"Andrés's brother Marco moves in. He's been waiting for this moment his whole life." },
+            { n:5,  title:"Marco",               what:"Marco is charming, dangerous, and offers Rosa a better deal — full funding, no board.",                                   cliff:"Rosa says no. That night her co-op's office is vandalized." },
+            { n:6,  title:"War",                 what:"Rosa goes public. The vandalism story goes viral. Donations pour in.",                                                    cliff:"Marco plants a false story: Rosa fabricated the vandalism for sympathy." },
+            { n:7,  title:"The Lie Spreads",     what:"Donations dry up. Rosa's workers start to doubt her.",                                                                   cliff:"Rosa finds security footage — but it's been wiped. Except one camera she installed herself." },
+            { n:8,  title:"The Evidence",        what:"The footage shows Marco's driver.",                                                                                      cliff:"Marco offers Rosa $1 million to disappear quietly." },
+            { n:9,  title:"Not For Sale",        what:"Rosa releases the footage. Marco is exposed. The board reverses its vote. Andrés is reinstated.",                        cliff:"Andrés walks into Rosa's office and doesn't say a word." },
+            { n:10, title:"What He Says",        what:"'I'm sorry it took me this long to fight for you the way you fight for everyone else.'", paywall:true,                   cliff:"Rosa: 'You're going to have to do a lot better than that.' Behind him — a mariachi band." },
+            { n:11, title:"Yes",                 what:"The co-op launches. 200 workers. Living wages. Healthcare. Rosa's mother cries in the front row.",                      cliff:"Daniela shows up. Not to fight — to apologize. She hands Rosa a check. 'My money. Not my father's.'" },
+            { n:12, title:"Fortune",             what:"Rosa and Andrés at the co-op's first anniversary. She wears the dress from the gala.",                                  cliff:"She pulls out the original switched purse. 'I think it's finally time to return this.'" }
+          ]
+        }
+      ]
+    },
+    {
+      num: 3,
+      title: "Fated to the Wolf King",
+      genre: "Werewolf · Supernatural Romance",
+      target: "Women 18–35 · Paranormal romance fans",
+      hook: "He left her at the altar. Now he's in her hospital bed. He doesn't remember her at all.",
+      tags: ["werewolf", "romance", "supernatural", "alpha"],
+      seasons: [
+        {
+          name: "Season 1 — The Alpha Who Forgot",
+          episodes: [
+            { n:1,  title:"The Worst Day Twice",  what:"Nurse Elena walks into her ER shift and the man on the gurney is Damian — the Alpha who abandoned her 3 years ago.",        cliff:"His eyes open. He looks at her. No recognition. At all." },
+            { n:2,  title:"Clean Slate",          what:"Damian has amnesia. Elena is his primary nurse. She overhears wolf scouts — if a rival pack learns he's helpless...",         cliff:"She registers him under a false name. She doesn't know why." },
+            { n:3,  title:"Her Choice",           what:"Elena could expose him. Instead she protects him.",                                                                            cliff:"The mate bond she thought was severed — it's still there. She nearly drops a tray when he winces." },
+            { n:4,  title:"The Bond",             what:"He wakes and asks: 'Why do I feel like I know you?'",                                                                          cliff:"His second-in-command Kira arrives. Kira knows who Elena is. Kira was the one who convinced Damian to leave." },
+            { n:5,  title:"A Lie and a Truth",    what:"Elena tells him they were strangers from a coffee shop once. He believes her.",                                               cliff:"'You smell like home.'" },
+            { n:6,  title:"Kira",                 what:"Kira: 'Walk away now or I'll make sure he never remembers.'",                                                                 cliff:"Elena refuses. That night Damian reaches for her hand in his sleep and holds it until morning." },
+            { n:7,  title:"Fragments",            what:"Damian has flashes: a wedding venue, white flowers, a girl crying. He tells Elena.",                                          cliff:"She keeps her face completely still and says, 'Sounds like a dream.'" },
+            { n:8,  title:"The Rival Pack",       what:"The Nightclaw Alpha shows up. He knows Damian is vulnerable. He gives Elena a message: 'Step aside or your family pays.'",  cliff:"Elena puts on her scrubs and walks back in. 'We need to leave. Now.'" },
+            { n:9,  title:"Running",              what:"Elena helps Damian escape. In the woods, his memory accelerates.",                                                             cliff:"He stops walking. 'The flowers were white gardenias. Your favorite.'" },
+            { n:10, title:"He Remembers",         what:"'I remember everything.' He reaches for her face. She steps back.", paywall:true,                                             cliff:"She walks. He doesn't stop her. But his wolf does — howling into the dark until she turns around." },
+            { n:11, title:"The Truth That Night", what:"Damian explains: his father threatened to kill Elena if he went through with the wedding. He left to protect her.",          cliff:"'You could have told me.' 'You would have stayed anyway.' 'Yes. I would have.'" },
+            { n:12, title:"The Bond Snaps Back",  what:"The mate bond re-establishes with a force that drops them both to their knees.",                                               cliff:"The Nightclaw Alpha watches from the treeline. He raises his phone: 'The Wolf King has a weakness.'" }
+          ]
+        },
+        {
+          name: "Season 2 — The War for the Wolf Queen",
+          episodes: [
+            { n:1,  title:"Queen",            what:"Elena is brought to the pack. They are not happy. She's human.",                                                                    cliff:"The pack elder reads an ancient decree: a fated mate, human or not, is Luna. Kira challenges this." },
+            { n:2,  title:"The Challenge",    what:"Kira formally challenges Elena for the Luna title. Three days to prove herself.",                                                   cliff:"Elena enlists an unlikely tutor — the pack's youngest wolf who never fit in either." },
+            { n:3,  title:"Learning Fast",    what:"The boy reveals Kira has been feeding information to the Nightclaw Alpha for years.",                                               cliff:"Kira poisons the water supply. Three wolves collapse at dinner." },
+            { n:4,  title:"Earned",           what:"Elena — the nurse — saves all three. The pack shifts. Not all, but enough.",                                                        cliff:"The Nightclaw Alpha declares formal war. Surrender Elena within 48 hours." },
+            { n:5,  title:"The Offer",        what:"Damian considers it for one second. Elena sees his face.",                                                                          cliff:"'If you even think about it, I'll leave on my own.'" },
+            { n:6,  title:"Kira's Confession", what:"Confronted with evidence, Kira breaks. She reveals the real plan: he doesn't want Elena — he wants the bloodline. Elena is pregnant.", cliff:"Elena didn't know. Damian didn't know. Now everyone knows." },
+            { n:7,  title:"The Pregnancy",    what:"A half-human pup has never survived in pack history.",                                                                             cliff:"The pack elder opens an old book. 'It has happened once. The child became the greatest Alpha in history.'" },
+            { n:8,  title:"The Battle",       what:"Nightclaw forces breach the pack border. Elena refuses to hide — she sets up field triage and saves wounded wolves mid-battle.",    cliff:"Elena is cornered by the Nightclaw Alpha. He doesn't attack." },
+            { n:9,  title:"Enemy, Patient",   what:"'I need your help. My mate is dying. You're the only doctor I trust.'",                                                             cliff:"Damian finds them. Sees them together. His eyes go gold." },
+            { n:10, title:"The Treaty",       what:"Elena treats the Nightclaw Luna. She survives. The Alpha calls off the war.", paywall:true,                                        cliff:"Kira, trying to escape, is captured. The pack waits for Damian's verdict. Elena speaks first." },
+            { n:11, title:"Mercy",            what:"Elena gives Kira a choice: exile or service. Kira chooses service — humiliated but alive.",                                        cliff:"The pack gathers. Damian turns to Elena. 'Are you ready?'" },
+            { n:12, title:"Luna",             what:"Damian crowns Elena. A hundred wolves bow.",                                                                                        cliff:"She laughs. Then her hand goes to her belly." }
+          ]
+        }
+      ]
+    },
+    {
+      num: 4,
+      title: "Her Secret Empire",
+      genre: "Revenge · Female Empowerment · Romance",
+      target: "Women 30–50 · Latina and general US",
+      hook: "She didn't leave him. She destroyed him from the inside.",
+      tags: ["revenge", "empowerment", "romance", "latino"],
+      seasons: [
+        {
+          name: "Season 1 — The Plan",
+          episodes: [
+            { n:1,  title:"What She Found",    what:"Valentina finds a second phone in her husband Carlos's coat. Photos. Another woman. Another child. Five years old.",   cliff:"She doesn't cry. She makes coffee. And starts thinking." },
+            { n:2,  title:"Smiling at Dinner", what:"She serves Carlos dinner, laughs at his jokes. He has no idea.",                                                         cliff:"She calls her attorney friend. 'I need to learn everything about his company.'" },
+            { n:3,  title:"The Vulnerability", what:"She finds it: Carlos's CFO position is open, the company is hemorrhaging talent.",                                        cliff:"Valentina applies under her maiden name. She gets the interview." },
+            { n:4,  title:"The Interview",     what:"Carlos's partner Javier interviews her. Doesn't recognize her. She's extraordinary.",                                    cliff:"He hires her. That night she watches Carlos brag to friends about 'finally finding a great CFO.'" },
+            { n:5,  title:"Javier",            what:"Javier is brilliant and principled and nothing like Carlos. He starts seeing her potential immediately.",                 cliff:"He asks if she's married. She pauses. 'It's complicated.'" },
+            { n:6,  title:"Month One",         what:"Valentina restructures the company's finances brilliantly. Three top executives follow her loyalty.",                     cliff:"She finds a second set of books. Carlos has been laundering money. She copies everything." },
+            { n:7,  title:"The Evidence",      what:"She now has enough to destroy him criminally. She could call the FBI today.",                                             cliff:"Instead, she calls Javier into her office. 'I have a proposition.'" },
+            { n:8,  title:"The Split",         what:"Valentina proposes a company split — a new entity, majority owned by Javier and herself.",                               cliff:"'Why would I do that to Carlos?' 'Because in six months, there won't be anything left to do it to.'" },
+            { n:9,  title:"Javier Says Yes",   what:"They sign paperwork in secret. The new company is born.",                                                                 cliff:"Carlos comes home early. He sees Valentina on a call, glowing, transformed. He's scared for the first time." },
+            { n:10, title:"He's Watching",     what:"Carlos hires a PI. The PI photographs Valentina and Javier at dinner.", paywall:true,                                    cliff:"Carlos sends the photos to his lawyer. 'Start divorce proceedings. Make sure she gets nothing.'" },
+            { n:11, title:"The Trap Snaps",    what:"Carlos files for divorce publicly, trying to humiliate her.",                                                             cliff:"Valentina's lawyer responds with the laundering evidence, the second family, and the new company documents — all legal, all planned." },
+            { n:12, title:"His Face",          what:"Carlos's lawyer quits. Accounts frozen. He calls Valentina screaming. She answers on the first ring.",                   cliff:"'Did you know I always loved you?' She hangs up. Looks at Javier across the office. He raises his coffee cup." }
+          ]
+        },
+        {
+          name: "Season 2 — The Empire Rises",
+          episodes: [
+            { n:1,  title:"Cover",           what:"New company launches to press fanfare. Valentina is on the cover of a business magazine.",                                    cliff:"Carlos's other woman Mónica contacts Valentina. 'I didn't know about you either.'" },
+            { n:2,  title:"Mónica",          what:"Valentina meets Mónica. Five-year-old Diego comes running in and hugs his mom's leg, shy.",                                  cliff:"Valentina looks at this little boy and something shifts in her." },
+            { n:3,  title:"An Alliance",     what:"Valentina quietly funds Diego's college account. She tells no one.",                                                          cliff:"Javier finds out. He looks at her differently." },
+            { n:4,  title:"Carlos Strikes",  what:"Carlos, facing prison, goes to media with a false story: Valentina embezzled to start the company.",                         cliff:"Javier immediately holds a press conference with every document. 'She built this. Every cent accounted for.'" },
+            { n:5,  title:"The Market",      what:"Their company's stock dips on the news. Then rises as the story falls apart.",                                               cliff:"A mystery investor buys 15% of the company overnight." },
+            { n:6,  title:"The Investor",    what:"It's Valentina's mother — who sold the house she grew up in to invest.",                                                     cliff:"'I always knew you'd build something.' Valentina breaks down for the first time since Episode 1." },
+            { n:7,  title:"Javier Confesses", what:"Javier tells her he's been in love with her since the interview. He knows the timing is terrible.",                         cliff:"'Ask me again in six months.'" },
+            { n:8,  title:"Sentencing",      what:"Carlos goes to prison. Valentina is in the gallery. He finds her eyes and mouths: 'I'm sorry.'",                             cliff:"She nods once. Then looks away." },
+            { n:9,  title:"Six Months Later", what:"The company is a success. Javier asks again.",                                                                              cliff:"Before she can answer, Mónica calls: Diego is sick. Rare diagnosis. Treatment costs are impossible." },
+            { n:10, title:"She Decides",     what:"Valentina pays for Diego's treatment in full. Anonymously. Then turns to Javier. 'Yes.'", paywall:true,                     cliff:"Carlos, from prison, learns what she did for his son. He asks his lawyer to change his will." },
+            { n:11, title:"What She Does",   what:"Valentina donates Carlos's inheritance to a domestic violence foundation. Every cent.",                                      cliff:"The foundation names their first shelter after her mother." },
+            { n:12, title:"Empire",          what:"The company is acquired for $400M. Valentina takes $5M — for a new venture, smaller, more personal.",                       cliff:"She's scrubbing a whiteboard in an empty new office. Javier walks in with two coffees. 'Starting over?' She smiles: 'Starting right.'" }
+          ]
+        }
+      ]
+    },
+    {
+      num: 5,
+      title: "Stray",
+      genre: "Animal (AI) · Drama · Romance",
+      target: "General US · Latino crossover",
+      hook: "Two rival billionaire families. One dog who knows all their secrets.",
+      tags: ["animal", "ai-generated", "romance", "family-drama"],
+      seasons: [
+        {
+          name: "Season 1 — The Dog Who Sat in Both Chairs",
+          episodes: [
+            { n:1,  title:"The Gift",           what:"During a hostile merger negotiation, CEO Vicente gifts his rival CEO Margaret a golden retriever puppy. Her name is Stella.",  cliff:"Margaret gives Stella to her son Luca to babysit. He hates the dog. She licks his face. He almost smiles." },
+            { n:2,  title:"Dropped Off",        what:"Margaret sends Stella back to Vicente's office. His daughter Sofia babysits.",                                                  cliff:"Stella runs back and forth between both office towers every morning. Nobody can figure out how." },
+            { n:3,  title:"Stella's Route",     what:"Stella has found a path through the building's shared ventilation system. She visits both families daily — and hears everything.", cliff:"She hears Vicente tell his assistant: 'The document Margaret signed isn't the real merger agreement.'" },
+            { n:4,  title:"The Fraud",          what:"Stella steals the fake agreement from Vicente's desk.",                                                                         cliff:"She drops it at Margaret's feet. Margaret doesn't know what she's looking at." },
+            { n:5,  title:"Luca and Sofia",     what:"Luca and Sofia keep bumping into each other while chasing Stella through the city.",                                            cliff:"They both reach for Stella at the same moment. Their hands touch." },
+            { n:6,  title:"Enemy Territory",    what:"Sofia accidentally ends up at Luca's apartment following Stella.",                                                              cliff:"Luca offers her coffee. 'You're not what I expected.' 'Neither are you.'" },
+            { n:7,  title:"The Real Agreement", what:"Stella leads both Luca and Sofia to Vicente's storage unit. They find the real signed document together.",                      cliff:"They both realize what it means. Their parents are in a fraud — and they just found the evidence." },
+            { n:8,  title:"The Dilemma",        what:"Do they expose their own parents?",                                                                                            cliff:"Stella puts her paw on the document, then looks at each of them in turn." },
+            { n:9,  title:"What They Decide",   what:"They make copies. They hire a lawyer — together.",                                                                             cliff:"Both parents discover their children are in contact. Both furious." },
+            { n:10, title:"The Confrontation",  what:"Vicente and Margaret are called into a meeting — by their own children. The document is on the table.", paywall:true,         cliff:"Vicente: 'How did you find this?' They look at Stella. She wags her tail." },
+            { n:11, title:"Exposed",            what:"Vicente tries to spin it. Margaret sees the full scope.",                                                                       cliff:"She pulls out her own counter-fraud. 'I was running my own scheme on you. So we're even. Now let's make a real deal.'" },
+            { n:12, title:"The Real Deal",      what:"The companies merge — legitimately. Luca and Sofia stand in the boardroom together.",                                          cliff:"Last shot: Stella under the table, tail wagging, as two families become one." }
+          ]
+        },
+        {
+          name: "Season 2 — One Litter, Two Families",
+          episodes: [
+            { n:1,  title:"The Vet Visit",        what:"A year later. Stella's chip traces to two registered owners: Elena and Roberto Morales — who died together three years ago.",  cliff:"Vicente and Margaret were family. Once. Before the accident tore them apart." },
+            { n:2,  title:"The Morales File",     what:"Elena Morales was Vicente's first wife. Roberto Morales was Margaret's late brother.",                                          cliff:"Vicente was driving the car when Elena and Roberto died. He was never charged." },
+            { n:3,  title:"The Accident",         what:"News archives reveal the truth.",                                                                                              cliff:"Margaret never knew who was driving." },
+            { n:4,  title:"Sofia Finds Out",      what:"Sofia finds her father's sealed accident report. She can't un-see it.",                                                        cliff:"She tells Luca. 'Does your mother know?' 'No.' 'She has to know.' 'It will destroy everything.'" },
+            { n:5,  title:"Stella's Original Home", what:"They find video of Elena and Roberto with Stella as a puppy, in happier times.",                                            cliff:"Luca shows his mother the video. Margaret sees her brother's face and goes completely still." },
+            { n:6,  title:"Margaret Knows",       what:"Margaret confronts Vicente. He admits it. He's been paying for her company's losses quietly for three years — guilt money.",   cliff:"'Money doesn't bring them back. But Stella came back to both of us. Maybe that means something.'" },
+            { n:7,  title:"The Unraveling",       what:"Margaret and Vicente don't speak for two weeks. The merger is at risk.",                                                       cliff:"Luca and Sofia are caught in the middle — of the business and of their own growing love." },
+            { n:8,  title:"Sofia's Choice",       what:"Sofia tells her father: publicly admit what happened, or she'll step down from the company.",                                  cliff:"Vicente goes to Margaret's office alone. 'I'm sorry. Not as a business partner. As the man who took your brother.'" },
+            { n:9,  title:"Forgiveness",          what:"Margaret doesn't forgive him immediately. But she doesn't end the merger.",                                                    cliff:"She plants a tree for Roberto in the company's garden. Stella sits next to it." },
+            { n:10, title:"Luca Proposes",        what:"Luca proposes at the spot where Stella first brought them together.", paywall:true,                                           cliff:"Vicente and Margaret both find out at the same moment. Neither objects." },
+            { n:11, title:"The Wedding",          what:"Two families in the same room, officially united.",                                                                            cliff:"Stella brings something in her mouth to Margaret — Roberto's old dog tag, dug up from the garden." },
+            { n:12, title:"Full Circle",          what:"Margaret fastens the tag to Stella's collar.",                                                                                cliff:"'Take care of all of them.' Stella looks up and wags her tail once, slowly, like she always knew." }
+          ]
+        }
+      ]
+    },
+    {
+      num: 6,
+      title: "Billionaire by Accident",
+      genre: "Comedy-Drama · Mistaken Identity",
+      target: "Latino men & women 20–40",
+      hook: "He found $5 million in a briefcase. He kept it for 72 hours. That was enough to ruin — and save — his entire life.",
+      tags: ["comedy", "latino", "mistaken-identity", "romance"],
+      seasons: [
+        {
+          name: "Season 1 — The Wrong Briefcase",
+          episodes: [
+            { n:1,  title:"Miguel's Worst Day",  what:"Miguel fixes a billionaire's Bentley on the roadside in a rainstorm. The man speeds off leaving his briefcase.",               cliff:"Inside: $5M cash, a passport with Miguel's face but another name, and a note: 'Use the identity. They're watching.'" },
+            { n:2,  title:"The Identity",        what:"The passport says he's 'Marco Reyes,' heir to a real estate empire, expected at the Reyes estate by 7 PM.",                    cliff:"Miguel's van breaks down outside the estate gate. The valet thinks he's Marco." },
+            { n:3,  title:"The Estate",          what:"Miguel is whisked inside — stalling while trying to call the police — when a voice says his real name.",                        cliff:"His ex-girlfriend Camila works for the Reyes family. As their events director. She stares at him." },
+            { n:4,  title:"Camila",              what:"'Miguel. What are you doing here?' 'Long story.' 'You have thirty seconds.'",                                                   cliff:"The family matriarch sweeps in and calls him Marco without hesitation." },
+            { n:5,  title:"72 Hours",            what:"Miguel and Camila negotiate: he'll return the briefcase when the real Marco shows up. Just 72 hours.",                          cliff:"The real Marco is in hiding from a dangerous creditor. He's not coming back." },
+            { n:6,  title:"Playing Rich",        what:"Miguel navigates yachts, charity galas, and people who expect things he doesn't know. Surprisingly good at it — he fixes things, and everything rich people need is broken.", cliff:"The matriarch notices. She likes him." },
+            { n:7,  title:"The Matriarch",       what:"The real Marco was cold and distracted. 'Marco' is warm and funny and fixed her antique clock with a paperclip.",               cliff:"She changes her will — adding 'Marco' as primary heir. Miguel finds out." },
+            { n:8,  title:"The Real Marco",      what:"The real Marco Reyes shows up — broke, desperate, and angry.",                                                                   cliff:"He pulls Camila aside: 'Tell him to leave or I'll call the police.' Camila: 'And tell them what?'" },
+            { n:9,  title:"Who He Really Is",    what:"Miguel tells the family he's not Marco. They laugh. They think he's being eccentric.",                                           cliff:"The matriarch takes his hand: 'I know you're not Marco. Marco's been dead to me for years. Stay.'" },
+            { n:10, title:"The Creditor",        what:"The man Marco owed money to arrives at the estate looking for his cash.", paywall:true,                                         cliff:"Miguel opens the door. Stands between the creditor and the family. With a wrench in his pocket." },
+            { n:11, title:"Mechanic vs. Muscle", what:"Miguel rigs the estate's security system from the control panel — cameras, gates, lights.",                                    cliff:"Police arrive. The creditor is arrested. The family watches Miguel rewire their $2M security system from scratch." },
+            { n:12, title:"What He's Worth",     what:"The matriarch offers Miguel a real job — head of estate operations. As himself.",                                               cliff:"Camila: 'You know this is insane.' Miguel: 'Should I say no?' She kisses him. 'Negotiate.'" }
+          ]
+        },
+        {
+          name: "Season 2 — The Mechanic Who Built an Empire",
+          episodes: [
+            { n:1,  title:"One Year Later",    what:"Miguel runs the estate's operations. He's hired local workers. He's known in the community.",                                      cliff:"The real Marco returns — sober, changed, with a lawyer. He wants his inheritance." },
+            { n:2,  title:"Legal Battle",      what:"The matriarch's updated will favors Miguel. Marco sues.",                                                                          cliff:"The press runs it: 'Mechanic impersonates heir, takes over billionaire family.'" },
+            { n:3,  title:"The Headline",      what:"Miguel becomes famous for all the wrong reasons. His neighborhood either loves him or calls him a fraud.",                         cliff:"Camila's career is threatened — she 'enabled' the scheme." },
+            { n:4,  title:"Camila's Choice",   what:"Camila is offered a dream job in New York, away from the scandal.",                                                               cliff:"She tells Miguel. He doesn't ask her to stay. She almost goes." },
+            { n:5,  title:"Almost",            what:"She's at the airport. Her gate is closing.",                                                                                      cliff:"Miguel shows up in his work van, still in overalls. 'I was going to be smooth about this. I'm not smooth.'" },
+            { n:6,  title:"She Stays",         what:"They go back. The lawsuit continues. Miguel gets a lawyer — Camila's college friend who owes her a favor.",                       cliff:"They discover a provision in the original will: an estate manager who 'truly cares for this family.'" },
+            { n:7,  title:"The Provision",     what:"It's vague but real. The judge rules Miguel has a legitimate claim.",                                                              cliff:"Marco offers a settlement. Miguel counters: nothing financial — fund a trade school for kids from his neighborhood." },
+            { n:8,  title:"Marco's Reaction",  what:"Marco laughs. Then agrees. Quietly, he respects it.",                                                                             cliff:"The matriarch finds out what Miguel asked for. She doubles the trade school fund." },
+            { n:9,  title:"The School",        what:"Ground breaks on the Miguel Vargas Institute for Trade & Craft. His mother cuts the ribbon.",                                      cliff:"Marco shows up to the groundbreaking. Nobody expected him. He picks up a shovel and helps dig." },
+            { n:10, title:"Brothers",          what:"The matriarch gathers them both. 'I always wanted two sons. You're both terrible in different ways. That's why I love you both.'", paywall:true, cliff:"She dies peacefully that night in her sleep." },
+            { n:11, title:"The Inheritance",   what:"Her will leaves the estate equally to both. Marco and Miguel look at each other.",                                                 cliff:"'Can you fix things that are broken?' 'I've been learning,' Marco says." },
+            { n:12, title:"Built",             what:"The trade school opens. Miguel teaches the first class himself.",                                                                  cliff:"Camila films him on her phone, laughing, covered in grease, surrounded by kids who remind him of himself. She looks at the camera. 'That's my billionaire by accident.'" }
+          ]
+        }
+      ]
+    },
+    {
+      num: 7,
+      title: "The Chef Who Became a Ghost",
+      genre: "Revenge · Drama · Mystery",
+      target: "Asian-American · K-drama fans · General US",
+      hook: "She survived. He thinks she's dead. She's been cooking in his kitchen for three months.",
+      tags: ["revenge", "asian", "culinary", "mystery"],
+      seasons: [
+        {
+          name: "Season 1 — Ghost in the Kitchen",
+          episodes: [
+            { n:1,  title:"The Fire",         what:"Min-Ji's restaurant burns down the night she's poisoned by her business partner Daniel. She wakes in a hospital with no memory and severe burns on her hands.",  cliff:"Her restaurant — her name, her concept — has already been reopened under Daniel's name." },
+            { n:2,  title:"New Hands",        what:"Her hands healed but changed. A surgeon says she'll never cook again.",                                                                                          cliff:"She picks up a knife. Her body still knows." },
+            { n:3,  title:"A New Name",       what:"She becomes 'Mia' and gets a job as a line cook at the place that used to be hers.",                                                                           cliff:"First day in the kitchen, she tastes the broth. It's wrong. She knows exactly how to fix it." },
+            { n:4,  title:"His Kitchen",      what:"Daniel doesn't recognize her — burns, shorter hair, different name.",                                                                                          cliff:"He eats the corrected dish and calls it 'the best thing his kitchen has ever produced.'" },
+            { n:5,  title:"Fragments",        what:"Cooking pulls memory back in flashes. Her mother's recipe. The layout of her kitchen before it burned. Daniel's signature on a document.",                     cliff:"She remembers: he poisoned her with something in the tea. A compound bought legally." },
+            { n:6,  title:"The Sous Chef",    what:"James, the restaurant's good sous chef, begins to notice 'Mia' knows things she shouldn't.",                                                                   cliff:"He watches her move through the kitchen like she owns it. Because she did." },
+            { n:7,  title:"James Knows",      what:"James confronts her. She's silent. Then: 'What would you do?' 'I'd burn it all down,' James says. 'Done that,' she says.",                                    cliff:"They begin planning together." },
+            { n:8,  title:"The Plan",         what:"Mia begins documenting everything — stolen recipes, sourcing contacts, a supplier who remembers the original Min-Ji.",                                         cliff:"The supplier almost outs her to Daniel. She has to get to him first." },
+            { n:9,  title:"The Supplier",     what:"He agrees to stay quiet — but wants a $20K debt repaid. Mia doesn't have it. James wires it.",                                                                cliff:"'Consider it an investment in justice.'" },
+            { n:10, title:"Getting Close",    what:"Daniel offers Mia a promotion — head chef. To cook in what was her kitchen.", paywall:true,                                                                   cliff:"She accepts. That night she writes letters to the health inspector, a food journalist, and the DA. All to be opened in 30 days." },
+            { n:11, title:"The Food Speaks",  what:"Mia creates a tasting menu — every dish is her original recipe, plated exactly as she used to plate them.",                                                   cliff:"The journalist covering the tasting was at Min-Ji's opening night three years ago. She stops mid-bite." },
+            { n:12, title:"Recognition",      what:"The journalist pulls out her phone and opens an old photo from opening night. Looks at Mia.",                                                                  cliff:"She puts her hand over her mouth. 'Min-Ji?' Daniel, across the room, freezes." }
+          ]
+        },
+        {
+          name: "Season 2 — The Final Course",
+          episodes: [
+            { n:1,  title:"Exposed",          what:"The journalist runs the story. Min-Ji is alive. Daniel is exposed.",                                                           cliff:"Daniel's lawyer: not enough evidence to charge him. The poisoning can't be proven three years later." },
+            { n:2,  title:"The Law",          what:"Min-Ji shifts strategy. She won't go to jail for this — but Daniel will lose everything else.",                                cliff:"She hires a PR firm. Her story goes viral globally." },
+            { n:3,  title:"The Court",        what:"Every reservation at Daniel's restaurant cancels within 48 hours.",                                                           cliff:"His silent investors call for an emergency meeting." },
+            { n:4,  title:"The Investors",    what:"Min-Ji presents to the investors herself — with James, the supplier, and every document.",                                    cliff:"One investor recognizes the documents — he was Min-Ji's original backer, pushed out by Daniel." },
+            { n:5,  title:"The Backer",       what:"He was defrauded too. He agrees to fund Min-Ji's comeback.",                                                                  cliff:"Daniel offers Min-Ji a public apology and 50% ownership of the restaurant." },
+            { n:6,  title:"Her Answer",       what:"She declines. She doesn't want his restaurant. She's building her own — two blocks away.",                                   cliff:"She announces it on the same night as his investor dinner. Every journalist comes to her instead." },
+            { n:7,  title:"The Race",         what:"Both restaurants open the same week. Lines out Daniel's — rubberneckers. Lines out Min-Ji's — believers.",                   cliff:"A Michelin inspector is seen at her restaurant on night one." },
+            { n:8,  title:"The Star",         what:"Min-Ji gets a Michelin star. Daniel gets a health code violation.",                                                           cliff:"Daniel confronts her outside. 'You didn't have to do this.' 'You tried to kill me.'" },
+            { n:9,  title:"The Real Reason",  what:"Daniel was laundering money through the restaurant. He couldn't let her find the books.",                                    cliff:"Min-Ji: 'I found them three years ago. I was going to ask you about them. I trusted you.' He breaks." },
+            { n:10, title:"The Confession",   what:"Daniel goes to the DA with a full confession — voluntarily. Min-Ji wasn't expecting this.", paywall:true,                   cliff:"He pleads guilty to fraud. The DA uses his testimony to charge him with attempted murder on new evidence." },
+            { n:11, title:"Sentencing",       what:"Daniel is sentenced. He asks to see Min-Ji.",                                                                                 cliff:"He gives her back her mother's original recipe book — the one she thought burned. He'd taken it before the fire." },
+            { n:12, title:"Full Circle",      what:"Min-Ji hosts a dinner for everyone who helped her. Last dish: her mother's soup.",                                            cliff:"She carries it out herself. Sits down. Eats with them." }
+          ]
+        }
+      ]
+    },
+    {
+      num: 8,
+      title: "The Alpha's Nurse",
+      genre: "Werewolf · Romance · Latino Flavor",
+      target: "Latina women 18–35 · Werewolf romance fans",
+      hook: "She's the lowest-ranked wolf. He's the king. The mate bond doesn't care about rank.",
+      tags: ["werewolf", "romance", "latino", "supernatural"],
+      seasons: [
+        {
+          name: "Season 1 — Omega's Wound",
+          episodes: [
+            { n:1,  title:"The Bottom",       what:"Sofia is an Omega wolf — the lowest rank. Her pack mocks her. She became a human nurse to escape.",                             cliff:"She's assigned a private patient. Arriving: she smells it immediately. Alpha." },
+            { n:2,  title:"The Patient",      what:"Three silver bullet wounds — nearly fatal. His name is 'D. Voss.'",                                                             cliff:"He opens his eyes. The world stops. For both of them." },
+            { n:3,  title:"The Bond Hits",    what:"Mate bond. Right there in a hospital room. She drops her chart.",                                                              cliff:"He grabs her wrist. 'Don't you dare run.'" },
+            { n:4,  title:"Impossible",       what:"An Omega cannot be an Alpha's mate. It's never happened.",                                                                     cliff:"Sofia's father arrives. 'We have to leave. Now.' He knows who Dietrich Voss is. And something about Sofia's birth." },
+            { n:5,  title:"Her Father Knows", what:"'You're not Omega by nature, Sofia. You were made Omega.'",                                                                    cliff:"Her rank was chemically suppressed at birth — to hide her." },
+            { n:6,  title:"The Real Sofia",   what:"Her true rank emerges as suppressants wear off. The hospital electronics flicker. Nurses step back.",                          cliff:"Dietrich looks at her like she's the most terrifying and beautiful thing he's ever seen. 'What are you?'" },
+            { n:7,  title:"What She Is",      what:"She's a Veilborn — a rare class between all ranks, able to move through them. One per century in wolf history.",              cliff:"Dietrich's pack council learns there's a Veilborn. They want her captured, not claimed." },
+            { n:8,  title:"The Order",        what:"A council rep arrives: 'She's to be taken for study.'",                                                                        cliff:"Dietrich, still wounded, gets out of bed and stands between Sofia and the representative." },
+            { n:9,  title:"He Defies",        what:"'She is my mate and she is under my protection. Test me on this.'",                                                            cliff:"Sofia: 'You just declared war on the council.' 'You did. By existing. I'm just here for the war.'" },
+            { n:10, title:"Running",          what:"They flee. Her father guides them to a Veilborn safe house.", paywall:true,                                                    cliff:"Inside: a lineage book. Sofia's name is already in it. Written a hundred years ago. Prophecy." },
+            { n:11, title:"Fated Twice",      what:"The prophecy: a Veilborn who mates with the Alpha of the Black Voss line will end the council's reign.",                      cliff:"Dietrich: 'I want to be clear — I'm not doing this because of a prophecy.' She: 'Neither am I.'" },
+            { n:12, title:"Into the Dark",    what:"They go underground together. The council issues a warrant.",                                                                   cliff:"Last shot: Sofia's hands glowing faintly in the dark. Even she didn't expect that." }
+          ]
+        },
+        {
+          name: "Season 2 — The Veilborn War",
+          episodes: [
+            { n:1,  title:"In Hiding",          what:"Two months underground. Sofia has been studying her abilities.",                                                               cliff:"She heals a fatal wound on a dying wolf by touch. Both stare at her hands." },
+            { n:2,  title:"Her Power",          what:"She can suppress, enhance, or transfer wolf rank. The council doesn't want to study her — they want to control her.",         cliff:"An underground resistance contacts Dietrich. They've been waiting for a Veilborn for decades." },
+            { n:3,  title:"The Resistance",     what:"Wolves of all ranks who oppose the council. Sofia is their symbol. She's uncomfortable being a symbol.",                      cliff:"'I'm a nurse. I fix people.' Resistance leader: 'That's exactly what we need.'" },
+            { n:4,  title:"Her Father's Secret", what:"He was in the original resistance. He suppressed her to keep her safe — not to hide her power, but to hide her from weaponizers.", cliff:"He gives her a letter her mother wrote before she died. Her mother was also a Veilborn." },
+            { n:5,  title:"Her Mother",         what:"Her mother chose to use her power once — to end a war. It killed her.",                                                        cliff:"Sofia trains harder. Dietrich holds her at night: 'I won't let you sacrifice yourself.'" },
+            { n:6,  title:"The Council Moves",  what:"The council publicly brands Dietrich a traitor and names a new Alpha for his territory.",                                      cliff:"His pack — most of them — stays loyal. A few defect." },
+            { n:7,  title:"The Defectors",      what:"One defector is Dietrich's cousin — who always wanted the Alpha title. He's feeding the council information.",                cliff:"Sofia realizes before Dietrich does. She sets a trap without telling him." },
+            { n:8,  title:"The Trap",           what:"Sofia gives the cousin false intelligence about their location.",                                                              cliff:"When the council raids the empty location, the cousin is exposed. Dietrich handles it privately. It breaks him." },
+            { n:9,  title:"He's Breaking",      what:"Sofia finds him alone, staring at nothing.",                                                                                  cliff:"She doesn't offer words. She sits next to him and puts her hand in his. They stay that way until sunrise." },
+            { n:10, title:"The Final Vote",     what:"The resistance votes: use Sofia's power to dissolve the council — which may kill her, like it killed her mother.", paywall:true, cliff:"Sofia says yes. Dietrich says no. They argue for the first time — loudly, painfully, truly." },
+            { n:11, title:"Her Choice",         what:"'It's my power and my life.' 'It's my mate and my reason.' She kisses him. 'Trust me.'",                                     cliff:"She enters the council chamber alone. Uses her power not to destroy — but to strip every council member of rank entirely." },
+            { n:12, title:"What She Built",     what:"She walks out. Alive. Changed, but alive. The council is dissolved.",                                                         cliff:"Dietrich catches her as her legs give out. She laughs weakly. 'I told you to trust me.' He holds her tight. 'I did. I just hated every second.'" }
+          ]
+        }
+      ]
+    },
+    {
+      num: 9,
+      title: "My Billionaire Dad Is Also My Boss",
+      genre: "Family Drama · Revenge · Identity",
+      target: "General US · Latina women · Secret-family drama fans",
+      hook: "She spent 25 years hating a father she'd never met. Now she works for him. He has no idea.",
+      tags: ["family-drama", "revenge", "identity", "latino"],
+      seasons: [
+        {
+          name: "Season 1 — Day One",
+          episodes: [
+            { n:1,  title:"The Letter",       what:"Catalina's mother gives her a letter on her deathbed — the name of her father: Rodrigo Salinas, CEO of Salinas Group.",        cliff:"Catalina starts Monday." },
+            { n:2,  title:"Day One",          what:"She shakes Rodrigo's hand in the boardroom. He looks at her for just a moment too long.",                                      cliff:"'You remind me of someone. Strange.'" },
+            { n:3,  title:"The Office",       what:"Catalina is brilliant. First week: she identifies $12M in procurement inefficiencies. Rodrigo notices.",                       cliff:"He calls her in. 'Where did you learn to think like this?'" },
+            { n:4,  title:"Getting Close",    what:"She begins working directly with him. He mentors her. She hates how much she likes him.",                                      cliff:"She finds a photo in his office — of a young woman. Her mother. He keeps it in a drawer." },
+            { n:5,  title:"The Photo",        what:"He sees her looking. 'An old friend. I made a mistake once. I keep it to remember not to make the same mistakes.'",           cliff:"'What kind of mistake?' He looks out the window. 'Cowardice.'" },
+            { n:6,  title:"Her Plan",         what:"Catalina has been gathering evidence — Rodrigo built his first company using her mother's stolen business plan.",              cliff:"She has enough. She could file suit today. She doesn't." },
+            { n:7,  title:"Why She Waits",    what:"She wants him to know who she is first. She wants to see his face.",                                                          cliff:"She leaves her mother's distinctive ring on his desk with a note: 'Does this look familiar?'" },
+            { n:8,  title:"He Knows",         what:"Rodrigo calls her in. His face is completely different.",                                                                     cliff:"'How long?' 'Since day one.' 'Why didn't you say something?' 'I wanted you to earn the conversation.'" },
+            { n:9,  title:"His Side",         what:"He explains: he was poor, terrified, her mother's family pressured him to leave. He convinced himself she'd be better off.",  cliff:"'Did you look for me?' Long pause. 'No. I was a coward.'" },
+            { n:10, title:"The Lawsuit",      what:"Catalina files publicly. Against him.", paywall:true,                                                                         cliff:"Rodrigo doesn't fight it. He calls a press conference. He admits to everything." },
+            { n:11, title:"The Settlement",   what:"He announces her publicly as his daughter — to his board, shareholders, the press.",                                          cliff:"She didn't expect that. The fight is gone from her." },
+            { n:12, title:"Monday",           what:"She accepts the settlement. Funds her mother's name on a scholarship.",                                                       cliff:"She comes to work. Puts coffee on his desk — her mother's exact recipe. He takes one sip and goes still. 'This tastes like—' 'I know.'" }
+          ]
+        },
+        {
+          name: "Season 2 — Salinas & Daughter",
+          episodes: [
+            { n:1,  title:"The Board Reacts",   what:"Half the board accepts Catalina. Half doesn't.",                                                                             cliff:"The dissenting members contact a PE firm to launch a hostile takeover." },
+            { n:2,  title:"The Threat",         what:"The PE firm is funded by Catalina's maternal uncle — her mother's brother, who blamed Rodrigo for destroying their family.",  cliff:"He's not doing this for her." },
+            { n:3,  title:"The Uncle",          what:"He offers Catalina a deal: help him take over the company, split the proceeds.",                                              cliff:"She refuses. He threatens to release documents suggesting Rodrigo knew about her for years and buried it." },
+            { n:4,  title:"The Document",       what:"The document is real — Rodrigo's attorney found Catalina when she was 8, and Rodrigo told him to do nothing.",               cliff:"Catalina confronts Rodrigo. He looks destroyed. 'I was scared. I told myself you were happy.'" },
+            { n:5,  title:"The Rupture",        what:"She doesn't speak to him for a week. The company starts to wobble without their partnership.",                                cliff:"The board notices." },
+            { n:6,  title:"Rodrigo Acts",       what:"He brings the attorney to the board — who recorded every conversation. Context: Rodrigo sent anonymous money for years. He paid for Catalina's college without her knowing.", cliff:"She didn't know. She stares at the bank records. Every payment. Every year." },
+            { n:7,  title:"What He Did",        what:"He watched from a distance for 25 years. He convinced himself it was enough.",                                               cliff:"'It wasn't enough.' 'No. It wasn't.'" },
+            { n:8,  title:"The Uncle's Gambit", what:"Her uncle goes public — positions himself as the family's protector, paints Rodrigo as villain, Catalina as naive.",         cliff:"Catalina calls a press conference." },
+            { n:9,  title:"Her Statement",      what:"She tells the truth — all of it. Her anger, her grief, her complicated feelings, what she found, what she chose.",           cliff:"'I haven't forgiven my father. But I'm not done figuring out if I can. I won't let someone else make that choice for me.' The stock rises." },
+            { n:10, title:"The Vote",           what:"The board votes: Catalina as co-CEO alongside Rodrigo.", paywall:true,                                                       cliff:"Her uncle walks out. In the hallway, he calls his backers. 'Plan B.'" },
+            { n:11, title:"Plan B",             what:"He leaks proprietary data to a competitor — corporate espionage.",                                                            cliff:"Catalina and Rodrigo work through the night together as co-CEOs for the first time, fixing what he broke." },
+            { n:12, title:"Salinas & Daughter", what:"The uncle is prosecuted. The company survives. Rodrigo has the letterhead changed.",                                         cliff:"He slides the new letterhead across the desk. 'Salinas & Daughter.' She picks up her pen." }
+          ]
+        }
+      ]
+    },
+    {
+      num: 10,
+      title: "Paws & Billionaires",
+      genre: "Animal (AI) · Romantic Comedy",
+      target: "General US — Broadest viral appeal",
+      hook: "The dogs are in love. Their owners are at war. The dogs are going to fix this.",
+      tags: ["animal", "ai-generated", "romantic-comedy", "viral"],
+      seasons: [
+        {
+          name: "Season 1 — The Dogs Don't Care About the Lawsuit",
+          episodes: [
+            { n:1,  title:"The Lawsuit",        what:"Isabella and Damian have been in litigation for 3 years over a $40M real estate dispute.",                                    cliff:"Their golden retrievers see each other in the same park and lose their minds with joy." },
+            { n:2,  title:"Biscuit & Butter",   what:"The leashes tangle. Isabella and Damian end up face to face, three inches apart.",                                            cliff:"'Your dog is sitting on my shoe.' 'Your dog ate my dog's leash.'" },
+            { n:3,  title:"Separation",         what:"Both hire dog walkers so they never have to meet.",                                                                           cliff:"Biscuit and Butter escape from both walkers simultaneously and end up locked inside a café together." },
+            { n:4,  title:"The Café",           what:"Their owners wait for the dogs to calm down.",                                                                               cliff:"The dogs fall asleep curled together. Their owners realize they've been actually talking for 45 minutes." },
+            { n:5,  title:"Their Lawyers",      what:"Both law teams: no contact with opposing party outside depositions.",                                                         cliff:"Biscuit escapes Isabella's apartment and is found — somehow — at Damian's door across the city." },
+            { n:6,  title:"How Did He Get Here", what:"Nobody can explain it.",                                                                                                    cliff:"Damian texts Isabella: 'Your dog is here. He seems happy. He ate half my lunch.'" },
+            { n:7,  title:"The Texts",          what:"They keep the thread brief, professional. The dogs are the reason.",                                                         cliff:"At 1 AM: 'Biscuit is asleep on my couch.' At 1:04: 'That would be fine.' At 1:06: 'He snores.' At 1:08: 'I know.'" },
+            { n:8,  title:"Morning",            what:"Damian brings Biscuit back. Isabella opens the door in pajamas. Neither is ready.",                                          cliff:"He hands her the leash. Their fingers touch. 'The dogs think this lawsuit is stupid.' She closes the door. Leans against it." },
+            { n:9,  title:"The Deposition",     what:"They're in the same room for a deposition. Under oath.",                                                                     cliff:"Biscuit, brought as an 'emotional support dog,' walks across the table and sits in front of Damian, tail wagging." },
+            { n:10, title:"Settlement",         what:"Both lawyers suggest settlement. For the first time, both clients say yes.", paywall:true,                                   cliff:"At the settlement meeting without lawyers, Isabella says: 'I was going to bring Biscuit.' Damian reaches under the table. Butter walks out." },
+            { n:11, title:"40 Minutes",         what:"They settle in 40 minutes. Neither can explain why it took 3 years.",                                                        cliff:"They walk out together. Biscuit and Butter walk between them, leashes tangling again." },
+            { n:12, title:"Same Park",          what:"Next morning. Same bench. Same time. Two coffees. Four paws.",                                                               cliff:"'This doesn't mean anything.' 'Of course not.' Biscuit looks at Butter. They both know." }
+          ]
+        },
+        {
+          name: "Season 2 — One Litter, Two Owners",
+          episodes: [
+            { n:1,  title:"Six Months Later",   what:"Isabella and Damian are together, quietly. No announcement.",                                                                cliff:"The vet calls: Butter is pregnant. Damian didn't know he wasn't neutered." },
+            { n:2,  title:"Puppies",            what:"Six puppies. Butter and Biscuit are parents.",                                                                               cliff:"'We're basically co-parents.' Isabella: 'Don't make it weird.' He immediately buys a crib." },
+            { n:3,  title:"The Families",       what:"Isabella's family loves Damian. Damian's mother is suspicious of Isabella — she sued him.",                                  cliff:"His mother: 'She tried to take $40M from you.' Damian: 'She had a point.'" },
+            { n:4,  title:"His Mother",         what:"His mother warms to Isabella over a shared obsession with real estate law. Four hours discussing the original case.",         cliff:"His mother: 'She was right. You were wrong. I raised you better.'" },
+            { n:5,  title:"Viral",              what:"Someone films the puppy litter. 80 million views in 48 hours.",                                                              cliff:"Brands want to sponsor the puppies. A TV network wants a show." },
+            { n:6,  title:"The Show",           what:"A streaming platform offers them a reality show: 'Paws & Billionaires.' Isabella says no. Damian is tempted.",              cliff:"Biscuit chews through the contract." },
+            { n:7,  title:"The Compromise",     what:"They agree to a one-episode special — to place the puppies in good homes publicly.",                                         cliff:"During filming, Damian is asked when he knew he loved Isabella. He wasn't expecting the question. He goes quiet." },
+            { n:8,  title:"What He Said",       what:"'The deposition. When Biscuit climbed on the table. She tried so hard not to laugh and couldn't. That was it.'",            cliff:"The clip goes viral. Isabella watches it alone in the bathroom." },
+            { n:9,  title:"She Cries",          what:"She goes out and finds him on the couch with both dogs. She sits next to him and says nothing.",                             cliff:"He puts his arm around her. 'You're not going to make this easy, are you?' 'Never.'" },
+            { n:10, title:"The Proposal",       what:"He proposes at the park bench. With both dogs wearing rings around their necks.", paywall:true,                             cliff:"Isabella opens her mouth. Biscuit barks. Butter barks. She laughs so hard she can't breathe." },
+            { n:11, title:"Yes",                what:"She says yes. The park erupts. Their regular dog walkers had gathered. Someone tipped them off.",                            cliff:"His mother is there. She hugs Isabella. 'You were right about the lawsuit.'" },
+            { n:12, title:"Forever",            what:"The wedding. Biscuit walks Isabella down the aisle. Butter is best man. Six puppies in flower crowns scatter petals.",       cliff:"Last shot: the park bench. 'Reserved — B & B.' Biscuit and Butter asleep underneath it." }
+          ]
+        }
+      ]
+    }
+  ];
+
+  // ── RENDER STORIES ──────────────────────────────────────────────────────────
+
+  function renderStories() {
+    const grid = document.getElementById('storiesGrid');
+    grid.innerHTML = STORIES.map(s => `
+      <div class="story-card" id="story-${s.num}" onclick="toggleStory(${s.num})">
+        <div class="story-card-top">
+          <div>
+            <div class="story-num">No. ${s.num}</div>
+            <div class="story-title">${s.title}</div>
+          </div>
+          <div class="expand-icon">&#9660;</div>
+        </div>
+        <div class="story-genre">${s.genre}</div>
+        <div class="story-hook">"${s.hook}"</div>
+        <div class="story-meta">
+          ${s.tags.map(t => `<span class="meta-tag">${t}</span>`).join('')}
+        </div>
+        <div style="font-size:0.75rem;color:var(--muted)">&#127775; ${s.target}</div>
+
+        <div class="episode-breakdown">
+          ${s.seasons.map(season => `
+            <div class="season-label">${season.name}</div>
+            ${season.episodes.map(ep => `
+              <div class="ep-row">
+                <div class="ep-num">${ep.n}</div>
+                <div class="ep-content">
+                  <div class="ep-title">${ep.title}${ep.paywall ? '<span class="ep-paywall">&#128274; Paywall</span>' : ''}</div>
+                  <div class="ep-what">${ep.what}</div>
+                  <div class="ep-cliff">${ep.cliff}</div>
+                </div>
+              </div>
+            `).join('')}
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function toggleStory(num) {
+    const card = document.getElementById('story-' + num);
+    card.classList.toggle('open');
+  }
+
+  renderStories();
+</script>
+</body>
+</html>

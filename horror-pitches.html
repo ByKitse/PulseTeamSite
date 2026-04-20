@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Horror Pitches — Pulse Reels × Blumhouse</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #1a1a24;
+      --border: #252535;
+      --text: #e8eaf6;
+      --muted: #7a7a9a;
+      --red: #f87171;
+      --blood: #c0392b;
+      --orange: #fb923c;
+      --accent2: #a78bfa;
+      --green: #34d399;
+      --yellow: #fbbf24;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .back-link {
+      font-size: 0.83rem;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--text); }
+
+    .header-title { font-size: 1rem; font-weight: 700; }
+    .header-title span { color: var(--blood); }
+
+    .header-badge {
+      font-size: 0.72rem;
+      background: rgba(192,57,43,0.2);
+      color: var(--red);
+      border: 1px solid rgba(192,57,43,0.4);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .page { max-width: 960px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
+
+    .page-hero { margin-bottom: 3rem; }
+
+    .page-hero h1 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+
+    .page-hero h1 span { color: var(--blood); }
+
+    .page-hero p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 580px;
+      line-height: 1.6;
+    }
+
+    /* STORY SECTION */
+    .story-section {
+      margin-bottom: 5rem;
+      border-left: 3px solid var(--blood);
+      padding-left: 2rem;
+    }
+
+    .story-number {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--blood);
+      margin-bottom: 0.5rem;
+    }
+
+    .story-title {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.3rem;
+    }
+
+    .story-tagline {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* META ROW */
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .meta-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .meta-tag.horror   { background: rgba(192,57,43,0.15); color: var(--red); border: 1px solid rgba(192,57,43,0.3); }
+    .meta-tag.social   { background: rgba(167,139,250,0.15); color: var(--accent2); border: 1px solid rgba(167,139,250,0.3); }
+    .meta-tag.tech     { background: rgba(96,165,250,0.15); color: #60a5fa; border: 1px solid rgba(96,165,250,0.3); }
+    .meta-tag.family   { background: rgba(251,191,36,0.15); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
+    .meta-tag.body     { background: rgba(248,113,113,0.12); color: var(--orange); border: 1px solid rgba(248,113,113,0.3); }
+    .meta-tag.latino   { background: rgba(52,211,153,0.12); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+    .meta-tag.blum     { background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+
+    /* CARDS */
+    .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+    .cards-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+    }
+
+    .card-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-body {
+      font-size: 0.83rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    /* LOGLINE */
+    .logline-box {
+      background: var(--surface);
+      border: 1px solid var(--blood);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .logline-box .label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--blood);
+      margin-bottom: 0.5rem;
+    }
+
+    .logline-box p {
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    /* BLUMHOUSE BOX */
+    .blum-box {
+      background: linear-gradient(135deg, rgba(192,57,43,0.08), rgba(10,10,15,0.5));
+      border: 1px solid rgba(192,57,43,0.25);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 2rem;
+    }
+
+    .blum-box .label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--orange);
+      margin-bottom: 0.6rem;
+    }
+
+    .blum-box ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .blum-box li {
+      font-size: 0.83rem;
+      line-height: 1.5;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .blum-box li::before {
+      content: "▸";
+      color: var(--blood);
+      position: absolute;
+      left: 0;
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* EPISODE LIST */
+    .episode-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .ep {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      transition: border-color 0.15s;
+    }
+
+    .ep:hover { border-color: var(--blood); }
+
+    .ep.paywall { border-color: rgba(251,191,36,0.3); }
+
+    .ep-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .ep-num {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--blood);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .ep-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .paywall-tag {
+      font-size: 0.62rem;
+      font-weight: 700;
+      background: rgba(251,191,36,0.15);
+      color: var(--yellow);
+      padding: 2px 7px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .ep-synopsis {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+    }
+
+    .ep-cliff {
+      font-size: 0.78rem;
+      color: var(--red);
+      line-height: 1.4;
+      font-style: italic;
+    }
+
+    .ep-cliff::before { content: "⚡ "; }
+
+    /* SCARE SCALE */
+    .scare-scale {
+      display: flex;
+      gap: 0.25rem;
+      margin-top: 0.4rem;
+    }
+
+    .scare-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    .scare-dot.on { background: var(--blood); }
+
+    /* VIRAL MOMENTS */
+    .viral-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 2rem;
+    }
+
+    .viral-box .label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent2);
+      margin-bottom: 0.6rem;
+    }
+
+    .viral-item {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+    }
+
+    .viral-item::before {
+      content: "🔥";
+      flex-shrink: 0;
+    }
+
+    /* DIVIDER */
+    .story-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 4rem 0;
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    @media (max-width: 700px) {
+      .cards-3, .cards-2 { grid-template-columns: 1fr; }
+      .story-title { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="pulse.html">&#8592; Pulse Hub</a>
+  <div class="header-title">Pulse <span>×</span> Horror</div>
+  <span class="header-badge">Blumhouse Dev · Mar 2026</span>
+</header>
+
+<div class="page">
+
+  <div class="page-hero">
+    <h1>Horror Pitches for<br><span>Pulse × Blumhouse</span></h1>
+    <p>Three high-concept horror microdrama pitches. Each built for Blumhouse DNA — contained, social commentary underneath, genuinely frightening. Formatted for viral vertical delivery.</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════ STORY 1 ═══ -->
+  <div class="story-section">
+    <div class="story-number">Pitch 01</div>
+    <div class="story-title">THE FEED</div>
+    <div class="story-tagline">"Someone built her the perfect audience. She just didn't know she was the content."</div>
+
+    <div class="meta-row">
+      <span class="meta-tag horror">Horror</span>
+      <span class="meta-tag tech">Tech Horror</span>
+      <span class="meta-tag social">Social Commentary</span>
+      <span class="meta-tag body">Psychological</span>
+      <span class="meta-tag blum">Blumhouse DNA</span>
+    </div>
+
+    <div class="logline-box">
+      <div class="label">Logline</div>
+      <p>A true-crime content creator starts receiving anonymous tips that lead her to real crimes — as they happen. She thinks she has a source. Then she realizes the crimes are being staged <em>for her specifically</em>. Someone has been cultivating her audience for months — and the finale they're building requires her to have 100,000 followers watching live.</p>
+    </div>
+
+    <div class="blum-box">
+      <div class="label">Blumhouse Pitch Angle</div>
+      <ul>
+        <li>Blumhouse specialty: technology as horror vehicle (M3GAN, Cam, Unfriended). The Feed is the next evolution — horror about being watched while you watch.</li>
+        <li>Social commentary layer: our consumption of true-crime content as complicity. The audience watching Valentina's stream are us.</li>
+        <li>Contained production: primarily one location (her apartment/streaming setup) + crime scenes. Ultra-low budget, ultra-high concept.</li>
+        <li>Microdrama kill: every episode ends with either a crime or a revelation — both work as scroll-stopping cliffhangers.</li>
+        <li>Comp titles: Cam (2018) + Searching + The Truman Show from inside the show.</li>
+      </ul>
+    </div>
+
+    <div class="cards-3">
+      <div class="info-card">
+        <div class="card-label">Protagonist</div>
+        <div class="card-body"><strong>VALENTINA</strong> — late 20s, Latina, true-crime creator. 80K followers. Sharp, skeptical, building something. Has never once thought of herself as a victim story.</div>
+      </div>
+      <div class="info-card">
+        <div class="card-label">The Threat</div>
+        <div class="card-body"><strong>THE ARCHITECT</strong> — never seen, never named until the end. Has been building Valentina's channel for 14 months. Stages crimes that only she can solve. Needs her audience to hit 100K to execute the finale.</div>
+      </div>
+      <div class="info-card">
+        <div class="card-label">The Hook</div>
+        <div class="card-body">The audience watching Valentina's stream believes they're watching entertainment. They're watching someone be hunted in real time. When they realize it — they can't stop watching either.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Season 1 — "The Source" — Episode Breakdown</div>
+
+    <div class="episode-list">
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 01</span>
+          <span class="ep-title">The First Tip</span>
+        </div>
+        <div class="ep-synopsis">Valentina runs a true-crime channel from her apartment — meticulous, well-researched, growing steadily. Tonight she gets an anonymous DM with a location, a time, and three words: "Be there first." She goes. She finds a crime scene — fresh, real, not yet called in. She livestreams herself discovering it. Her stream crashes from the traffic spike.</div>
+        <div class="ep-cliff">She checks her follower count after the stream. It jumped by 12,000 in 40 minutes. A new DM arrives: "Good. Now you know what a real tip looks like."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div><div class="scare-dot"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 02</span>
+          <span class="ep-title">The Source</span>
+        </div>
+        <div class="ep-synopsis">The police question Valentina — she's a person of interest for 72 hours. Her followers explode. She tries to trace the DM — VPN, dead ends. Her editor friend Marco tells her to stop. She posts the second tip instead: an abandoned warehouse, a message carved in the wall, and a photograph of Valentina herself taken from outside her window two weeks ago.</div>
+        <div class="ep-cliff">The photo is dated. It was taken the same day she started her channel.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 03</span>
+          <span class="ep-title">The Timeline</span>
+        </div>
+        <div class="ep-synopsis">Valentina builds a wall in her apartment — every tip, every crime, every follower spike. The pattern is undeniable: every tip has driven her growth. Whoever this is, they understand her audience better than she does. She feels sick. She posts a video saying she's done. Her follower count drops 8,000 in one hour.</div>
+        <div class="ep-cliff">A new DM: "They only came for the real ones. You knew that when you posted the first tip. You just haven't admitted it yet."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 04</span>
+          <span class="ep-title">The Audience</span>
+        </div>
+        <div class="ep-synopsis">Valentina starts analyzing her own comment sections. A subset of followers has been there since tip one — same usernames, always the first to comment, always pushing her to go further. She does a deep dive. The accounts were all created the same week her channel launched. All following only her. All with profile photos that — when she reverse image-searches — come back as stock photos of people who don't exist.</div>
+        <div class="ep-cliff">One of the fake accounts has a profile photo she recognizes. It's her neighbor. She looks up from her screen. The light in her neighbor's apartment window goes off.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 05</span>
+          <span class="ep-title">Marco</span>
+        </div>
+        <div class="ep-synopsis">Marco — her editor — tells her she's spiraling. She shows him the accounts. He's quiet for too long. Then he says: "Val. When did I start following your channel?" She checks. The day it launched. She checks his account creation date. His follows list. He only follows her. He looks at her face. "I've been following you since before you launched." "I know," she says. "I don't remember telling you I was starting it." Neither does he.</div>
+        <div class="ep-cliff">Valentina checks her own photos on her phone. Marco appears in the background of 37 of them. She doesn't remember him being there for any of them.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 06</span>
+          <span class="ep-title">The Staging</span>
+        </div>
+        <div class="ep-synopsis">A tip leads Valentina to a storage unit. Inside: production equipment. Fake blood, prosthetics, lighting rigs, remote-triggered sound systems. A monitor with a live feed of — her apartment. And a notebook. She opens it. Every crime scene she's visited. Staged. Every victim: consenting actors, paid in cash, signed NDAs. The crimes were never real. Until the last page, which lists one more location. And next to it — no actor's name. Just hers.</div>
+        <div class="ep-cliff">Her phone buzzes. A DM: "That one is real. I needed you to see the difference."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 07</span>
+          <span class="ep-title">The Real One</span>
+        </div>
+        <div class="ep-synopsis">Valentina goes to the police with the notebook. They take it seriously — for eight hours. Then a detective calls: every actor in the notebook has vanished. No NDAs on file. No payments traceable. No production company registered. The notebook's paper is two weeks old. She is the only person who ever saw what was inside it. The case is closed. The detective says quietly: "Miss Reyes. Stop making content for a while." He hangs up before she can ask why he knows her name.</div>
+        <div class="ep-cliff">Valentina's follower count hits 95,000. She didn't post anything today.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 08</span>
+          <span class="ep-title">The Detective</span>
+        </div>
+        <div class="ep-synopsis">Valentina researches the detective who closed her case. He retired six months ago. She pulls the current department directory — his name isn't there. She calls the station directly. "We have no record of that case being filed." She goes in person. The desk officer looks at her paperwork. His face changes. He makes a call. He comes back and says: "Someone filed this case on your behalf this morning. We don't know who." Valentina asks to see the file. On the last page: a photo of her apartment from inside, taken this morning, while she was home.</div>
+        <div class="ep-cliff">In the photo, clearly visible on her wall: her follower count, live, on her monitor. It reads 99,847.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 09</span>
+          <span class="ep-title">100,000</span>
+        </div>
+        <div class="ep-synopsis">Valentina goes live — not to post content, but to tell her audience the truth. Everything. The tips, the staging, the fake accounts, the detective, the photo. She's shaking. Her audience grows in real time as she talks. Comments flood in: "This is the best one yet." "She's so committed to the bit." "10/10 performance." "I've been watching since the first tip. I knew it was real." "We all knew." Nobody believes her. The authenticity reads as content.</div>
+        <div class="ep-cliff">Her count hits exactly 100,000. The stream cuts out. Every light in her apartment goes off. In the dark: a slow knock at her door. Three times. Measured. Patient.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header paywall">
+          <span class="ep-num">EP 10</span>
+          <span class="ep-title">The Door</span>
+          <span class="paywall-tag">🔒 Paywall</span>
+        </div>
+        <div class="ep-synopsis">Valentina opens the door. Nobody there. But on the floor: a phone. Unlocked. Open to a livestream — of her apartment, from inside, from an angle she can't identify. She can see herself on the screen holding the phone. In the background of the stream, barely visible, a figure in her bedroom doorway. She spins around. Empty. She looks back at the phone. The figure is closer now.</div>
+        <div class="ep-cliff">The stream's viewer count: 847,000. The chat is moving so fast it's unreadable. She looks for one second — and in the blur of comments she catches the same phrase repeated by hundreds of accounts simultaneously: "Don't turn around."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 11</span>
+          <span class="ep-title">The Architect</span>
+        </div>
+        <div class="ep-synopsis">She turns around. It's Marco. He's been in her apartment the whole time — has a key she doesn't remember giving him. He's not threatening. He's crying. "I didn't know what I was agreeing to," he says. "They told me it was a show. That you'd agreed. That you'd signed something." He's been the inside man — placing the hints, timing the tips — genuinely believing it was all staged. He shows her the contract he signed. Her signature is on it. She has never seen this document. It's dated the week before she launched her channel. She picks up her pen to compare signatures. They are identical.</div>
+        <div class="ep-cliff">A DM arrives: "You're both very good. But Marco's part is finished. Tell him to leave." When Valentina looks up, Marco is already at the door. He looks back at her — terrified. "I can't stop," he says. "I've been trying to stop for three months. I can't stop." He walks out.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 12</span>
+          <span class="ep-title">The Final Tip</span>
+        </div>
+        <div class="ep-synopsis">One last DM arrives. A location. A time. No words this time. Just an address — and attached: a photo of Valentina's mother at the grocery store, taken twenty minutes ago. Valentina goes. The location is an empty theater. Every seat taken by a silent audience. On the stage: a single chair, a single camera, a single light. A voice from the dark — no accent, no gender — says: "You've earned this. Sit down. Tell them what you know." She walks to the stage. Sits. Looks at the audience. They're all wearing the same face — the same face from the fake account profile photos. The face of nobody. She looks at the camera. Opens her mouth.</div>
+        <div class="ep-cliff">The stream launches. 2.1 million concurrent viewers. And in the chat, one comment, pinned at the top by the account that started everything, reads: "She's finally ready. Season 2 starts now."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+    </div>
+
+    <div class="viral-box">
+      <div class="label">Viral Moments & Marketing Hooks</div>
+      <div class="viral-item">Episode 4 clip — Valentina realizes the fake account is using her neighbor's face. The light goes off. 10 seconds. Perfect TikTok cut.</div>
+      <div class="viral-item">Episode 9 — her audience refuses to believe she's in danger. Comments say "best content ever." The horror is the audience. Shareable and unsettling.</div>
+      <div class="viral-item">Episode 10 paywall — the comment flood "Don't turn around" can be seeded on TikTok as a standalone clip that ends before the reveal. Irresistible.</div>
+      <div class="viral-item">Meta angle: Pulse posts Valentina's "channel" as a real social media account before launch, building followers for weeks. The show launches and it becomes retroactively terrifying.</div>
+    </div>
+
+    <div class="cards-2">
+      <div class="info-card">
+        <div class="card-label">Season 2 Direction</div>
+        <div class="card-body">Valentina is now fully inside the Architect's system — performing content she doesn't control for an audience that has grown beyond anything she imagined. Season 2 is about her finding the one crack in the architecture: the Architect needs her willing. And she's not.</div>
+      </div>
+      <div class="info-card">
+        <div class="card-label">Why It's Blumhouse</div>
+        <div class="card-body">Low budget (apartment + practical locations), massive concept. The villain is never seen until the last possible moment. The horror is systemic, not supernatural. And the final image — 2.1M people watching — is the most frightening thing in the story.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="story-divider" />
+
+  <!-- ══════════════════════════════════════════ STORY 2 ═══ -->
+  <div class="story-section">
+    <div class="story-number">Pitch 02</div>
+    <div class="story-title">LA ÚLTIMA INQUILINA</div>
+    <div class="story-tagline">"The Last Tenant"&nbsp;&nbsp;—&nbsp;&nbsp;"The apartment was perfect. The price was perfect. The woman who lived here before her was also perfect."</div>
+
+    <div class="meta-row">
+      <span class="meta-tag horror">Horror</span>
+      <span class="meta-tag body">Body Horror</span>
+      <span class="meta-tag latino">Latino Audience</span>
+      <span class="meta-tag social">Identity Horror</span>
+      <span class="meta-tag blum">Blumhouse DNA</span>
+    </div>
+
+    <div class="logline-box">
+      <div class="label">Logline</div>
+      <p>A young woman moves into a suspiciously affordable apartment and begins finding traces of the previous tenant — videos, journals, recordings. As she digs deeper, she realizes she's not just learning what happened to the woman who lived here before. The apartment is <em>remaking her into that woman</em>. And the previous tenant didn't leave. She was erased.</p>
+    </div>
+
+    <div class="blum-box">
+      <div class="label">Blumhouse Pitch Angle</div>
+      <ul>
+        <li>Body horror about identity erasure — what makes you YOU if everything about you can be gradually replaced? Elevated concept with visceral execution.</li>
+        <li>Latino cultural specificity: protagonist is first-generation, moving into her first solo apartment — the milestone that means she made it. The horror is that the achievement consumes her.</li>
+        <li>Comp titles: Black Swan + Parasite + Rosemary's Baby told from the inside.</li>
+        <li>Vertical format advantage: the apartment is the frame. Claustrophobic 9:16 shots of narrow hallways, mirrors, the same rooms from slightly wrong angles as the takeover progresses.</li>
+        <li>Production: one location (the apartment). Costume and makeup carry the transformation. Extremely contained.</li>
+      </ul>
+    </div>
+
+    <div class="cards-3">
+      <div class="info-card">
+        <div class="card-label">Protagonist</div>
+        <div class="card-body"><strong>ISABEL</strong> — 26, Latina, first-generation college grad, starting her first real job. This apartment is what she worked for. She finds the first journal under a loose floorboard on Day 3.</div>
+      </div>
+      <div class="info-card">
+        <div class="card-label">The Previous Tenant</div>
+        <div class="card-body"><strong>NADIA</strong> — seen only in recordings and photos at first. Looked nothing like Isabel. By Episode 6 — looked exactly like Isabel. By Episode 9 — she was Isabel.</div>
+      </div>
+      <div class="info-card">
+        <div class="card-label">The Mechanism</div>
+        <div class="card-body">The apartment itself. The landlord is a collector — not of things, but of people. The building has had 7 previous tenants. None moved out. The building absorbs them. It is now hungry for Isabel.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Season 1 — "Moving In" — Episode Breakdown</div>
+
+    <div class="episode-list">
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 01</span>
+          <span class="ep-title">Move-In Day</span>
+        </div>
+        <div class="ep-synopsis">Isabel signs the lease on her dream apartment — corner unit, natural light, way under market rate. The landlord is charming and warm and says only one strange thing: "The previous tenant left some things. Feel free to throw them out." Isabel finds a box under the bathroom sink. Inside: makeup, hairpins, a journal, and a photograph. The woman in the photograph has brown eyes. Isabel has brown eyes. The same shade. Exactly.</div>
+        <div class="ep-cliff">Isabel puts the photograph on the bathroom shelf without knowing why. She does her makeup looking at it. When she finishes, she and the woman in the photo are holding the mascara wand at the same angle.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div><div class="scare-dot"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 02</span>
+          <span class="ep-title">The Journal</span>
+        </div>
+        <div class="ep-synopsis">Isabel reads the journal. Nadia moved in two years ago. First entries: excited, grateful, the apartment is perfect. Week three: finding things she doesn't remember buying. Week six: coworkers commenting on how she's changed. Week eight: a note in her own handwriting she doesn't remember writing — "Don't look in the closet." Isabel goes to her closet. Behind her coats: scratched into the wall in small, careful letters — the same phrase, repeated hundreds of times, getting smaller and smaller until it's just a dark smear.</div>
+        <div class="ep-cliff">Below the smear: a date. Two years ago. And below that: "She's starting."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 03</span>
+          <span class="ep-title">Small Changes</span>
+        </div>
+        <div class="ep-synopsis">Isabel starts noticing small things. She prefers her coffee differently than she used to. She took a different route to work. She bought a sweater she would never normally wear — finds it in a bag she doesn't remember carrying home. Her best friend calls and says: "You sound different." "Different how?" A pause. "Like someone I don't know. But I like her." Isabel finds Nadia's video diaries on a hidden SD card inside a smoke detector.</div>
+        <div class="ep-cliff">Video entry, Week 7, Nadia on camera: "I keep buying things that aren't for me. Things for a different kind of woman." She holds up a sweater. It's the same sweater Isabel bought this morning.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 04</span>
+          <span class="ep-title">Nadia's Diary</span>
+        </div>
+        <div class="ep-synopsis">Isabel watches all of Nadia's videos in one night. At first Nadia is clearly a different person — different build, different hair color, different energy. By Week 12 of Nadia's videos, the changes are visible. By Week 20 — Nadia looks like Isabel. Not similar. Like her. Same haircut Isabel has had for three years. Same way of tilting her head when she speaks. Same scar on her left hand from a childhood fall Isabel has never told anyone about. Nadia has it too.</div>
+        <div class="ep-cliff">Last video entry, Nadia on camera, fully Isabel's face now, wearing Isabel's exact haircut: "I don't know my name. I know another one. But it doesn't feel like mine anymore." She looks directly at the camera. "If you find this — you're already late."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 05</span>
+          <span class="ep-title">The Landlord</span>
+        </div>
+        <div class="ep-synopsis">Isabel confronts the landlord. He is genuinely warm, genuinely confused. He says Nadia moved out. She has a forwarding address. He gives it to Isabel. The address is a storage unit across the city. Isabel breaks the lock. Inside: clothing — woman after woman, different sizes, different styles, all ending in the same style. Boxes of journals. Dozens of SD cards. Seven women. All of them, by their last entry, wore the same face. A face Isabel recognizes. Not her own. Older. Serene. Not human.</div>
+        <div class="ep-cliff">Isabel finds a photo of the landlord — from thirty years ago. He looks identical to today. Same face. Same warmth. Standing in front of the same building. And next to him: a woman wearing the face.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 06</span>
+          <span class="ep-title">Her Mother Comes to Visit</span>
+        </div>
+        <div class="ep-synopsis">Isabel's mother comes for dinner. Brings food. Has never seen the apartment. She walks in, stops in the doorway, looks around, and says nothing for too long. Isabel: "Mamá. What's wrong?" Her mother puts the food down carefully. Looks at Isabel. "Mija. Your hands." Isabel looks at her hands. She doesn't know when her nails grew this long. She doesn't remember the ring she's wearing. She's never worn rings. Her mother: "Who gave you that?" Isabel looks at the ring. It matches the ring in Nadia's last photo.</div>
+        <div class="ep-cliff">Her mother takes her hands. "We're leaving right now." They get to the front door. Isabel reaches for the handle — and stops. She can't remember why she was going to leave. Her mother watches her face change.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 07</span>
+          <span class="ep-title">The Mirror Test</span>
+        </div>
+        <div class="ep-synopsis">Her mother leaves. Isabel is alone. She goes to the bathroom mirror and does something Nadia's journal described: the mirror test. You describe yourself out loud — name, age, where you grew up, your mother's maiden name, your earliest memory — and you watch your reflection as you do it. If the reflection hesitates before you do, the process is advanced. Isabel speaks. The reflection is a half-second behind her. She finishes the test. Her reflection keeps talking after she stops. It says one more sentence that Isabel did not say.</div>
+        <div class="ep-cliff">She can't hear what her reflection said. But she can read lips. And what it mouthed was: "You only have four days."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 08</span>
+          <span class="ep-title">Finding Nadia</span>
+        </div>
+        <div class="ep-synopsis">Isabel tracks Nadia's real identity through her earliest journal entries — before the apartment started. She finds Nadia's family. Her sister. The sister opens the door and goes absolutely still. "Nadia?" "I'm Isabel. I live in your sister's old apartment." The sister grabs her arm — hard. "You have to get out of there tonight. It took Nadia four days once the reflection test failed." "How do you know about the reflection test?" "Because Nadia told me. Before the last day. She said: whoever comes next, tell them — the apartment doesn't want your body. It wants your name."</div>
+        <div class="ep-cliff">Isabel's phone buzzes. A text from her own number: "She's getting close. Come home."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 09</span>
+          <span class="ep-title">Day Three</span>
+        </div>
+        <div class="ep-synopsis">Isabel doesn't go back. She stays at a hotel. But by morning she's in the apartment. She has no memory of traveling back. She's in her bed, fully dressed, hands folded on her chest, staring at the ceiling. Her phone shows calls made in the night she has no memory of — to her mother, to her boss, to her bank. She checks her bank account. She has transferred every cent to an account she doesn't recognize. Her name on the transfer: not Isabel. A different name. The seventh name. The one the apartment has been building toward.</div>
+        <div class="ep-cliff">She looks in the bathroom mirror. The woman looking back has her face. But when Isabel lifts her left hand, the reflection lifts its right.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header paywall">
+          <span class="ep-num">EP 10</span>
+          <span class="ep-title">Day Four</span>
+          <span class="paywall-tag">🔒 Paywall</span>
+        </div>
+        <div class="ep-synopsis">Isabel's mother arrives at the apartment, screaming, pounding the door. Isabel opens it. Her mother takes one look at her face and goes silent. Backs away. "Mija. Your eyes." Isabel doesn't understand. Her mother holds up her phone — camera facing Isabel. Isabel looks at the screen. Her eyes are the wrong color. A pale gray that isn't hers. The woman in the storage unit photos. The face. The one that collects. Her mother is crying and saying her name over and over and Isabel can hear it but the name sounds foreign now. Like a word in a language she used to speak.</div>
+        <div class="ep-cliff">Isabel looks at the camera. Then looks at her mother. And with extraordinary effort — like speaking underwater — says: "Mamá. Run." Her mother runs. The door swings shut on its own. The locks click. One by one. Isabel turns back to the mirror. The face looking back smiles. Isabel is not smiling.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 11</span>
+          <span class="ep-title">What's Left</span>
+        </div>
+        <div class="ep-synopsis">Isabel — what's left of her — finds Nadia's final instruction buried in the journal's back cover: a name. Not a person. A word. In an older language. "Say the name out loud in the room where it started." The bathroom. Isabel claws back enough of herself to walk to the bathroom. The reflection is fully the other thing now — not pretending anymore. Isabel stands in front of it and opens her mouth. She says the name. The mirror cracks. The apartment shudders. From inside the walls: screaming. Seven voices. All at once. The landlord pounds the door: "What have you done? WHAT HAVE YOU DONE?"</div>
+        <div class="ep-cliff">The screaming stops. The mirror is dark. Isabel looks at her hands. Her nails are her length. The ring is on the floor. She touches her face. Her eyes — she doesn't have a mirror anymore. She doesn't know what color they are.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 12</span>
+          <span class="ep-title">The New Listing</span>
+        </div>
+        <div class="ep-synopsis">Six weeks later. The apartment is listed again. Same photos. Same price. Isabel is alive — mostly herself, enough that her mother holds her hand at dinner without hesitation. But she doesn't look in mirrors. She moved back home. She drives past her old building once and sees the light on in the corner unit — her unit. A figure at the window. Not looking out. Looking in. At something inside the apartment. She drives faster. That night, she posts one video — no intro, no branding, no music. Just her face. She says: "I lived at 1447 Carretera. If you're looking at that apartment — don't. Leave this city. I can't explain it. Please don't make me explain it." She posts it. Goes to sleep.</div>
+        <div class="ep-cliff">By morning the video has 11 million views. The top comment, posted 4 minutes after she uploaded, from an account created that same night: "Too late. I already signed the lease." And below it: a photo of Isabel's old apartment. The box under the bathroom sink. Her journal inside it. Her photo on top.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+    </div>
+
+    <div class="viral-box">
+      <div class="label">Viral Moments & Marketing Hooks</div>
+      <div class="viral-item">Episode 4 — Nadia's last video. The woman with Isabel's face, Isabel's scar, saying "you're already late." Clip this at 20 seconds. Terrifying. Shareable.</div>
+      <div class="viral-item">Episode 7 — the mirror test. The reflection keeps talking after she stops. TikTok already has a "mirror test" trend — this hijacks and weaponizes it.</div>
+      <div class="viral-item">Episode 10 — "Mamá. Run." Two words. The door closing. Devastating and horrifying simultaneously. Highest-share moment of the season.</div>
+      <div class="viral-item">Marketing: post the building's "listing" as a real real estate listing on social, with real photos. Let people find it before launch.</div>
+      <div class="viral-item">Latino audience specific: First-generation housing anxiety + brujería-adjacent horror + the specific terror of something claiming your identity is deeply culturally resonant.</div>
+    </div>
+
+    <div class="cards-2">
+      <div class="info-card">
+        <div class="card-label">Season 2 Direction</div>
+        <div class="card-body">The new tenant has signed the lease. Isabel, watching from outside, has to decide: warn her (and be ignored, as she was ignored) or go back in. The horror of Season 2 is that Isabel is now the journal. She is Nadia. She is the warning that wasn't enough.</div>
+      </div>
+      <div class="info-card">
+        <div class="card-label">Why It's Blumhouse</div>
+        <div class="card-body">Identity horror is Blumhouse's highest-performing sub-genre (Get Out, Us, M3GAN). This is body horror without a monster — the apartment is the monster. And the final reveal (her journal is already in the box for the next tenant) closes the loop perfectly for a sequel machine.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="story-divider" />
+
+  <!-- ══════════════════════════════════════════ STORY 3 ═══ -->
+  <div class="story-section">
+    <div class="story-number">Pitch 03</div>
+    <div class="story-title">LO QUE GUARDÓ LA ABUELA</div>
+    <div class="story-tagline">"What Grandma Kept"&nbsp;&nbsp;—&nbsp;&nbsp;"She didn't lock the door to keep it in. She locked it to keep you out."</div>
+
+    <div class="meta-row">
+      <span class="meta-tag horror">Horror</span>
+      <span class="meta-tag family">Family Horror</span>
+      <span class="meta-tag latino">Latino Audience</span>
+      <span class="meta-tag social">Generational Trauma</span>
+      <span class="meta-tag blum">Blumhouse DNA</span>
+    </div>
+
+    <div class="logline-box">
+      <div class="label">Logline</div>
+      <p>After their grandmother dies, three adult siblings return to her remote house to clean it out — and discover she spent forty years not keeping something <em>inside</em>, but keeping something <em>out</em>. Without Grandma's rituals, her prayers, her locked doors and her vigilance, the barrier is failing. And whatever she held back for forty years is extraordinarily patient and deeply personal. It knows all their names. It has always known their names.</p>
+    </div>
+
+    <div class="blum-box">
+      <div class="label">Blumhouse Pitch Angle</div>
+      <ul>
+        <li>Hereditary + The Witch + a telenovela. Generational trauma as literal monster. The grandmother's sacrifice was real — and now her children have to decide if they're willing to continue it.</li>
+        <li>Latino cultural specificity: curandera tradition, folk Catholicism, the specific grief of cleaning out a parent's home, the thing in the house that the family "doesn't talk about." Every Latino family has one.</li>
+        <li>Three siblings = three audience identification points. The skeptic (son), the believer (eldest daughter), the one who doesn't understand what side she's on yet (youngest).</li>
+        <li>Comp titles: Hereditary + The Witch + La Llorona (2019).</li>
+        <li>Production: one location (the house). Night-dominant shooting. Practical effects + atmosphere over gore. The horror is dread, not spectacle — until it isn't.</li>
+      </ul>
+    </div>
+
+    <div class="cards-3">
+      <div class="info-card">
+        <div class="card-label">The Siblings</div>
+        <div class="card-body"><strong>ROSA</strong> (eldest, 38, the believer, stayed close to grandma), <strong>DANIEL</strong> (35, the skeptic, left as soon as he could, hasn't been back in 12 years), <strong>LUCIA</strong> (28, the youngest, barely knew grandma, came because Rosa called).</div>
+      </div>
+      <div class="info-card">
+        <div class="card-label">The House</div>
+        <div class="card-body">Remote, old, full of grandma's rituals — salt lines, herbs, specific furniture never moved. The locked room no one has ever entered. The basement door sealed with something that isn't a lock. The garden that grew in a perfect circle and nothing entered it.</div>
+      </div>
+      <div class="info-card">
+        <div class="card-label">What It Wants</div>
+        <div class="card-body">Not to escape. It was never trapped. It was invited, once, forty years ago, and grandma spent every year since then negotiating the terms. The negotiation is over now. It wants what was promised: the youngest daughter of every generation. It wants Lucia.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Season 1 — "La Casa de Abuela" — Episode Breakdown</div>
+
+    <div class="episode-list">
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 01</span>
+          <span class="ep-title">The Will</span>
+        </div>
+        <div class="ep-synopsis">Three siblings arrive at the house for the first time since the funeral. Rosa has the keys, Daniel has the skepticism, Lucia has a sense that something is wrong she can't articulate. The lawyer reads the will: the house and everything in it goes to Rosa — with one condition, read from a sealed letter grandma left: "Do not open the room with the blue door. Do not move the salt. Do not let Lucia sleep in the house." Lucia asks: "Why not me?" The lawyer says: "She didn't explain."</div>
+        <div class="ep-cliff">That night, Lucia sleeps in the house. Rosa didn't tell her not to. In the morning, Lucia comes to breakfast and says: "I had the most beautiful dream. Someone called my name all night. A woman's voice. She said she'd been waiting for me."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 02</span>
+          <span class="ep-title">The Salt Lines</span>
+        </div>
+        <div class="ep-synopsis">Rosa finds grandma's notebooks. Every day, for forty years: the rituals. Salt replaced at specific thresholds. Certain herbs burned at dawn and dusk. The blue door checked — never opened, just checked, locked confirmed. The notebooks are meticulous, obsessive, and completely sane in their logic. Daniel cleans the kitchen and sweeps the salt. Rosa finds out. They fight. Daniel: "It's superstition, Rosa. She was unwell." That night, the kitchen door opens on its own. Something walks through it. They hear footsteps. Nothing is there.</div>
+        <div class="ep-cliff">Rosa replaces the salt. In the morning, there are footprints in it — leading in from the threshold. They stop at the kitchen table. At the chair Lucia always sits in.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 03</span>
+          <span class="ep-title">The Blue Door</span>
+        </div>
+        <div class="ep-synopsis">The siblings find grandma's correspondence — letters from a priest who visited the house decades ago, who described what he saw in terms he clearly struggled to find. His last letter says only: "She made a bargain and the terms were clear. She kept it for forty years. God willing, her children will continue it. If not — pray for the youngest." Lucia reads this over Rosa's shoulder. "The youngest. That's me." She looks at the blue door at the end of the hallway. "I want to open it." Rosa says: "No." Lucia says: "It's calling me, Rosa. I can hear it. Can't you hear it?"</div>
+        <div class="ep-cliff">Rosa listens. Then, very quietly: "Yes. I can hear it." Daniel, from the other room: "I can hear it too." They look at each other. They are not reassured. Whatever is behind that door has gotten louder.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 04</span>
+          <span class="ep-title">What the Neighbor Knows</span>
+        </div>
+        <div class="ep-synopsis">An elderly neighbor, Señora Vega, comes to pay her respects. She's known the family for fifty years. The siblings ask her what she knows. She tells them: forty years ago, Grandma Rosa (the siblings' grandmother — Rosa was named for her) did something that the town has never talked about out loud. Her youngest daughter — the siblings' aunt, who they'd been told died young — didn't die. She went through the blue door. Willingly. And grandma spent the next forty years making sure nobody else had to.</div>
+        <div class="ep-cliff">Lucia: "What was my aunt's name?" The neighbor goes very still. Looks at Lucia for a long time. "Her name was Lucia."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 05</span>
+          <span class="ep-title">The First Night Without the Rituals</span>
+        </div>
+        <div class="ep-synopsis">Daniel has been systematically dismantling the rituals — not out of cruelty, out of grief-driven practicality. Tonight is the first night without any of them in place. The siblings sleep. At 3 AM, Rosa wakes to find Lucia standing in the hallway, facing the blue door, hand outstretched. Rosa grabs her. Lucia's hand is cold — not slightly cold, wrong cold. She's walking in her sleep, Rosa tells herself. Then Lucia says, in her sleep: "She says to tell you she's been patient but patience has a door and you can open it or it will open itself."</div>
+        <div class="ep-cliff">Rosa pulls Lucia away. They go back to bed. In the morning, there is a handprint on the blue door. From the inside.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 06</span>
+          <span class="ep-title">Daniel Sees Something</span>
+        </div>
+        <div class="ep-synopsis">Daniel, the skeptic, goes to the basement alone to prove it to himself. He films on his phone. The basement is exactly what a basement should be — stone walls, old furniture, nothing strange. He turns to leave. In the footage, which he watches afterward, something is visible in the corner behind him the entire time he was in the basement. It has Grandma's shape. It has Grandma's posture. It's watching him with an expression he's seen before — the look she gave him when he did something dangerous as a child and hadn't realized it yet.</div>
+        <div class="ep-cliff">Daniel watches the footage three more times. The fourth time, the figure in the corner isn't there. He watches the fifth time. Now it's standing next to him.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 07</span>
+          <span class="ep-title">What Grandma Left</span>
+        </div>
+        <div class="ep-synopsis">A sealed package arrives — mailed by Grandma three days before she died, addressed to Rosa. Inside: a cassette tape. They find a player. Grandma's voice — clear and calm. "If you're listening to this, I'm gone. I kept the bargain as long as I could. The terms: one Lucia, one generation. I gave her mine. Now it wants yours. You cannot fight it with what you know. You need what I know. The blue room — don't open the door. Open the floor. Beneath the left corner: what you need." She pauses. "Tell Lucia I'm sorry. Tell her she was chosen because she's strong enough. Not all of them are. She is."</div>
+        <div class="ep-cliff">Rosa goes to the blue door. She does not open it. She opens the floor at the left corner. Inside: a box. She opens the box. Her face goes white.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 08</span>
+          <span class="ep-title">What's in the Box</span>
+        </div>
+        <div class="ep-synopsis">A second set of notebooks. These ones older, not grandma's handwriting — her mother's, the great-grandmother. And inside: the original bargain. Written in ink that doesn't look right. The terms: the entity gets access to the house and to the family in exchange for the family's safety, health, and prosperity. Signed — the great-grandmother's name in ink. And below it, in the same ink, a second signature the great-grandmother could never have written: Lucía. 1921. Three generations of youngest daughters named Lucia. All given. Lucia looks at her siblings. "So grandma's been feeding it me? Every generation, a girl named Lucia—" Rosa: "Grandma REFUSED to give you. That's why she spent forty years on the rituals. She was breaking the contract." Lucia: "Did it work?" A pause. "Rosa. Did it WORK?"</div>
+        <div class="ep-cliff">From the blue door, clearly now, a voice they all recognize. Grandma's voice. Saying Lucia's name. Gently. The way she called her for dinner as a child. "Lucía. Ven. Ya es tiempo."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 09</span>
+          <span class="ep-title">The Third Option</span>
+        </div>
+        <div class="ep-synopsis">The notebooks have one final section — grandma's own writing, the last entry, written on the day she died. "There is a third option. The original contract was signed with blood and can only be ended with blood — not a new death, but a revelation of the line. If every living member of the family speaks their name at the threshold simultaneously, and the youngest is the last to speak, the contract is void. The entity loses claim. It will not go quietly. But it will go." Rosa reads this to her siblings. Daniel: "That's it? We just say our names?" Lucia: "On the threshold of the blue door." She looks at the door. "I have to be last." Rosa takes her hand. Daniel takes the other. They walk to the door.</div>
+        <div class="ep-cliff">They stand at the threshold. Rosa speaks her name. Daniel speaks his. They both look at Lucia. From behind the door: grandma's voice, lower now, different: "Don't." Not a warning. An order. Not to protect Lucia. To protect itself.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header paywall">
+          <span class="ep-num">EP 10</span>
+          <span class="ep-title">Lucia Speaks</span>
+          <span class="paywall-tag">🔒 Paywall</span>
+        </div>
+        <div class="ep-synopsis">The house shakes when Lucia says her name. The blue door splinters — not inward, outward — and what comes through is grandma's shape but not grandma, wearing her face like clothing that doesn't fit, hands wrong, voice wrong underneath the voice they recognize. It reaches for Lucia. Rosa steps between them. Daniel grabs something from the shelf — grandma's rosary, the one she never let them touch — and throws it at the thing. It stops. Screams. Not grandma's voice anymore. Something older and furious. The walls crack. The salt lines along every threshold ignite — blue, brief, burning. The thing turns toward the door.</div>
+        <div class="ep-cliff">Lucia steps forward. Speaks her name a second time — not the family name, not the baptismal name. A third name. One she's never been called, one she didn't know she had. The thing freezes. Then, very quietly, falls apart. What's left on the floor is a shape that was never a person. And one more thing: grandma's hand, real, warm, already fading, squeezing Lucia's. Then gone.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 11</span>
+          <span class="ep-title">The Morning After</span>
+        </div>
+        <div class="ep-synopsis">Dawn. The house is quiet — different-quiet, not held-breath-quiet. The garden circle is broken. Things are growing outside it that didn't grow before. The blue door is open. The siblings stand in the doorway and look inside. An empty room. White walls. A small window they never knew was there. On the windowsill: a photograph they've never seen — grandma as a young woman, laughing, with a little girl they don't recognize. On the back: "Mi Lucía. Before. 1952." Her Lucia. The first one. Who chose to go. Who was, apparently, happy about it.</div>
+        <div class="ep-cliff">Lucia looks at the photograph for a long time. Then turns to Rosa. "What was the third name I said? I don't remember saying it. I don't know where it came from." Rosa looks at her. "I don't know. I've never heard it." A pause. "But Grandma knew it. She must have known it." Lucia looks at the photograph. "She knew everything she needed to know to protect me. She just never told me what my own name was."</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot"></div></div>
+      </div>
+
+      <div class="ep">
+        <div class="ep-header">
+          <span class="ep-num">EP 12</span>
+          <span class="ep-title">The New Keeper</span>
+        </div>
+        <div class="ep-synopsis">The siblings decide not to sell. Rosa moves in — alone, by choice, without rituals, because the contract is void. She is, in the quiet of the house on her first night, happy. Then she finds one more notebook she missed. Grandma's last one — not the sealed package, a different one, hidden in the lining of her coat. Rosa opens it. The first entry is dated forty years ago: "The contract is broken but the land remembers. The entity is gone. But I felt it when it left — it was not the only one. It was the youngest of what lives here. There are older things. Patient things. Things that saw the first bargain and have been watching ever since to see if this family was worth approaching. Today Rosa moved in. The house will show her what it is in time. She will be ready. She is our family, after all."</div>
+        <div class="ep-cliff">Rosa reads this. Sets the notebook down. Looks around the quiet house. Then — from the floor above, from the room that was always locked — a sound she has never heard before. Not threatening. Not the voice. Something new. Something that has been waiting politely, for forty years, to introduce itself.</div>
+        <div class="scare-scale"><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div><div class="scare-dot on"></div></div>
+      </div>
+
+    </div>
+
+    <div class="viral-box">
+      <div class="label">Viral Moments & Marketing Hooks</div>
+      <div class="viral-item">Episode 4 — "Her name was Lucia." The neighbor's face. Full stop. Best single cliffhanger of the season. Clip ends there. Nothing more needed.</div>
+      <div class="viral-item">Episode 8 — The original contract. Three generations. "Lucía. 1921." The generational horror lands like a gut punch and is deeply shareable with Latin American audiences who will recognize the tradition of the "trato."</div>
+      <div class="viral-item">Episode 10 paywall — grandma's hand, real and warm, squeezing Lucia's and then fading. Terror + grief in the same moment. The most powerful emotional beat of the season.</div>
+      <div class="viral-item">Marketing: partner with Latino horror content creators for the launch. This is a story made specifically for audiences who grew up with this mythology — not appropriating it, inhabiting it.</div>
+      <div class="viral-item">Season 2 tease: the thing that introduces itself in the final scene. What is it? The audience will not be able to stop speculating. Every Latino viewer has a theory immediately.</div>
+    </div>
+
+    <div class="cards-2">
+      <div class="info-card">
+        <div class="card-label">Season 2 Direction</div>
+        <div class="card-body">Rosa in the house alone. Something older and stranger than the first entity begins its introduction. Unlike the first one, this thing is not hostile — it's curious. The horror of Season 2 is that Rosa begins to enjoy the conversations. And the thing knows things about her family that grandma never wrote down.</div>
+      </div>
+      <div class="info-card">
+        <div class="card-label">Why It's Blumhouse</div>
+        <div class="card-body">Blumhouse's best work is about families who can't escape their inheritance (Hereditary, The Invisible Man, Insidious). This is that — but specifically Latino, specifically about the cost of protection, and ending not on destruction but on the terrifying question of what comes next. Jason Blum has been explicit about wanting culturally specific horror. This is it.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.5rem;padding:1rem 1.25rem;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.25);border-radius:8px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#f87171;margin-bottom:4px">&#9760; Full Production Scripts</div>
+        <div style="font-size:0.8rem;color:#7a7a9a">2 seasons · 12 episodes each · 60–90s · Print-ready for editors</div>
+      </div>
+      <div style="display:flex;gap:0.5rem">
+        <a href="scripts/abuela-s1.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.35);border-radius:7px;padding:0.5rem 1rem;font-size:0.78rem;font-weight:700;text-decoration:none">Season 1 &#8594;</a>
+        <a href="scripts/abuela-s2.html" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.35);border-radius:7px;padding:0.5rem 1rem;font-size:0.78rem;font-weight:700;text-decoration:none">Season 2 &#8594;</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

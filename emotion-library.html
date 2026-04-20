@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emotion Library — Pulse × Atlas</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0b0f;
+      --surface: #13151f;
+      --surface2: #1c1f2e;
+      --border: #252840;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --text: #e8eaf6;
+      --muted: #7b7f9a;
+      --green: #34d399;
+      --yellow: #fbbf24;
+      --red: #f87171;
+      --blue: #60a5fa;
+      --pink: #f472b6;
+      --orange: #fb923c;
+      --teal: #2dd4bf;
+      --crimson: #e11d48;
+      --gold: #d97706;
+
+      /* Emotion colors */
+      --fear:      #7c3aed;
+      --grief:     #0ea5e9;
+      --romance:   #ec4899;
+      --triumph:   #f59e0b;
+      --suspense:  #1e3a5f;
+      --surprise:  #10b981;
+      --tender:    #f43f5e;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .back-link { font-size: 0.83rem; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: color 0.15s; }
+    .back-link:hover { color: var(--text); }
+    .header-center { font-size: 1rem; font-weight: 700; }
+    .header-center span { color: var(--crimson); }
+    .header-badge { font-size: 0.7rem; background: rgba(225,29,72,0.12); color: var(--crimson); border: 1px solid rgba(225,29,72,0.25); padding: 3px 10px; border-radius: 20px; font-weight: 600; letter-spacing: 0.04em; }
+
+    /* ── PAGE ── */
+    .page { max-width: 1180px; margin: 0 auto; padding: 2.5rem 2rem 6rem; }
+
+    /* ── HERO ── */
+    .hero { margin-bottom: 3rem; }
+    .hero-eyebrow { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--crimson); margin-bottom: 0.75rem; }
+    .hero h1 { font-size: 2.4rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 0.75rem; }
+    .hero h1 em { font-style: normal; color: var(--crimson); }
+    .hero p { font-size: 0.95rem; color: var(--muted); max-width: 680px; line-height: 1.65; margin-bottom: 1.25rem; }
+    .hero-meta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-tag { font-size: 0.72rem; font-weight: 600; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border); color: var(--muted); background: var(--surface); }
+
+    /* ── EMOTION NAV ── */
+    .emotion-nav {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+      margin-bottom: 3rem; padding: 1.25rem;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    }
+    .enav-btn {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.45rem 0.9rem; border-radius: 8px; border: 1px solid var(--border);
+      font-size: 0.8rem; font-weight: 600; cursor: pointer; background: var(--surface2);
+      color: var(--muted); text-decoration: none; transition: all 0.15s;
+    }
+    .enav-btn:hover { color: var(--text); border-color: var(--accent2); }
+    .enav-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── SECTION HEADER ── */
+    .sec-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.25rem; }
+
+    /* ── EMOTION BLOCK ── */
+    .emotion-block {
+      margin-bottom: 4rem;
+      scroll-margin-top: 80px;
+    }
+    .emotion-header {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.5rem 1.75rem;
+      border-radius: 16px 16px 0 0;
+      border: 1px solid transparent;
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    .emotion-num {
+      font-size: 2.5rem; font-weight: 900; letter-spacing: -0.06em;
+      opacity: 0.18; line-height: 1; flex-shrink: 0;
+    }
+    .emotion-label-group { flex: 1; }
+    .emotion-name { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; }
+    .emotion-subtitle { font-size: 0.82rem; opacity: 0.7; margin-top: 0.3rem; }
+    .emotion-share-badge {
+      font-size: 0.7rem; font-weight: 700; padding: 4px 12px;
+      border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+    }
+
+    .emotion-body {
+      border: 1px solid;
+      border-top: none;
+      border-radius: 0 0 16px 16px;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    /* tabs inside emotion block */
+    .etab-nav {
+      display: flex; border-bottom: 1px solid;
+      background: rgba(0,0,0,0.2);
+    }
+    .etab-btn {
+      padding: 0.7rem 1.25rem; font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; border: none; background: none; color: var(--muted);
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+      transition: all 0.15s; letter-spacing: 0.03em;
+    }
+    .etab-btn.active { color: var(--text); }
+    .etab-content { padding: 1.5rem 1.75rem; display: none; }
+    .etab-content.active { display: block; }
+
+    /* ── NEURO BOX ── */
+    .neuro-box {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem; margin-bottom: 1.25rem;
+    }
+    @media (max-width:800px) { .neuro-box { grid-template-columns: 1fr; } }
+    .neuro-card { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+    .neuro-card-title { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.5rem; }
+    .neuro-card-body { font-size: 0.82rem; color: var(--text); line-height: 1.55; }
+
+    /* ── SCENE CARDS ── */
+    .scenes-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+    .scene-card {
+      background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+    .scene-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; }
+    .scene-title { font-size: 0.9rem; font-weight: 700; }
+    .scene-film { font-size: 0.72rem; color: var(--muted); font-style: italic; white-space: nowrap; }
+    .scene-why { font-size: 0.81rem; color: var(--muted); line-height: 1.55; }
+    .scene-mechanic {
+      margin-top: 0.5rem; font-size: 0.72rem; font-weight: 600;
+      background: rgba(255,255,255,0.04); border-radius: 5px; padding: 4px 10px;
+      display: inline-block; color: var(--muted); border: 1px solid var(--border);
+    }
+
+    /* ── TRIGGERS LIST ── */
+    .triggers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    @media (max-width:700px) { .triggers-grid { grid-template-columns: 1fr; } }
+    .trigger-item {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.75rem 1rem;
+    }
+    .trigger-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .trigger-label { font-size: 0.82rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .trigger-desc { font-size: 0.76rem; color: var(--muted); line-height: 1.45; }
+
+    /* ── PROMPT BLOCK ── */
+    .prompt-block {
+      background: #080a10; border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.25rem; margin-bottom: 1rem; position: relative;
+    }
+    .prompt-block pre {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.78rem; line-height: 1.7; color: #b8c4d8;
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .prompt-label {
+      font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.75rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .copy-btn {
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      border-radius: 5px; padding: 3px 10px; font-size: 0.65rem;
+      color: var(--muted); cursor: pointer; transition: all 0.15s;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.12); color: var(--text); }
+    .prompt-note { font-size: 0.75rem; color: var(--muted); line-height: 1.5; margin-top: 0.75rem; font-style: italic; }
+
+    /* ── SCRIPT BEAT ── */
+    .beat-list { display: flex; flex-direction: column; gap: 0.5rem; counter-reset: beat; }
+    .beat-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.85rem 1rem; counter-increment: beat;
+    }
+    .beat-num {
+      width: 22px; height: 22px; border-radius: 6px;
+      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 700; flex-shrink: 0; color: var(--muted);
+    }
+    .beat-label { font-size: 0.82rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .beat-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .beat-time { font-size: 0.65rem; color: var(--muted); font-family: monospace; }
+
+    /* ── GEN Z FEAR MODULE ── */
+    .genz-module {
+      background: linear-gradient(135deg, #0d0a1a 0%, #120814 100%);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 16px; padding: 2rem; margin-bottom: 4rem;
+    }
+    .genz-header { margin-bottom: 1.5rem; }
+    .genz-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fear); margin-bottom: 0.5rem; }
+    .genz-title { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.03em; }
+    .genz-sub { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.5; }
+    .fear-taxonomy { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .fear-card {
+      background: rgba(0,0,0,0.4); border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 12px; padding: 1.25rem;
+    }
+    .fear-card-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem; }
+    .fear-icon { font-size: 1.3rem; }
+    .fear-name { font-size: 0.9rem; font-weight: 700; }
+    .fear-intensity { display: flex; gap: 2px; margin-left: auto; }
+    .fear-pip { width: 6px; height: 6px; border-radius: 50%; background: rgba(124,58,237,0.25); }
+    .fear-pip.filled { background: var(--fear); }
+    .fear-body { font-size: 0.8rem; color: var(--muted); line-height: 1.55; margin-bottom: 0.75rem; }
+    .fear-example { font-size: 0.73rem; color: rgba(167,139,250,0.8); font-style: italic; }
+    .fear-atlas-tag {
+      display: inline-block; margin-top: 0.5rem;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.05em;
+      background: rgba(124,58,237,0.12); color: #a78bfa;
+      border: 1px solid rgba(124,58,237,0.25); border-radius: 4px; padding: 2px 8px;
+    }
+
+    /* ── SCENE BREAKDOWN TOOL ── */
+    .breakdown-tool {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+      padding: 2rem; margin-bottom: 4rem;
+    }
+    .breakdown-steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.25rem; }
+    .breakdown-step {
+      background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem;
+    }
+    .breakdown-step-num {
+      width: 32px; height: 32px; border-radius: 9px;
+      background: var(--surface2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 800; margin-bottom: 0.75rem;
+      color: var(--accent2);
+    }
+    .breakdown-step-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .breakdown-step-body { font-size: 0.78rem; color: var(--muted); line-height: 1.55; }
+    .breakdown-step ul { padding-left: 1rem; margin-top: 0.4rem; }
+    .breakdown-step li { margin-bottom: 0.2rem; }
+
+    /* ── SHARING TABLE ── */
+    .share-table {
+      width: 100%; border-collapse: collapse; font-size: 0.83rem;
+      background: var(--surface); border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .share-table th {
+      background: var(--surface2); padding: 0.65rem 1rem; text-align: left;
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--muted); border-bottom: 1px solid var(--border);
+    }
+    .share-table td { padding: 0.75rem 1rem; border-bottom: 1px solid rgba(37,40,64,0.5); vertical-align: middle; }
+    .share-table tr:last-child td { border-bottom: none; }
+    .share-bar { height: 6px; border-radius: 3px; display: inline-block; }
+
+    /* ── CALLOUT ── */
+    .callout { border-radius: 12px; padding: 1.1rem 1.4rem; margin: 1rem 0; border-left: 3px solid; }
+    .callout-purple { background: rgba(124,58,237,0.07); border-color: var(--fear); }
+    .callout-orange { background: rgba(251,146,60,0.07); border-color: var(--orange); }
+    .callout-red    { background: rgba(225,29,72,0.07); border-color: var(--crimson); }
+    .callout-title  { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4rem; }
+    .callout p, .callout li { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+    .callout ul { padding-left: 1rem; }
+    .callout strong { color: var(--text); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    footer { border-top: 1px solid var(--border); padding: 1.25rem 2rem; text-align: center; font-size: 0.73rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="back-link" href="index.html">&#8592; Home</a>
+  <div class="header-center">Pulse <span>×</span> Atlas — Emotion Library</div>
+  <span class="header-badge">Living Document · v1 · Mar 2026</span>
+</header>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Cinematic Intelligence · Pulse × Atlas Pictures</div>
+    <h1>The <em>Emotion</em> Library</h1>
+    <p>A reverse-engineered map of the emotions that make audiences stay, cry, scream, and share — drawn from 80 years of cinema history and the latest neuroscience. Each entry includes the neurological trigger, the cinematic mechanics, reference scenes, a script beat template, and a copy-paste AI prompt structure. This is the infrastructure behind every script and every prompt we write.</p>
+    <div class="hero-meta">
+      <span class="hero-tag">7 Core Emotions</span>
+      <span class="hero-tag">40+ Reference Scenes</span>
+      <span class="hero-tag">Gen Z Fear Module</span>
+      <span class="hero-tag">AI Prompt Templates</span>
+      <span class="hero-tag">Script Beat Templates</span>
+      <span class="hero-tag">Scene Breakdown Tool</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="emotion-nav">
+    <a class="enav-btn" href="#fear"><span class="enav-dot" style="background:#7c3aed"></span>Fear / Dread</a>
+    <a class="enav-btn" href="#grief"><span class="enav-dot" style="background:#0ea5e9"></span>Grief / Catharsis</a>
+    <a class="enav-btn" href="#romance"><span class="enav-dot" style="background:#ec4899"></span>Romantic Tension</a>
+    <a class="enav-btn" href="#triumph"><span class="enav-dot" style="background:#f59e0b"></span>Triumph / Revenge</a>
+    <a class="enav-btn" href="#suspense"><span class="enav-dot" style="background:#60a5fa"></span>Suspense / Dread</a>
+    <a class="enav-btn" href="#surprise"><span class="enav-dot" style="background:#10b981"></span>Surprise / Revelation</a>
+    <a class="enav-btn" href="#tender"><span class="enav-dot" style="background:#f43f5e"></span>Tenderness</a>
+    <a class="enav-btn" href="#genz" style="border-color:rgba(124,58,237,0.4);color:#a78bfa">&#128123; Gen Z Fears</a>
+    <a class="enav-btn" href="#breakdown">&#9881; Scene Breakdown Tool</a>
+    <a class="enav-btn" href="#viral">&#128257; Viral Share Data</a>
+    <a class="enav-btn" href="#shotgrammar">&#127909; 8-Point Shot Grammar</a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ EMOTION 1: FEAR -->
+  <div class="emotion-block" id="fear">
+    <div class="emotion-header" style="background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(109,40,217,0.05));border-color:rgba(124,58,237,0.3)">
+      <div class="emotion-num" style="color:#7c3aed">01</div>
+      <div class="emotion-label-group">
+        <div class="emotion-name" style="color:#a78bfa">Fear / Dread</div>
+        <div class="emotion-subtitle" style="color:rgba(167,139,250,0.7)">Amygdala hijack · Fight-or-flight · The anticipation of harm</div>
+      </div>
+      <div class="emotion-share-badge" style="background:rgba(124,58,237,0.12);color:#a78bfa;border:1px solid rgba(124,58,237,0.25)">Viral Share: #3 · Retention: #1</div>
+    </div>
+    <div class="emotion-body" style="border-color:rgba(124,58,237,0.2)">
+      <div class="etab-nav" style="border-color:rgba(124,58,237,0.15)">
+        <button class="etab-btn active" onclick="showTab(this,'fear-neuro')" style="--active-color:#a78bfa">Neuroscience</button>
+        <button class="etab-btn" onclick="showTab(this,'fear-scenes')">Reference Scenes</button>
+        <button class="etab-btn" onclick="showTab(this,'fear-triggers')">Cinematic Triggers</button>
+        <button class="etab-btn" onclick="showTab(this,'fear-beat')">Script Beat</button>
+        <button class="etab-btn" onclick="showTab(this,'fear-prompt')">AI Prompt Template</button>
+      </div>
+
+      <div class="etab-content active" id="fear-neuro">
+        <div class="neuro-box">
+          <div class="neuro-card">
+            <div class="neuro-card-title">What Fires</div>
+            <div class="neuro-card-body">The <strong>amygdala</strong> triggers before the conscious mind registers the threat. Cortisol + adrenaline spike. Heart rate increases 15–35 BPM. This happens faster than thought — which is why horror works even when we "know it's fake."</div>
+          </div>
+          <div class="neuro-card">
+            <div class="neuro-card-title">Why We Enjoy It</div>
+            <div class="neuro-card-body"><strong>Excitation transfer</strong>: the arousal from fear transfers to relief/pleasure once the threat passes. The brain rewards itself for surviving. Dopamine follows the cortisol. Safe fear is the most efficient emotional rollercoaster available.</div>
+          </div>
+          <div class="neuro-card">
+            <div class="neuro-card-title">The Infrasound Factor</div>
+            <div class="neuro-card-body">Frequencies below 20Hz (especially <strong>18–19Hz</strong>) cause irrational unease, eye vibration, and peripheral visual distortion. Used deliberately in The Shining, Paranormal Activity, Hereditary. Audiences feel dread without knowing why.</div>
+          </div>
+        </div>
+        <div class="callout callout-purple">
+          <div class="callout-title">Key Insight: Dread Beats Jump Scares</div>
+          <p>Jump scares spike then crash. <strong>Sustained dread — knowing something is wrong before anything happens</strong> — keeps cortisol elevated for minutes, not seconds. The Shining's long tracking shots down empty corridors are more frightening than any jump scare in the film. Build the wrongness. Delay the payoff.</p>
+        </div>
+      </div>
+
+      <div class="etab-content" id="fear-scenes">
+        <div class="scenes-grid">
+          <div class="scene-card">
+            <div class="scene-head">
+              <div class="scene-title">The Bathroom Scene — "Here's Johnny"</div>
+              <div class="scene-film">The Shining (1980)</div>
+            </div>
+            <div class="scene-why">Kubrick shoots Wendy's face for 90 full seconds before Jack appears. The sustained medium close-up on her escalating terror mirrors the audience's own amygdala response. The axe through the door is almost secondary — the buildup is the horror. Infrasound used throughout.</div>
+            <span class="scene-mechanic">Technique: Sustained facial reaction · Static camera · Delayed reveal · Infrasound drone</span>
+          </div>
+          <div class="scene-card">
+            <div class="scene-head">
+              <div class="scene-title">The Attic Scene — Charlie's Death</div>
+              <div class="scene-film">Hereditary (2018)</div>
+            </div>
+            <div class="scene-why">The wrongness is established before anything explicit happens: the mother sleepwalks, the child's face in shadow, ordinary family life filmed with documentary stillness that makes normality feel threatening. The actual horror when it arrives is amplified because trust in the "safe" frame has been systematically destroyed over 90 minutes.</div>
+            <span class="scene-mechanic">Technique: Corrupted domestic frame · Stillness as threat · Off-screen sound · Slow zoom</span>
+          </div>
+          <div class="scene-card">
+            <div class="scene-head">
+              <div class="scene-title">The Sunken Place</div>
+              <div class="scene-film">Get Out (2017)</div>
+            </div>
+            <div class="scene-why">Jordan Peele turns hypnosis into a visual metaphor for loss of bodily autonomy. The horror isn't a monster — it's the helplessness of watching yourself from a distance as someone else controls your body. The spoon stirring tea, the voice that says "sink," the falling. Psychological horror at its most precise.</div>
+            <span class="scene-mechanic">Technique: POV dissociation · Sound design (spoon on china) · Loss of agency framing</span>
+          </div>
+          <div class="scene-card">
+            <div class="scene-head">
+              <div class="scene-title">Night 1 — Nothing Happens Except the Door Moves</div>
+              <div class="scene-film">Paranormal Activity (2007)</div>
+            </div>
+            <div class="scene-why">The static camera timestamp in the corner, the sleeping bodies, 45 minutes of NOTHING — then the door moves 3 inches. The audience's own imagination has been filling the silence with dread. The found-footage frame says "this is real evidence." The micro-movement is scarier than any monster because the audience has been doing all the work.</div>
+            <span class="scene-mechanic">Technique: Found footage authenticity · Silence as tension · Micro-movement · Audience imagination exploitation</span>
+          </div>
+          <div class="scene-card">
+            <div class="scene-head">
+              <div class="scene-title">Dani Discovers Her Family</div>
+              <div class="scene-film">Midsommar (2019)</div>
+            </div>
+            <div class="scene-why">Ari Aster films grief with the same documentary stillness as horror. The discovery shot is wide and distant — we see it before Dani does, we understand before she does, and we watch the moment she understands. The wail that follows is shared by the entire cult. Horror made from grief rather than violence.</div>
+            <span class="scene-mechanic">Technique: Wide establishing shot of horror · Delayed protagonist reaction · Communal grief as uncanny</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="fear-triggers">
+        <div class="triggers-grid">
+          <div class="trigger-item">
+            <div class="trigger-icon">🔇</div>
+            <div><div class="trigger-label">Silence Before Sound</div><div class="trigger-desc">Strip the score 30 seconds before the event. Ambient silence is more threatening than any sound. The brain registers absence as warning.</div></div>
+          </div>
+          <div class="trigger-item">
+            <div class="trigger-icon">📷</div>
+            <div><div class="trigger-label">Held Static Shot</div><div class="trigger-desc">Don't cut. Force the audience to search the frame. The longer you hold without release, the higher the cortisol. Movement in background while subject is static = maximum threat.</div></div>
+          </div>
+          <div class="trigger-item">
+            <div class="trigger-icon">🚶</div>
+            <div><div class="trigger-label">Off-Screen Presence</div><div class="trigger-desc">What we can't see is always more frightening than what we can. Sound, footstep, shadow-edge, breath. Never fully reveal the threat in the first act.</div></div>
+          </div>
+          <div class="trigger-item">
+            <div class="trigger-icon">🏠</div>
+            <div><div class="trigger-label">Corrupted Safe Space</div><div class="trigger-desc">Home, bedroom, parent's face — make the safest thing wrong. The uncanny familiar is the most efficient fear trigger because it bypasses the "this can't be real" defense.</div></div>
+          </div>
+          <div class="trigger-item">
+            <div class="trigger-icon">📱</div>
+            <div><div class="trigger-label">Found Footage Frame</div><div class="trigger-desc">Phone camera, laptop screen, security footage timestamp. The "recorded evidence" frame signals reality to the amygdala. Gen Z grew up in this frame — it's their native visual language.</div></div>
+          </div>
+          <div class="trigger-item">
+            <div class="trigger-icon">🎵</div>
+            <div><div class="trigger-label">Low Frequency Drone</div><div class="trigger-desc">18–19Hz infrasound creates unease below conscious awareness. In mixing: layer a barely-perceptible sub-bass drone under any "something is wrong" scene. The audience will feel it without knowing why.</div></div>
+          </div>
+          <div class="trigger-item">
+            <div class="trigger-icon">👁️</div>
+            <div><div class="trigger-label">The Slow Zoom</div><div class="trigger-desc">Kubrick's dolly-zoom creates spatial wrongness. Even a slow push into a face for 20 seconds creates mounting unease. The subject doesn't need to react — the camera's movement implies the threat approaching.</div></div>
+          </div>
+          <div class="trigger-item">
+            <div class="trigger-icon">😐</div>
+            <div><div class="trigger-label">Flat Affect</div><div class="trigger-desc">The person who should be scared isn't. The child who stares instead of running. The parent who smiles wrong. Emotional response mismatch activates the uncanny valley fear response immediately.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="fear-beat">
+        <div class="beat-list">
+          <div class="beat-item">
+            <div class="beat-num">1</div>
+            <div><div class="beat-label">Establish Normal <span class="beat-time">0:00–0:12</span></div><div class="beat-desc">Show the safe version of whatever you're about to corrupt. Home, routine, relationship. The audience needs a baseline of "correct" to register "wrong."</div></div>
+          </div>
+          <div class="beat-item">
+            <div class="beat-num">2</div>
+            <div><div class="beat-label">Introduce Wrongness <span class="beat-time">0:12–0:25</span></div><div class="beat-desc">Something small is off. A shadow where there shouldn't be one. A sound that doesn't match. A face that holds too long. Don't explain it. The protagonist doesn't register it yet.</div></div>
+          </div>
+          <div class="beat-item">
+            <div class="beat-num">3</div>
+            <div><div class="beat-label">Strip the Sound <span class="beat-time">0:25–0:38</span></div><div class="beat-desc">Score drops. Ambient sound only — or silence. Hold the shot. Audience is now doing the work. Cortisol is climbing.</div></div>
+          </div>
+          <div class="beat-item">
+            <div class="beat-num">4</div>
+            <div><div class="beat-label">Protagonist Realizes <span class="beat-time">0:38–0:50</span></div><div class="beat-desc">Their face changes. No dialogue needed. The audience experiences the realization through them — mirror neurons firing.</div></div>
+          </div>
+          <div class="beat-item">
+            <div class="beat-num">5</div>
+            <div><div class="beat-label">Cut Before Resolution <span class="beat-time">0:50–1:00</span></div><div class="beat-desc">End the episode before the threat is seen or named. The imagination is always worse. Cliffhanger is the fear unresolved — not the fear delivered.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="fear-prompt">
+        <div class="prompt-block">
+          <div class="prompt-label">AI Scene Prompt Template — Fear / Dread <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <pre>EMOTION TARGET: Sustained dread building to uncanny revelation
+
+SETUP (first 15 seconds):
+- Location: [familiar domestic space — kitchen, bedroom, childhood home]
+- Character: [protagonist doing mundane task, relaxed, safe]
+- Lighting: naturalistic warm light, no visible threat
+- Sound: ambient household, no score
+
+CORRUPTION LAYER (seconds 15–35):
+- Introduce ONE wrong element in background: [shadow edge / reflection mismatch / figure barely in frame / familiar person with wrong expression]
+- Character does NOT notice yet
+- Camera: HOLD static. Do not cut.
+- Sound: strip ambient sound 50% — silence begins
+
+ESCALATION (seconds 35–50):
+- Slow push into character's face — 2mm/second zoom
+- Character pauses — senses something
+- Sound: low-frequency drone begins BELOW audible threshold (18Hz)
+- What they see/realize: [the wrong thing becoming undeniable]
+
+BREAK (seconds 50–60):
+- Character's face: realization without resolution
+- Camera: hold on face or cut to threat's POV
+- Sound: single discordant tone OR complete silence
+- END: do not show the threat fully — imply, suggest, or cut to black
+
+VISUAL STYLE: Handheld or locked-off. Shallow depth of field on face. Natural color grade — no horror saturation. The mundane is the frame that makes the horror land.
+
+AVOID: Jump cuts. Score swells. Showing monster fully. Characters screaming before the audience has fully registered the threat.</pre>
+        </div>
+        <p class="prompt-note">Use this template for any episode ending on a fear beat. The key variable is WHAT the wrong element is — adapt to your story's specific fear. The mechanics stay constant.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ EMOTION 2: GRIEF -->
+  <div class="emotion-block" id="grief">
+    <div class="emotion-header" style="background:linear-gradient(135deg,rgba(14,165,233,0.12),rgba(14,165,233,0.04));border-color:rgba(14,165,233,0.25)">
+      <div class="emotion-num" style="color:#0ea5e9">02</div>
+      <div class="emotion-label-group">
+        <div class="emotion-name" style="color:#7dd3fc">Grief / Catharsis</div>
+        <div class="emotion-subtitle" style="color:rgba(125,211,252,0.6)">Oxytocin release · Parasocial loss · The cry that heals</div>
+      </div>
+      <div class="emotion-share-badge" style="background:rgba(14,165,233,0.1);color:#7dd3fc;border:1px solid rgba(14,165,233,0.2)">Viral Share: #1 · Retention: #2</div>
+    </div>
+    <div class="emotion-body" style="border-color:rgba(14,165,233,0.2)">
+      <div class="etab-nav" style="border-color:rgba(14,165,233,0.12)">
+        <button class="etab-btn active" onclick="showTab(this,'grief-neuro')">Neuroscience</button>
+        <button class="etab-btn" onclick="showTab(this,'grief-scenes')">Reference Scenes</button>
+        <button class="etab-btn" onclick="showTab(this,'grief-triggers')">Cinematic Triggers</button>
+        <button class="etab-btn" onclick="showTab(this,'grief-beat')">Script Beat</button>
+        <button class="etab-btn" onclick="showTab(this,'grief-prompt')">AI Prompt Template</button>
+      </div>
+
+      <div class="etab-content active" id="grief-neuro">
+        <div class="neuro-box">
+          <div class="neuro-card"><div class="neuro-card-title">What Fires</div><div class="neuro-card-body"><strong>Oxytocin</strong> surges during empathic distress. Prolactin releases during crying — which is neurochemically calming. The cry is literally the brain self-medicating. This is why people say they "needed that cry." It's physiologically accurate.</div></div>
+          <div class="neuro-card"><div class="neuro-card-title">Parasocial Loss</div><div class="neuro-card-body">The brain processes the loss of a fictional character the same neural pathways as a real loss. <strong>Mirror neurons</strong> fire identically when watching someone grieve as when grieving yourself. Characters we've spent even 20 minutes with feel real enough to lose.</div></div>
+          <div class="neuro-card"><div class="neuro-card-title">Why It Gets Shared</div><div class="neuro-card-body">Grief clips are the <strong>#1 most shared emotional content</strong> on social media (per 2024 MIT Media Lab data). People share grief content to signal depth, empathy, and shared experience — "this made me feel something real." The share is an emotional credential.</div></div>
+        </div>
+        <div class="callout callout-orange">
+          <div class="callout-title">The Catharsis Formula</div>
+          <p>Grief without prior investment is melodrama. <strong>Grief only lands if we love the thing being lost first.</strong> Invest 3–5 episodes in the relationship, the memory, the hope — then take it. Pixar's Up opening is 4 minutes of wordless love before 30 seconds of loss. We cry because of what was built, not what was destroyed.</p>
+        </div>
+      </div>
+
+      <div class="etab-content" id="grief-scenes">
+        <div class="scenes-grid">
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">Ellie's Life — The Opening Montage</div><div class="scene-film">Up (2009, Pixar)</div></div><div class="scene-why">No dialogue. 4 minutes. Marriage, joy, miscarriage implied, aging, death. The music does what words can't — it signals grief without triggering defenses. The audience is weeping before they know why. This is the most efficient grief delivery in cinema history.</div><span class="scene-mechanic">Technique: Music-led montage · No dialogue · Time compression · Loss by implication not statement</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">"Remember Me" — Miguel Sings to Coco</div><div class="scene-film">Coco (2017, Pixar)</div></div><div class="scene-why">The emotion hits because of <strong>delayed recognition</strong>: Miguel has been looking for his great-great-grandfather all film. The realization that Mamá Coco is the connection — and that she is fading — arrives alongside the song. Music + family + impending loss of living memory = maximum oxytocin. Specific to Latino cultural experience of generational connection.</div><span class="scene-mechanic">Technique: Delayed recognition · Music as emotional carrier · Generational stakes · Living memory as the thing being lost</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Incinerator</div><div class="scene-film">Toy Story 3 (2010, Pixar)</div></div><div class="scene-why">They hold hands. No words. The toys accept death together. This works because the film has spent 15 years building the audience's love for these characters — the grief is proportional to the relationship. The incinerator scene is a masterclass in earned catharsis.</div><span class="scene-mechanic">Technique: Acceptance instead of fight · Physical touch as emotional signal · Silent shared death · Earned over franchise runtime</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Five-Year Time Jump</div><div class="scene-film">Avengers: Endgame (2019)</div></div><div class="scene-why">The quiet scenes — Steve Rogers at a grief support group, Clint Barton's family vanishing — carry more emotional weight than the battle. Grief at the scale of half the universe becomes personal through individual faces. The trick: grief must be specific to be felt universally.</div><span class="scene-mechanic">Technique: Macro loss made micro · Specific individual grief · Quiet after catastrophe · No score swell — silence</span></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="grief-triggers">
+        <div class="triggers-grid">
+          <div class="trigger-item"><div class="trigger-icon">🎵</div><div><div class="trigger-label">Music as Emotional Carrier</div><div class="trigger-desc">A solo instrument — piano, guitar, strings — signals emotional intimacy. The score can carry grief the dialogue can't speak. Silence then music = maximum impact.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">✋</div><div><div class="trigger-label">Physical Touch</div><div class="trigger-desc">A hand held. A forehead touched. An embrace. Mirror neurons make physical comfort felt by the audience. The touch makes the loss embodied, not abstract.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">⏳</div><div><div class="trigger-label">Time Compression</div><div class="trigger-desc">Showing the arc of a relationship in 60 seconds creates a compressed version of real love. The faster time passes onscreen, the more the audience grieves what is being lost.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🔇</div><div><div class="trigger-label">Silence After Noise</div><div class="trigger-desc">A loud scene — an argument, a celebration, a crowd — followed by sudden silence and a face processing loss. Contrast amplifies grief. The quiet after the storm.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">👴</div><div><div class="trigger-label">Generational Stakes</div><div class="trigger-desc">Grandparent → parent → child. The loss of a generational link — the person who holds the family's memory — triggers specific grief that audiences feel regardless of their own family.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🙅</div><div><div class="trigger-label">Things Left Unsaid</div><div class="trigger-desc">The conversation that never happened. The apology not delivered. "I never told him" is more devastating than witnessed loss. The grief of incompletion.</div></div></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="grief-beat">
+        <div class="beat-list">
+          <div class="beat-item"><div class="beat-num">1</div><div><div class="beat-label">Love First <span class="beat-time">Episodes 1–8</span></div><div class="beat-desc">Build the thing before you take it. Show the relationship at its warmest. Give the audience a moment they'll want to preserve. The investment determines the grief.</div></div></div>
+          <div class="beat-item"><div class="beat-num">2</div><div><div class="beat-label">Implicit Warning <span class="beat-time">Episode 9</span></div><div class="beat-desc">Something signals the end is coming — illness, distance, a last shared moment neither character knows is last. The audience suspects. The dread of anticipated grief is grief itself.</div></div></div>
+          <div class="beat-item"><div class="beat-num">3</div><div><div class="beat-label">The Quiet Loss <span class="beat-time">0:00–0:35</span></div><div class="beat-desc">No dramatic death scene. Off-screen, or a single quiet moment. The absence lands harder than the event. A chair that's empty. A phone that doesn't ring back.</div></div></div>
+          <div class="beat-item"><div class="beat-num">4</div><div><div class="beat-label">Face + Music <span class="beat-time">0:35–0:55</span></div><div class="beat-desc">Hold on the face of the person who is left. Solo instrument. No dialogue. Let the audience process. Do not cut away from the grief.</div></div></div>
+          <div class="beat-item"><div class="beat-num">5</div><div><div class="beat-label">The Thing Left Behind <span class="beat-time">0:55–1:00</span></div><div class="beat-desc">End on an object — a photo, a letter, a piece of clothing — that was theirs. The object is more devastating than the person, because it's what remains. Cliffhanger: she finds a letter she was never meant to see.</div></div></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="grief-prompt">
+        <div class="prompt-block">
+          <div class="prompt-label">AI Scene Prompt Template — Grief / Catharsis <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <pre>EMOTION TARGET: Earned cathartic grief — the cry that releases
+
+PREREQUISITE: This scene only works if 3+ prior scenes established deep affection for the lost person/thing. Do not deploy in episode 1.
+
+SETUP (0–15 seconds):
+- Character: alone or with one witness
+- Space: [familiar space now changed by absence — their kitchen, their chair, their room]
+- Lighting: soft, natural, slightly cold — warmth has left with the person
+- Sound: ambient only. No score yet.
+
+THE REALIZATION (15–35 seconds):
+- Character encounters the physical remnant: [letter / object / empty space / photograph]
+- Their face: hold for 8+ seconds. Let the processing happen visibly.
+- Resist the urge to cut. The audience is doing the emotional work in this moment.
+- Sound: silence, then solo instrument enters — piano or single string. Soft.
+
+THE RELEASE (35–55 seconds):
+- The thing they couldn't say / didn't say / will never say — written, spoken softly, or left silent
+- Physical: hand on object, forehead down, stillness
+- Camera: stay close. Medium close-up on face and hands.
+- Sound: music carries. Don't add dialogue if the music is working.
+
+CLOSE (55–60 seconds):
+- Pull back slowly OR cut to the object alone
+- What remains: [the letter / the empty chair / the photograph / the last voicemail]
+- End before resolution. Grief has no resolution — don't provide one.
+
+AVOID: Score swells. Explanatory dialogue. Cutting away from the face during grief. Showing the loss event rather than its aftermath.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ EMOTION 3: ROMANCE -->
+  <div class="emotion-block" id="romance">
+    <div class="emotion-header" style="background:linear-gradient(135deg,rgba(236,72,153,0.12),rgba(236,72,153,0.04));border-color:rgba(236,72,153,0.25)">
+      <div class="emotion-num" style="color:#ec4899">03</div>
+      <div class="emotion-label-group">
+        <div class="emotion-name" style="color:#f9a8d4">Romantic Tension / Longing</div>
+        <div class="emotion-subtitle" style="color:rgba(249,168,212,0.6)">Dopamine anticipation · The almost-touch · Desire as obstacle</div>
+      </div>
+      <div class="emotion-share-badge" style="background:rgba(236,72,153,0.1);color:#f9a8d4;border:1px solid rgba(236,72,153,0.2)">Viral Share: #2 · Rewatches: #1</div>
+    </div>
+    <div class="emotion-body" style="border-color:rgba(236,72,153,0.2)">
+      <div class="etab-nav" style="border-color:rgba(236,72,153,0.12)">
+        <button class="etab-btn active" onclick="showTab(this,'rom-neuro')">Neuroscience</button>
+        <button class="etab-btn" onclick="showTab(this,'rom-scenes')">Reference Scenes</button>
+        <button class="etab-btn" onclick="showTab(this,'rom-triggers')">Cinematic Triggers</button>
+        <button class="etab-btn" onclick="showTab(this,'rom-beat')">Script Beat</button>
+        <button class="etab-btn" onclick="showTab(this,'rom-prompt')">AI Prompt Template</button>
+      </div>
+
+      <div class="etab-content active" id="rom-neuro">
+        <div class="neuro-box">
+          <div class="neuro-card"><div class="neuro-card-title">Dopamine Anticipation</div><div class="neuro-card-body">The brain releases <strong>more dopamine in anticipation of reward than at reward itself</strong>. The almost-kiss is neurochemically more powerful than the kiss. The hand that nearly touches is more exciting than the hand that does. Tension IS the content — release is the comedown.</div></div>
+          <div class="neuro-card"><div class="neuro-card-title">The Obstacle Multiplier</div><div class="neuro-card-body">Every obstacle between two people <strong>multiplies the dopamine of their eventual union</strong>. Romeo & Juliet understood this. The greater the cost, the greater the reward feels. This is why "forbidden" romance outperforms uncomplicated romance by 3:1 in engagement metrics.</div></div>
+          <div class="neuro-card"><div class="neuro-card-title">Why It Gets Rewatched</div><div class="neuro-card-body">Romantic tension scenes generate the highest rewatch rate of any emotional content. The brain re-experiences the dopamine anticipation on each viewing. <strong>"The look" scene in any romance film is rewatched 5–10x more than any other scene.</strong> These are clip-driven discovery engines.</div></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="rom-scenes">
+        <div class="scenes-grid">
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Piano Scene</div><div class="scene-film">Call Me By Your Name (2017)</div></div><div class="scene-why">Elio plays two variations of a Bach piece for Oliver. Oliver leans over his shoulder to listen. Their faces are inches apart. Nobody touches. The scene is 8 minutes. The tension of two people who want each other and won't — yet — is excruciating. Guadagnino lets it run twice as long as conventional editing would allow. The restraint IS the eroticism.</div><span class="scene-mechanic">Technique: Physical proximity without contact · Extended duration · Music as sublimated desire · Restraint over release</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Rain Scene</div><div class="scene-film">Pride & Prejudice (2005)</div></div><div class="scene-why">Darcy's "You have bewitched me body and soul" — hands barely touching, faces close in the fog. The restraint of the era makes every micro-gesture explosive. The almost-touch is worth more than any explicit scene because the audience has been denied for 2 hours.</div><span class="scene-mechanic">Technique: Period constraint as obstacle · Micro-gestures as explosive signals · Denied contact · Atmospheric isolation</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Ferris Wheel</div><div class="scene-film">Before Sunrise (1995)</div></div><div class="scene-why">Linklater's genius: two strangers in a confined space with a time limit. The ticking clock (they separate at dawn) turns every conversation into a love scene. They know they'll lose this. We know they'll lose this. The tension of temporary love is devastating.</div><span class="scene-mechanic">Technique: Ticking clock constraint · Confined shared space · Temporary love heightens stakes · Talk as foreplay</span></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="rom-triggers">
+        <div class="triggers-grid">
+          <div class="trigger-item"><div class="trigger-icon">✋</div><div><div class="trigger-label">The Almost-Touch</div><div class="trigger-desc">Hands that nearly meet. Eyes that almost close. The gap between them, held. More dopamine in the moment before contact than after.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">⏰</div><div><div class="trigger-label">The Ticking Clock</div><div class="trigger-desc">A deadline that forces proximity: they only have tonight. She leaves tomorrow. One of them is leaving forever. Urgency transforms ordinary moments into charged ones.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🚫</div><div><div class="trigger-label">The Obstacle</div><div class="trigger-desc">She's his enemy's daughter. He's supposed to destroy her. She doesn't know who he really is. The obstacle must be real — not easily overcome. Every barrier multiplies desire.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">👁️</div><div><div class="trigger-label">"The Look"</div><div class="trigger-desc">Hold on two faces a beat longer than necessary. The moment of mutual recognition — they both know. Nothing is said. Everything is understood. This is the clip that gets shared.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🎵</div><div><div class="trigger-label">Music as Longing</div><div class="trigger-desc">A song that belongs to them. The first time it plays in a different context — he hears it without her, she finds the record he left — it carries the entire relationship.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🔄</div><div><div class="trigger-label">The Interruption</div><div class="trigger-desc">They're about to close the distance — and something stops it. A phone rings. Someone walks in. He makes himself pull away. The denied kiss is 10x more powerful than the delivered one.</div></div></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="rom-beat">
+        <div class="beat-list">
+          <div class="beat-item"><div class="beat-num">1</div><div><div class="beat-label">Establish Why They Can't <span class="beat-time">Episodes 1–5</span></div><div class="beat-desc">The obstacle must be real and structural — not a misunderstanding. She is his target. His family destroyed hers. They are on opposite sides of something that matters. The audience must believe the barrier.</div></div></div>
+          <div class="beat-item"><div class="beat-num">2</div><div><div class="beat-label">The Involuntary Moment <span class="beat-time">0:00–0:20</span></div><div class="beat-desc">They're forced into proximity — same space, can't leave. The situation creates closeness neither chose. His hand steadies her. She laughs at something he said without meaning to.</div></div></div>
+          <div class="beat-item"><div class="beat-num">3</div><div><div class="beat-label">The Look <span class="beat-time">0:20–0:40</span></div><div class="beat-desc">Eyes meet. Hold for 3 seconds longer than comfortable. One of them looks away first — which one tells us everything. No dialogue. The audience is screaming at the screen.</div></div></div>
+          <div class="beat-item"><div class="beat-num">4</div><div><div class="beat-label">The Interruption or Pull-Back <span class="beat-time">0:40–0:55</span></div><div class="beat-desc">One of them breaks the moment — physically moves away, says something that retreats, is interrupted by reality. The denial is deliberate. The audience needs to feel denied too.</div></div></div>
+          <div class="beat-item"><div class="beat-num">5</div><div><div class="beat-label">Cliffhanger: One Step Closer <span class="beat-time">0:55–1:00</span></div><div class="beat-desc">End the episode with them closer than they were — physically or emotionally — but not yet resolved. Tomorrow they'll be in the same room again. And now they both know.</div></div></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="rom-prompt">
+        <div class="prompt-block">
+          <div class="prompt-label">AI Scene Prompt Template — Romantic Tension <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <pre>EMOTION TARGET: Dopamine-charged romantic tension — the almost
+
+SETUP (0–15 seconds):
+- Two characters forced into shared space: [elevator / car / same room during a storm / hiding together]
+- Obstacle established in prior episodes: [he is supposed to destroy her / she doesn't know who he is / they are on opposite sides]
+- Lighting: warm, intimate — single light source. Close.
+- Sound: ambient only. Score absent or barely present.
+
+THE PROXIMITY (15–35 seconds):
+- Physical: they are closer than they have been before — accidental or necessary
+- Micro-gestures: [his hand near hers without touching / she tucks her hair and he watches / their breath visible in cold air]
+- Dialogue: sparse, not about feelings — about the surface situation. Subtext carries everything.
+- Camera: medium close. Two-shot. Hold without cutting.
+
+THE LOOK (35–50 seconds):
+- Eyes meet. Hold for 4+ seconds.
+- One speaks something that almost admits — then retreats: "We should..." / "I didn't mean to..." / silence
+- The other: micro-reaction — nearly imperceptible softening, or they look away
+- Music: enters softly at exactly this moment if absent before
+
+BREAK / DENIAL (50–60 seconds):
+- Something interrupts OR one of them consciously pulls back
+- The moment is broken — but now both know the moment existed
+- Cliffhanger: end on the face of the one who is left wanting
+
+AVOID: Explicit confession of feeling in ep 1–10. The kiss before episode 30. Dialogue that says what the faces are already showing.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ EMOTION 4: TRIUMPH -->
+  <div class="emotion-block" id="triumph">
+    <div class="emotion-header" style="background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(245,158,11,0.04));border-color:rgba(245,158,11,0.25)">
+      <div class="emotion-num" style="color:#f59e0b">04</div>
+      <div class="emotion-label-group">
+        <div class="emotion-name" style="color:#fcd34d">Triumph / Righteous Revenge</div>
+        <div class="emotion-subtitle" style="color:rgba(252,211,77,0.6)">Testosterone spike · Moral restoration · The earned victory</div>
+      </div>
+      <div class="emotion-share-badge" style="background:rgba(245,158,11,0.1);color:#fcd34d;border:1px solid rgba(245,158,11,0.2)">Viral Share: #2 · Comments: #1</div>
+    </div>
+    <div class="emotion-body" style="border-color:rgba(245,158,11,0.2)">
+      <div class="etab-nav" style="border-color:rgba(245,158,11,0.12)">
+        <button class="etab-btn active" onclick="showTab(this,'tri-neuro')">Neuroscience</button>
+        <button class="etab-btn" onclick="showTab(this,'tri-scenes')">Reference Scenes</button>
+        <button class="etab-btn" onclick="showTab(this,'tri-triggers')">Cinematic Triggers</button>
+        <button class="etab-btn" onclick="showTab(this,'tri-beat')">Script Beat</button>
+        <button class="etab-btn" onclick="showTab(this,'tri-prompt')">AI Prompt Template</button>
+      </div>
+      <div class="etab-content active" id="tri-neuro">
+        <div class="neuro-box">
+          <div class="neuro-card"><div class="neuro-card-title">What Fires</div><div class="neuro-card-body"><strong>Testosterone and dopamine</strong> spike simultaneously during observed triumph. The audience experiences a vicarious surge — their own bodies respond to a fictional victory. This is why sports and revenge films feel physically satisfying.</div></div>
+          <div class="neuro-card"><div class="neuro-card-title">Moral Restoration</div><div class="neuro-card-body">The brain experiences <strong>moral dissonance when injustice goes unaddressed</strong>. Righteous revenge resolves that dissonance — literally. The brain rewards itself for witnessing the restoration of a moral order it has been distressed by.</div></div>
+          <div class="neuro-card"><div class="neuro-card-title">The Humiliation Prerequisite</div><div class="neuro-card-body">Triumph is proportional to humiliation. The deeper the injustice, the more cathartic the victory. You must hurt the audience first — create genuine injustice, genuine loss — before the reversal lands. <strong>The fall must come before the rise.</strong></div></div>
+        </div>
+      </div>
+      <div class="etab-content" id="tri-scenes">
+        <div class="scenes-grid">
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Whiplash Finale</div><div class="scene-film">Whiplash (2014)</div></div><div class="scene-why">Fletcher humiliates Andrew one last time — then Andrew ignores him and plays the best performance of his life anyway. The triumph isn't over Fletcher specifically — it's over his own doubt. The audience experiences this as a physical release. The music becomes catharsis made audible.</div><span class="scene-mechanic">Technique: Humiliation immediately before triumph · Inner victory over external opponent · Music as catharsis delivery</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Boardroom Reversal</div><div class="scene-film">Every Microdrama / Telenovela Ever</div></div><div class="scene-why">The protagonist walks into the room where she was once humiliated — now as the owner. Everyone who looked down at her must now look up. This is the single most replicated triumph beat in global popular fiction because it resolves the deepest social anxiety: that status and worth are permanent. The reversal says: they aren't.</div><span class="scene-mechanic">Technique: Location return · Status reversal · Witnesses to humiliation become witnesses to triumph · Slow entrance</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">Rocky's "Yo Adrian"</div><div class="scene-film">Rocky (1976)</div></div><div class="scene-why">He doesn't win. He just doesn't quit. The triumph is endurance, not victory — which is more universal. The audience has been made to feel the cost of every round. The declaration is not to his opponent but to the one person who believed in him. Love as the point of the fight.</div><span class="scene-mechanic">Technique: Endurance over victory · Love as motivation revealed · Cost shown before triumph · Audience surrogate (Adrian) present</span></div>
+        </div>
+      </div>
+      <div class="etab-content" id="tri-triggers">
+        <div class="triggers-grid">
+          <div class="trigger-item"><div class="trigger-icon">⚖️</div><div><div class="trigger-label">Witnessed Injustice First</div><div class="trigger-desc">The audience must experience the injustice personally — not just observe it. Make them feel the humiliation alongside the protagonist. Their need for justice must be real before the reversal lands.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🐢</div><div><div class="trigger-label">The Slow Entrance</div><div class="trigger-desc">She walks into the room at half speed. The camera low. Everyone turns. No words yet. The anticipation of the reversal IS the triumph — delay the confrontation for 30 seconds.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">😐</div><div><div class="trigger-label">Calm Over Rage</div><div class="trigger-desc">The most powerful revenge is delivered quietly. She doesn't scream — she smiles, says two sentences, and leaves. Controlled power is more terrifying to the antagonist and more satisfying to the audience than explosive anger.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">👥</div><div><div class="trigger-label">Witnesses</div><div class="trigger-desc">The people who witnessed the original humiliation must be present for the reversal. The same room, the same faces. The audience's satisfaction is multiplied by the antagonist's public exposure.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🎵</div><div><div class="trigger-label">Score Swell at the Turn</div><div class="trigger-desc">This is the ONE moment where the score is allowed to swell. Hold it for the reveal/reversal — then let the music carry the audience's catharsis. This is the exception to every other rule about restraint.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">💬</div><div><div class="trigger-label">The One Perfect Line</div><div class="trigger-desc">The triumph needs one line that encapsulates everything — delivered quietly, directly, then she walks away. The line is the clip that gets shared 10,000 times. Write it like a mic drop, not a speech.</div></div></div>
+        </div>
+      </div>
+      <div class="etab-content" id="tri-beat">
+        <div class="beat-list">
+          <div class="beat-item"><div class="beat-num">1</div><div><div class="beat-label">The Humiliation Must Be Real <span class="beat-time">Episodes 1–10</span></div><div class="beat-desc">Don't rush to the reversal. Make the injustice land. Public humiliation, loss of everything, made to feel small. The audience should feel genuine anger on behalf of the protagonist.</div></div></div>
+          <div class="beat-item"><div class="beat-num">2</div><div><div class="beat-label">The Unseen Transformation <span class="beat-time">Episodes 10–30</span></div><div class="beat-desc">She is changing. The audience sees it but the antagonist doesn't. The hidden preparation — the training, the plan, the accumulation of power — is its own tension arc.</div></div></div>
+          <div class="beat-item"><div class="beat-num">3</div><div><div class="beat-label">The Entrance <span class="beat-time">0:00–0:20</span></div><div class="beat-desc">She enters the space where she was humiliated. Slow. Confident. Different. The antagonist sees her. The audience holds its breath.</div></div></div>
+          <div class="beat-item"><div class="beat-num">4</div><div><div class="beat-label">The Reversal — One Line <span class="beat-time">0:20–0:45</span></div><div class="beat-desc">She reveals what she holds. The vote. The document. The truth. Delivered calmly. One perfect sentence. The antagonist's face falls. Hold on it.</div></div></div>
+          <div class="beat-item"><div class="beat-num">5</div><div><div class="beat-label">She Walks Away <span class="beat-time">0:45–1:00</span></div><div class="beat-desc">She doesn't gloat. She leaves. The audience cheers at the restraint — it's more powerful than any celebration. End on her back, walking out, not the antagonist's destroyed face.</div></div></div>
+        </div>
+      </div>
+      <div class="etab-content" id="tri-prompt">
+        <div class="prompt-block">
+          <div class="prompt-label">AI Scene Prompt Template — Triumph / Revenge <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <pre>EMOTION TARGET: Righteous triumph — the moral restoration the audience has been waiting for
+
+PREREQUISITE: Humiliation/injustice must be fully established and felt. Do not deploy before episode 25.
+
+THE ENTRANCE (0–20 seconds):
+- Location: the space where she was humiliated — boardroom, family home, gala
+- Camera: LOW ANGLE. She is small in the frame at first — then the camera rises with her
+- Sound: ambient room noise drops. Score enters: low, building
+- The room: everyone stops. Faces turn. The antagonist sees her.
+- She does NOT rush. Slow walk. She has already won — her body knows it.
+
+THE REVEAL (20–45 seconds):
+- She places something on the table / projects something on the screen / speaks the sentence they cannot take back
+- Dialogue: ONE line. Calm. Not angry. Direct. [example: "The vote was unanimous. I think you know what comes next."]
+- Antagonist's face: hold for 4 seconds — the collapse visible
+- Witnesses: their faces — the people who watched the original humiliation now watching this
+- Score: swell — the ONE moment in the template where it earns this
+
+THE EXIT (45–60 seconds):
+- She turns and walks. Doesn't look back.
+- No gloating. No speech. No tears.
+- Camera: follow from behind OR cut to antagonist's face alone as she leaves
+- Final image: the door closing behind her / the object she left on the table / the antagonist's face processing loss
+
+AVOID: Monologue. Screaming. Revenge delivered in anger — calm is more powerful. Showing her celebrating before she's alone.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ EMOTION 5: SUSPENSE -->
+  <div class="emotion-block" id="suspense">
+    <div class="emotion-header" style="background:linear-gradient(135deg,rgba(96,165,250,0.1),rgba(96,165,250,0.03));border-color:rgba(96,165,250,0.2)">
+      <div class="emotion-num" style="color:#60a5fa">05</div>
+      <div class="emotion-label-group">
+        <div class="emotion-name" style="color:#93c5fd">Suspense / Information Asymmetry</div>
+        <div class="emotion-subtitle" style="color:rgba(147,197,253,0.6)">We know the bomb is under the table. They don't. — Hitchcock</div>
+      </div>
+      <div class="emotion-share-badge" style="background:rgba(96,165,250,0.1);color:#93c5fd;border:1px solid rgba(96,165,250,0.2)">Retention: #1 · Completion Rate: #1</div>
+    </div>
+    <div class="emotion-body" style="border-color:rgba(96,165,250,0.15)">
+      <div class="etab-nav" style="border-color:rgba(96,165,250,0.1)">
+        <button class="etab-btn active" onclick="showTab(this,'sus-neuro')">Neuroscience</button>
+        <button class="etab-btn" onclick="showTab(this,'sus-scenes')">Reference Scenes</button>
+        <button class="etab-btn" onclick="showTab(this,'sus-triggers')">Cinematic Triggers</button>
+        <button class="etab-btn" onclick="showTab(this,'sus-beat')">Script Beat</button>
+        <button class="etab-btn" onclick="showTab(this,'sus-prompt')">AI Prompt Template</button>
+      </div>
+
+      <div class="etab-content active" id="sus-neuro">
+        <div class="neuro-box">
+          <div class="neuro-card"><div class="neuro-card-title">Hitchcock's Rule</div><div class="neuro-card-body">Surprise = 15 seconds of shock. Suspense = 15 minutes of tension. <strong>Give the audience information the character doesn't have.</strong> We see the killer behind the door. We watch the character walk toward it. Every second is unbearable. This is <strong>information asymmetry</strong> — the foundational mechanic of all suspense.</div></div>
+          <div class="neuro-card"><div class="neuro-card-title">Cortisol Sustained</div><div class="neuro-card-body">Unlike jump scares (spike then drop), suspense keeps cortisol elevated continuously. The longer the audience knows something the character doesn't, the higher their physiological investment. <strong>This is why completion rates for suspense content are highest of any genre.</strong> The brain physically cannot disengage from an unresolved threat.</div></div>
+          <div class="neuro-card"><div class="neuro-card-title">Five-Layer Tension Architecture</div><div class="neuro-card-body">Research identifies 5 simultaneous tension layers: <strong>1) Information asymmetry</strong> (viewer knows more or less), <strong>2) Environment corruption</strong> (safe space made wrong), <strong>3) Sound architecture</strong> (build → silence → false resolve → scare), <strong>4) The observing eye</strong> (shooting through obstacles), <strong>5) Behavioral wrongness</strong> (the uncanny valley of action). Stack them.</div></div>
+        </div>
+        <div class="callout callout-orange">
+          <div class="callout-title">Glenn D. Walters' Suspense Triad</div>
+          <p>Psychological research identifies three required components: <strong>Tension</strong> (something bad is coming), <strong>Relevance</strong> (it threatens someone we care about), <strong>Unrealism</strong> (safe viewing context enables engagement without complete shutdown). Remove any one and the suspense collapses — either the audience doesn't care, doesn't feel threatened, or shuts down entirely.</p>
+        </div>
+      </div>
+
+      <div class="etab-content" id="sus-scenes">
+        <div class="scenes-grid">
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Coin Toss</div><div class="scene-film">No Country for Old Men (2007)</div></div><div class="scene-why">No score. No visible weapon. Just two men, a gas station counter, and silence. The audience already knows Chigurh is lethal — the shopkeeper doesn't. Every second the shopkeeper fails to understand what's happening is a second of unbearable dramatic irony. "What's the most you ever lost on a coin toss?" — the gap between what is said and what is meant (your life is decided by chance) IS the suspense. The most effective suspense scene in modern cinema uses one actor, a counter, and silence.</div><span class="scene-mechanic">Technique: Subtext carrying life/death stakes · No score · Dramatic irony · Silence as weapon</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Border Crossing</div><div class="scene-film">Sicario (2015)</div></div><div class="scene-why">Extreme realism aesthetic. No score — replaced by helicopter rotor noise and radio chatter. The procedural accuracy (actual tactical formations, real law enforcement terminology) bypasses the viewer's "this is fiction" filter. The audience experiences through Kate (Emily Blunt), who is as much in the dark as we are. <strong>Shared ignorance between protagonist and audience</strong> is a powerful alternative to information asymmetry.</div><span class="scene-mechanic">Technique: Procedural realism · Shared protagonist/audience ignorance · Diegetic sound only · Environmental tension</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Basement Breathing</div><div class="scene-film">A Quiet Place (2018)</div></div><div class="scene-why">Sound IS the threat. Every noise the family makes risks death. The audience holds their breath physically — the theater goes silent. Krasinski weaponizes the movie-watching experience itself: the audience's own noise becomes terrifying. The baby scene inverts all protective instincts — the thing that makes the most noise is the thing that needs the most protection.</div><span class="scene-mechanic">Technique: Environmental constraint (sound = death) · Audience self-awareness as tension · Protective instinct inversion</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Locked Apartment</div><div class="scene-film">Panic Room (2002)</div></div><div class="scene-why">Fincher reduces all suspense to its spatial core: she's in here, they're out there, the architecture IS the plot. Every camera move through walls, floors, and keyholes removes the audience's sense of safe distance. <strong>When the camera can go everywhere, nowhere is safe.</strong></div><span class="scene-mechanic">Technique: Spatial suspense · Camera through walls as omniscience · Architectural constraint · Fincher's "impossible" camera</span></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="sus-triggers">
+        <div class="triggers-grid">
+          <div class="trigger-item"><div class="trigger-icon">💣</div><div><div class="trigger-label">The Visible Threat</div><div class="trigger-desc">Show the audience the danger the character can't see. The figure in the background. The car following. The message they didn't read. The audience becomes complicit — they want to warn but can't.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">⏱️</div><div><div class="trigger-label">The Countdown</div><div class="trigger-desc">Explicit time pressure. She has 3 minutes before he reads the file. The audience counts down with the clock. Every second of unrelated action becomes unbearable. The clock is the information the audience holds.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🔑</div><div><div class="trigger-label">The Object of Doom</div><div class="trigger-desc">An object we know is dangerous, placed where it will be found. The audience watches the character's hand move toward it. Hitchcock's bomb under the table is always the model.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">📵</div><div><div class="trigger-label">The Severed Communication</div><div class="trigger-desc">The phone dies. The door locks. The person who could help doesn't know. Isolation + threat = pure suspension of audience breath.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🔇</div><div><div class="trigger-label">The Double-Fake</div><div class="trigger-desc">Build tension → audience braces → nothing happens → audience exhales → THEN deliver the event. The tension-release-retension pattern is the core mechanic of every Paranormal Activity sequence.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">👁️</div><div><div class="trigger-label">The Observing Eye</div><div class="trigger-desc">Shoot through curtains, doorframes, branches. The framing tells the audience: something is watching. Security cameras, found-footage frames, and fixed hotel corridors all create permanent "we are being observed" anxiety.</div></div></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="sus-beat">
+        <div class="beat-list">
+          <div class="beat-item"><div class="beat-num">1</div><div><div class="beat-label">Plant the Information <span class="beat-time">Prior episode or 0:00–0:10</span></div><div class="beat-desc">Give the audience the knowledge the character doesn't have. Show the threat, the file, the person watching. The audience must KNOW before the scene begins. Suspense is constructed from prior knowledge.</div></div></div>
+          <div class="beat-item"><div class="beat-num">2</div><div><div class="beat-label">Ordinary Behavior <span class="beat-time">0:10–0:25</span></div><div class="beat-desc">Character does something relaxed, mundane, unguarded. The normality makes the approaching threat unbearable. Every ordinary second is loaded with the audience's knowledge.</div></div></div>
+          <div class="beat-item"><div class="beat-num">3</div><div><div class="beat-label">Threat Enters Frame <span class="beat-time">0:25–0:40</span></div><div class="beat-desc">The danger is visible — in the same frame as the character, in the background, approaching. Character doesn't see it. Hold wide enough to contain both. Do NOT cut. Let the proximity increase.</div></div></div>
+          <div class="beat-item"><div class="beat-num">4</div><div><div class="beat-label">The Almost-Turn <span class="beat-time">0:40–0:50</span></div><div class="beat-desc">Character nearly discovers the threat — pauses, looks up, reaches for the handle. The audience's cortisol peaks. Then: false resolution. They turn away. Threat persists.</div></div></div>
+          <div class="beat-item"><div class="beat-num">5</div><div><div class="beat-label">Cut at Maximum Tension <span class="beat-time">0:50–1:00</span></div><div class="beat-desc">End on the near-miss or the moment of discovery — NEVER after resolution. The cliffhanger is the suspense unresolved. Audience must return to learn if the threat arrives.</div></div></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="sus-prompt">
+        <div class="prompt-block">
+          <div class="prompt-label">AI Scene Prompt Template — Suspense <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <pre>EMOTION TARGET: Sustained suspense — the audience knows what the character doesn't
+
+INFORMATION SETUP (prior episode or scene open):
+- Establish the threat: [the person watching / the file that will expose her / the figure in the building]
+- The character does NOT know this threat exists yet
+- Audience: fully informed of danger
+
+SUSPENSE SEQUENCE (0–50 seconds):
+- Character: doing something ordinary, relaxed — completely unaware
+- Intercut OR hold wide: threat visible in same frame / approaching in background
+- Sound: ambient. Do NOT use score to signal danger — let silence and proximity do it
+- Camera: wide enough to show threat AND character in frame simultaneously
+- Tension device: [they almost turn around / their hand is on the door handle / the notification almost appears]
+
+THE NEAR MISS OR ARRIVAL (50–60 seconds):
+- Option A (near miss): threat passes without discovery — audience exhales. But threat is now closer.
+- Option B (discovery): character turns / reads message / sees it — their face becomes the audience's release
+- Cliffhanger: end at the moment of either near-miss or discovery, never after resolution
+
+PACING RULE: Every 15 seconds without a cut increases tension. Force yourself to hold shots longer than feels comfortable.
+
+SOUND ARCHITECTURE: Build ambient → strip to silence → hold silence past comfort → resolve with either diegetic sound (footstep, door, breath) or nothing. Score is forbidden in the suspense sequence — save it for the release.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ EMOTION 6: SURPRISE -->
+  <div class="emotion-block" id="surprise">
+    <div class="emotion-header" style="background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(16,185,129,0.03));border-color:rgba(16,185,129,0.2)">
+      <div class="emotion-num" style="color:#10b981">06</div>
+      <div class="emotion-label-group">
+        <div class="emotion-name" style="color:#6ee7b7">Surprise / Revelation</div>
+        <div class="emotion-subtitle" style="color:rgba(110,231,183,0.6)">Dopamine spike · Pattern violation · The "wait — WHAT" moment</div>
+      </div>
+      <div class="emotion-share-badge" style="background:rgba(16,185,129,0.1);color:#6ee7b7;border:1px solid rgba(16,185,129,0.2)">Viral Clip Rate: #1 · New Viewers: #1</div>
+    </div>
+    <div class="emotion-body" style="border-color:rgba(16,185,129,0.15)">
+      <div class="etab-nav" style="border-color:rgba(16,185,129,0.1)">
+        <button class="etab-btn active" onclick="showTab(this,'rev-neuro')">Neuroscience</button>
+        <button class="etab-btn" onclick="showTab(this,'rev-scenes')">Reference Scenes</button>
+        <button class="etab-btn" onclick="showTab(this,'rev-triggers')">Cinematic Triggers</button>
+        <button class="etab-btn" onclick="showTab(this,'rev-beat')">Script Beat</button>
+        <button class="etab-btn" onclick="showTab(this,'rev-prompt')">AI Prompt Template</button>
+      </div>
+
+      <div class="etab-content active" id="rev-neuro">
+        <div class="neuro-box">
+          <div class="neuro-card"><div class="neuro-card-title">Pattern Violation</div><div class="neuro-card-body">The brain is a prediction machine. When a story violates an established pattern, <strong>dopamine spikes sharply</strong> — the same response as an unexpected reward. The revelation must be simultaneously shocking AND in retrospect inevitable. If it's only shocking, it feels cheap. If it's inevitable without being surprising, it's boring.</div></div>
+          <div class="neuro-card"><div class="neuro-card-title">The Retroactive Reframe</div><div class="neuro-card-body">The greatest reveals make the audience want to rewatch from the beginning. The Sixth Sense, Fight Club, Gone Girl. <strong>Every scene must survive a second viewing with the reveal known.</strong> The best reveals improve the story retroactively — each prior scene gains a new meaning.</div></div>
+          <div class="neuro-card"><div class="neuro-card-title">Clip Virality = Acquisition</div><div class="neuro-card-body">Revelation clips are the #1 driver of new viewer acquisition. "I can't believe what happened in episode 12" gets people to start from episode 1. <strong>The reveal episode is your most important marketing asset</strong> — design it to work as a standalone 60-second clip shared with zero context.</div></div>
+        </div>
+        <div class="callout callout-orange">
+          <div class="callout-title">The Two-Layer Rule</div>
+          <p>Every major revelation should contain two layers: the surface surprise (she IS the heiress) and the deeper implication (which means everything he did to her was based on a lie HE told). <strong>The audience should need a moment to process the second layer.</strong> That processing time — "wait, that means..." — is when they pause the video and text their friend.</p>
+        </div>
+      </div>
+
+      <div class="etab-content" id="rev-scenes">
+        <div class="scenes-grid">
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">"I See Dead People" — The Final Reveal</div><div class="scene-film">The Sixth Sense (1999)</div></div><div class="scene-why">Shyamalan plants every clue in plain sight — the cold breath, the wedding ring, the unresponsive wife. The reveal doesn't add new information — it <strong>reframes everything the audience already saw.</strong> The immediate impulse: "I need to watch it again." That rewatch impulse is the engine of viral word-of-mouth. The reveal is a gift to the audience's pattern-recognition system — it rewards attention retroactively.</div><span class="scene-mechanic">Technique: Retroactive reframe · Planted clues · Immediate rewatch impulse · No new information — new interpretation</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The "Amazing Amy" Diary</div><div class="scene-film">Gone Girl (2014)</div></div><div class="scene-why">The midpoint reveal — Amy is alive and has constructed everything — reframes 60 minutes of sympathy as manipulation. <strong>The audience was the victim.</strong> The betrayal is not just of Nick but of the viewer's own emotional investment. Fincher delivers it through a single shift in Amy's voiceover tone. The most efficient reveal in modern thriller: one line, one shift, everything changes.</div><span class="scene-mechanic">Technique: Audience-as-victim · Midpoint structural twist · Voiceover shift · Emotional investment weaponized</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Photograph</div><div class="scene-film">The Usual Suspects (1995)</div></div><div class="scene-why">Verbal Kint's limp straightens. The bulletin board reveals the fabricated narrative. The coffee cup drops. Singer gives the audience 15 seconds to process three revelations simultaneously: Keyser Soze is real, he was in the room the whole time, and everything we watched was a performance. <strong>The triple-layer reveal forces the audience to reprocess the entire film in 15 seconds.</strong></div><span class="scene-mechanic">Technique: Physical transformation as reveal · Triple-layer processing · Environmental evidence · Real-time audience realization</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">The Family Reveal</div><div class="scene-film">Oldboy (2003)</div></div><div class="scene-why">Park Chan-wook's reveal is so devastating that the protagonist begs the villain to hide it. The audience, having cheered for the love story, is implicated in the horror. The reveal doesn't just change the story — <strong>it changes the audience's relationship to their own emotions during the film.</strong> Retrospective guilt is the most powerful form of dramatic surprise.</div><span class="scene-mechanic">Technique: Audience implication · Emotional retrospective guilt · Protagonist denial as horror · Two-layer devastation</span></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="rev-triggers">
+        <div class="triggers-grid">
+          <div class="trigger-item"><div class="trigger-icon">🔍</div><div><div class="trigger-label">The Planted Clue</div><div class="trigger-desc">Seeds in episodes 1–3 that only make sense in episode 12. The audience should be able to say "the signs were there." Plant at least 3 retroactive clues that reward rewatchers.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🔇</div><div><div class="trigger-label">Silence After the Line</div><div class="trigger-desc">Dead silence for 3+ seconds after the reveal lands. No score. No reaction shot. Let the audience process. The silence is where the dopamine spike happens — don't interrupt it.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">😶</div><div><div class="trigger-label">The Face Hold</div><div class="trigger-desc">Hold on the face of the person receiving the revelation — 5+ seconds. Don't cut to the evidence or flashback. The face IS the audience's mirror. Their processing is our processing.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🔗</div><div><div class="trigger-label">The Implication Question</div><div class="trigger-desc">"Which means..." / "So the whole time..." — a character or the audience connects the second layer. This is the moment that drives the share: the realization that the surface reveal has deeper consequences.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">📸</div><div><div class="trigger-label">Visual Juxtaposition</div><div class="trigger-desc">Show two things next to each other that the audience has never connected. A photograph. A document. A face and a name. The visual reveal is more viral than the spoken one — it screenshots better.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🔄</div><div><div class="trigger-label">The Rewatch Trigger</div><div class="trigger-desc">Design the reveal so the first impulse is "I need to watch it again from the start." The retroactive reframe is the reveal's highest value — it doubles your view count from existing audiences.</div></div></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="rev-beat">
+        <div class="beat-list">
+          <div class="beat-item"><div class="beat-num">1</div><div><div class="beat-label">Plant the Seeds <span class="beat-time">Episodes 1–8</span></div><div class="beat-desc">3+ clues hidden in plain sight. Each one must feel like normal storytelling on first watch and like a neon sign on second watch. A name mentioned casually. A photograph in the background. A line of dialogue that means something else.</div></div></div>
+          <div class="beat-item"><div class="beat-num">2</div><div><div class="beat-label">False Resolution <span class="beat-time">Episodes 9–10</span></div><div class="beat-desc">Give the audience a satisfying but WRONG answer to the central question. They think they understand. This makes the real reveal land harder — it's not just a surprise, it's the destruction of a belief.</div></div></div>
+          <div class="beat-item"><div class="beat-num">3</div><div><div class="beat-label">The Delivery — One Image <span class="beat-time">0:00–0:15</span></div><div class="beat-desc">Deliver the reveal in the most efficient way possible. One sentence. One document. One visual juxtaposition. Don't pad it. Speed is violence. The reveal should hit before the audience can prepare.</div></div></div>
+          <div class="beat-item"><div class="beat-num">4</div><div><div class="beat-label">Silence + Face <span class="beat-time">0:15–0:35</span></div><div class="beat-desc">Dead silence. Hold on face. 5+ seconds minimum. The audience's brain is doing the work — connecting implications, replaying prior scenes, feeling the second layer arrive. Do NOT cut to flashback. Trust the silence.</div></div></div>
+          <div class="beat-item"><div class="beat-num">5</div><div><div class="beat-label">The Second Layer <span class="beat-time">0:35–1:00</span></div><div class="beat-desc">One character says the implication out loud — or doesn't need to. The audience realizes what this means for everything that came before. Score enters here: not triumphant, not horror. Weight. End the episode. Let them sit with it.</div></div></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="rev-prompt">
+        <div class="prompt-block">
+          <div class="prompt-label">AI Scene Prompt Template — Revelation <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <pre>EMOTION TARGET: Dopamine-spiking revelation — the pattern-breaking moment
+
+PLANT REQUIREMENT: The reveal must have been seeded in 3+ prior scenes. The audience should be able to say "the signs were there" in retrospect.
+
+THE REVEAL BEAT (0–20 seconds):
+- Deliver the information in the most efficient way possible: [document shown / single spoken line / visual juxtaposition]
+- Do NOT pad it. One sentence. One image. Then — silence.
+- Hold on the face(s) receiving the information: 5+ seconds minimum
+- Sound: dead silence for 3 seconds after the reveal lands. No score. Let the audience process.
+- Camera: stay on face. Don't cut away to objects or flashbacks immediately.
+
+THE SECOND LAYER (20–45 seconds):
+- One person asks the implication question: "Which means..." / "So the whole time..." / silence that communicates understanding
+- The audience connects the implication simultaneously with the character
+- Score enters here — not triumphant, not horror. Something that acknowledges the weight.
+
+THE AFTERMATH (45–60 seconds):
+- What does the character DO with this information? Their first action reveals character.
+- End on decision, not emotion. The reveal is emotional — the cliffhanger is strategic.
+- What will they do with what they now know?
+
+CLIP DESIGN:
+- This scene must work as a standalone 60-second clip seen with no context
+- First 10 seconds of the clip must establish enough for a cold viewer to understand the stakes
+- Final frame must make a new viewer want to start from episode 1
+- The screenshot moment: design one frame that works as a still image shared on social media</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ EMOTION 7: TENDERNESS -->
+  <div class="emotion-block" id="tender">
+    <div class="emotion-header" style="background:linear-gradient(135deg,rgba(244,63,94,0.1),rgba(244,63,94,0.03));border-color:rgba(244,63,94,0.2)">
+      <div class="emotion-num" style="color:#f43f5e">07</div>
+      <div class="emotion-label-group">
+        <div class="emotion-name" style="color:#fda4af">Tenderness / Protectiveness</div>
+        <div class="emotion-subtitle" style="color:rgba(253,164,175,0.6)">Oxytocin · Mirror neurons · Vulnerability display · The soft hook</div>
+      </div>
+      <div class="emotion-share-badge" style="background:rgba(244,63,94,0.1);color:#fda4af;border:1px solid rgba(244,63,94,0.2)">Long-term Loyalty: #1 · Resubscription: #1</div>
+    </div>
+    <div class="emotion-body" style="border-color:rgba(244,63,94,0.15)">
+      <div class="etab-nav" style="border-color:rgba(244,63,94,0.1)">
+        <button class="etab-btn active" onclick="showTab(this,'ten-neuro')">Neuroscience</button>
+        <button class="etab-btn" onclick="showTab(this,'ten-scenes')">Reference Scenes</button>
+        <button class="etab-btn" onclick="showTab(this,'ten-triggers')">Cinematic Triggers</button>
+        <button class="etab-btn" onclick="showTab(this,'ten-beat')">Script Beat</button>
+        <button class="etab-btn" onclick="showTab(this,'ten-prompt')">AI Prompt Template</button>
+      </div>
+
+      <div class="etab-content active" id="ten-neuro">
+        <div class="neuro-box">
+          <div class="neuro-card"><div class="neuro-card-title">The Softest Hook</div><div class="neuro-card-body">Tenderness is the hardest emotion to manufacture and the most durable. <strong>Oxytocin released during tender moments creates genuine attachment to characters.</strong> Audiences will pay to stay subscribed because they care what happens to a character — and caring comes from tenderness, not spectacle.</div></div>
+          <div class="neuro-card"><div class="neuro-card-title">Vulnerability Display</div><div class="neuro-card-body">The brain's protective instinct (caregiving circuitry) activates when it perceives vulnerability. A character who shows genuine weakness — cries alone, admits fear, is small against something large — triggers automatic protectiveness. <strong>We want to protect what is vulnerable.</strong> This is mirror neurons + parental caregiving circuits firing together.</div></div>
+          <div class="neuro-card"><div class="neuro-card-title">The Best Character Introduction</div><div class="neuro-card-body">The fastest way to make an audience love a character: show them being kind to someone who can do nothing for them — a child, an old person, an animal, a stranger. <strong>One scene of unprompted kindness creates more attachment than 10 scenes of competence.</strong> Paul Zak's oxytocin research confirms: empathic connection IS the bonding agent.</div></div>
+        </div>
+        <div class="callout callout-red">
+          <div class="callout-title">The Subscription Driver</div>
+          <p>Tenderness has the lowest sharing rate but the highest long-term loyalty impact. People don't share tender scenes as clips — they <strong>stay subscribed because they love the character.</strong> If triumph drives the share and fear drives the completion, tenderness drives the subscription renewal. It's the invisible ROI emotion. Build it into episodes 1–4.</p>
+        </div>
+      </div>
+
+      <div class="etab-content" id="ten-scenes">
+        <div class="scenes-grid">
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">Forrest Sits at Jenny's Grave</div><div class="scene-film">Forrest Gump (1994)</div></div><div class="scene-why">Tom Hanks talks to Jenny's grave about their son. "He's so smart, Jenny. You'd be so proud." The audience has spent 2.5 hours watching Forrest love someone who couldn't love him back the same way. The tenderness is earned through endurance. He never stopped being kind. The grave scene is the most vulnerable he's ever been — talking to someone who can't hear, about the thing that matters most.</div><span class="scene-mechanic">Technique: One-sided conversation · Earned through 2+ hours of unrequited devotion · The audience as witness to private grief · Simplicity over complexity</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">Brooks Was Here</div><div class="scene-film">The Shawshank Redemption (1994)</div></div><div class="scene-why">An old man freed after 50 years in prison can't handle the world. He feeds birds in the park. He carves "Brooks was here" into a beam. The tenderness is in the audience's protective instinct: we want someone to help him, and no one does. <strong>The most devastating tenderness is when it exists in a world that doesn't reciprocate it.</strong></div><span class="scene-mechanic">Technique: Unreciprocated vulnerability · Audience protective instinct with no resolution · Small acts as character · Institutional damage made personal</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">Anton Ego's Ratatouille Flashback</div><div class="scene-film">Ratatouille (2007)</div></div><div class="scene-why">The food critic takes one bite and is transported to his childhood. His mother's kitchen. One taste. The harsh exterior dissolves in a single frame. Pixar compresses an entire character rehabilitation into 4 seconds of facial animation. <strong>Food as emotional time travel</strong> is universal — everyone has a taste that takes them home.</div><span class="scene-mechanic">Technique: Sensory trigger (taste) → childhood memory · Instant character rehabilitation · Universal specificity · 4-second emotional arc</span></div>
+          <div class="scene-card"><div class="scene-head"><div class="scene-title">Aragorn Bows to the Hobbits</div><div class="scene-film">Return of the King (2003)</div></div><div class="scene-why">"My friends... you bow to no one." The king of the world bows to the smallest people in it. The tenderness is in the power differential: the most powerful person acknowledging the courage of the most vulnerable. <strong>When the strong protect and honor the small, the audience's protective instincts resolve into catharsis.</strong></div><span class="scene-mechanic">Technique: Power acknowledging vulnerability · Inversion of hierarchy · Communal emotion (the crowd bows too) · Earned over trilogy runtime</span></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="ten-triggers">
+        <div class="triggers-grid">
+          <div class="trigger-item"><div class="trigger-icon">🤲</div><div><div class="trigger-label">Unprompted Kindness</div><div class="trigger-desc">She stops to help someone she doesn't need to help. He says something kind when no one is watching. Goodness witnessed is the most efficient way to create audience attachment.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">😢</div><div><div class="trigger-label">Crying Alone</div><div class="trigger-desc">A character who is strong in public but allows themselves to grieve in private. The audience is permitted to see something no one else sees. This intimacy creates protectiveness.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🛡️</div><div><div class="trigger-label">Protecting Someone Weaker</div><div class="trigger-desc">She puts herself between someone vulnerable and a threat. The protective act — physical or verbal — reveals character and triggers audience protectiveness in return.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🐾</div><div><div class="trigger-label">Animals and Children</div><div class="trigger-desc">Hardwired. A character's relationship with an animal or child reveals everything about who they are — and activates the audience's protective instincts toward both.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🍲</div><div><div class="trigger-label">Food as Love Language</div><div class="trigger-desc">Cooking for someone. Saving them a plate. The grandmother's recipe. Food bypasses verbal defenses — it communicates care through the oldest human bonding ritual.</div></div></div>
+          <div class="trigger-item"><div class="trigger-icon">🌙</div><div><div class="trigger-label">The 3AM Moment</div><div class="trigger-desc">Tenderness is most visible in exhaustion — the parent who stays up, the friend who drives across town at midnight, the coworker who leaves a note. When someone is tender despite having no obligation, character is revealed.</div></div></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="ten-beat">
+        <div class="beat-list">
+          <div class="beat-item"><div class="beat-num">1</div><div><div class="beat-label">Establish the Hard Exterior <span class="beat-time">Episodes 1–3</span></div><div class="beat-desc">Show the character's public face — competent, guarded, strong. The audience needs to believe they're tough before they see the softness. The contrast IS the tenderness.</div></div></div>
+          <div class="beat-item"><div class="beat-num">2</div><div><div class="beat-label">The Private Moment <span class="beat-time">0:00–0:15</span></div><div class="beat-desc">The character is alone, or with one person who doesn't matter socially. No audience in the story world. This is who they are when nobody is watching. The camera is voyeuristic — the audience is being let in.</div></div></div>
+          <div class="beat-item"><div class="beat-num">3</div><div><div class="beat-label">The Act of Care <span class="beat-time">0:15–0:40</span></div><div class="beat-desc">They do something kind. Specific, not generic. Tucks a blanket. Leaves food without a note. Sits with a sick person in silence. Calls their mother. The act should be small enough to be real — no grand gestures.</div></div></div>
+          <div class="beat-item"><div class="beat-num">4</div><div><div class="beat-label">The Witness (or Lack) <span class="beat-time">0:40–0:55</span></div><div class="beat-desc">Option A: they are truly alone — only the audience sees. Option B: one person sees them, and their face changes. Either way, the tenderness is unperformed. It exists without an audience in the story world.</div></div></div>
+          <div class="beat-item"><div class="beat-num">5</div><div><div class="beat-label">Hold the Face <span class="beat-time">0:55–1:00</span></div><div class="beat-desc">End on their face — not sadness, not joy. The face of someone who is real. The audience has just fallen in love with this character. They will now watch 12 more episodes to protect them.</div></div></div>
+        </div>
+      </div>
+
+      <div class="etab-content" id="ten-prompt">
+        <div class="prompt-block">
+          <div class="prompt-label">AI Scene Prompt Template — Tenderness <button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+          <pre>EMOTION TARGET: Oxytocin-generating tenderness — the scene that makes the audience love the character
+
+SETUP (0–15 seconds):
+- Character: alone or with one person who is vulnerable
+- No audience, no performance — this is who they are when no one is watching
+- Setting: [private space / quiet corner / the walk home / 3am in the kitchen]
+
+THE TENDER ACT (15–45 seconds):
+- Action: [tucks a blanket / leaves food without being seen / cries quietly / calls their mother / sits with the sick person / says the kind thing when a cruel thing would be easier]
+- No dialogue required. If dialogue: soft, specific, not generic
+- Camera: observe without intruding. Medium shot or wider. Let space exist around them.
+- Sound: ambient quiet. If music, single instrument — not sentimental, just present.
+
+THE WITNESS BEAT (45–60 seconds):
+- Option A: they are truly alone — the audience is the only witness to their goodness
+- Option B: one person sees them — and the audience watches that person's face change
+- No acknowledgment needed. The act is enough.
+- End: hold on character's face — not sadness, not joy. Just the face of someone who is real.
+
+VISUAL STYLE: Warm tones. Soft light. Depth of field wide enough to show the environment but narrow enough to focus on the face and hands. Do not make it beautiful — make it honest.
+
+CASTING NOTE: This scene is why the audience will pay for episode 11. Write it before episode 5.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ GEN Z FEAR MODULE -->
+  <div class="genz-module" id="genz">
+    <div class="genz-header">
+      <div class="genz-eyebrow">Atlas Pictures × Pulse Reels — Proprietary Research</div>
+      <div class="genz-title">Gen Z Fear Taxonomy</div>
+      <div class="genz-sub">What specifically terrifies Gen Z (born 1997–2012) — and why it's different from every prior generation's fear landscape. <strong>94% of Gen Z report mental health challenges monthly</strong> (Blue Shield of CA, 2025). <strong>41% report AI anxiety.</strong> <strong>91% consume horror content; psychological horror is #1 preferred subgenre (55%).</strong> This is the data layer Atlas is mining. Ours goes deeper.</div>
+    </div>
+    <div class="fear-taxonomy">
+      <div class="fear-card">
+        <div class="fear-card-head">
+          <div class="fear-icon">📸</div>
+          <div class="fear-name">Surveillance / Being Watched</div>
+          <div class="fear-intensity">
+            <div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div>
+          </div>
+        </div>
+        <div class="fear-body">Gen Z grew up knowing they were documented from birth — ultrasound, birth photo, social media presence assigned before they could speak. The fear isn't abstract surveillance: it's that <strong>someone is watching and you don't know what they're doing with what they see.</strong> The feeling of being studied without consent is their specific form of paranoia.</div>
+        <div class="fear-example">Atlas film: "The Influencer Project" — creator documented everything, someone turned it against her.</div>
+        <span class="fear-atlas-tag">Atlas Target</span>
+      </div>
+      <div class="fear-card">
+        <div class="fear-card-head">
+          <div class="fear-icon">👨‍👩‍👦</div>
+          <div class="fear-name">The Familiar Person Who Isn't Themselves</div>
+          <div class="fear-intensity">
+            <div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div>
+          </div>
+        </div>
+        <div class="fear-body">Parents possessed. Parents as robots. Parents acting wrong in a way that can't be named. This is the <strong>uncanny valley applied to attachment figures</strong> — the person who is supposed to be the safest person in the world, behaving in a way that breaks the pattern of who they are. Get Out, Hereditary, Coraline, The Visit all run on this engine.</div>
+        <div class="fear-example">Atlas film: Untitled "Possessed Parents" project targeting this exact fear vector.</div>
+        <span class="fear-atlas-tag">Atlas Target</span>
+      </div>
+      <div class="fear-card">
+        <div class="fear-card-head">
+          <div class="fear-icon">🤖</div>
+          <div class="fear-name">Replacement / Being Made Obsolete by AI</div>
+          <div class="fear-intensity">
+            <div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip"></div>
+          </div>
+        </div>
+        <div class="fear-body">Not abstract "job loss" — specific: <strong>someone could generate a better version of me.</strong> A deepfake of me saying something I didn't say. A digital twin trained on my data. An AI version of my voice used for things I didn't consent to. The fear that their identity is not theirs to own.</div>
+        <div class="fear-example">Horror angle: protagonist discovers an AI version of her has been running her social accounts. What did it do? What does it know?</div>
+      </div>
+      <div class="fear-card">
+        <div class="fear-card-head">
+          <div class="fear-icon">💔</div>
+          <div class="fear-name">Parasocial Collapse</div>
+          <div class="fear-intensity">
+            <div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip"></div>
+          </div>
+        </div>
+        <div class="fear-body">Gen Z formed genuine emotional bonds with creators, influencers, streamers — people who feel like friends but don't know they exist. The horror of discovering that the person you trusted as a parasocial companion was <strong>performing safety while being unsafe.</strong> The biggest fandom collapses (Colleen Ballinger, Dream, etc.) are real-life parasocial horror films Gen Z lived through.</div>
+        <div class="fear-example">Horror angle: a creator's community realizes, over 12 episodes, that the creator has been building something dark from their collective content.</div>
+      </div>
+      <div class="fear-card">
+        <div class="fear-card-head">
+          <div class="fear-icon">🌍</div>
+          <div class="fear-name">Climate / No Future Dread</div>
+          <div class="fear-intensity">
+            <div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip"></div><div class="fear-pip"></div>
+          </div>
+        </div>
+        <div class="fear-body">Eco-anxiety is clinically documented in Gen Z at higher rates than any prior generation. Not immediate physical danger — <strong>slow dread of a world that won't be habitable.</strong> The horror of normalcy continuing while catastrophe is certain. This is background radiation in the Gen Z psyche and underlies much of their nihilism.</div>
+        <div class="fear-example">Horror angle: a town that knows the flood is coming in 10 years and has decided to act like it isn't.</div>
+      </div>
+      <div class="fear-card">
+        <div class="fear-card-head">
+          <div class="fear-icon">😶</div>
+          <div class="fear-name">Social Death / Permanent Record</div>
+          <div class="fear-intensity">
+            <div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip filled"></div><div class="fear-pip"></div>
+          </div>
+        </div>
+        <div class="fear-body">The internet doesn't forget. One moment — captured, clipped, shared, taken out of context — can destroy a social existence that took years to build. <strong>The fear of the permanent record is Gen Z's version of the small-town gossip network, except the town is global and the record is forever.</strong></div>
+        <div class="fear-example">Horror angle: a girl discovers an old video from when she was 14 is about to be weaponized against her. She has 12 episodes to find who has it and why.</div>
+      </div>
+    </div>
+    <div class="callout callout-purple">
+      <div class="callout-title">The Atlas Insight We Can Extend</div>
+      <p>Atlas identified the top two Gen Z fears from mobile app data. We can build a richer taxonomy by tracking: <strong>TikTok comments on horror content</strong> (what people say scared them), <strong>subreddit discussions</strong> (r/horror, r/GenZ), <strong>search trends</strong> (what horror concepts spike seasonally), and <strong>streaming completion data</strong> (which horror premises hold attention longest). The advantage of being a content company is that our audience is the data pool.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ BREAKDOWN TOOL -->
+  <div class="breakdown-tool" id="breakdown">
+    <div class="sec-label">Scene Breakdown Tool</div>
+    <div class="section-title" style="font-size:1.15rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.4rem">How to Reverse-Engineer Any Scene Into a Prompt</div>
+    <p style="font-size:0.83rem;color:var(--muted);line-height:1.55;max-width:700px">Use this methodology to break down any reference scene from any film into its emotional mechanics — and reconstruct those mechanics as an AI prompt or script beat. Apply to the 100 scenes per emotion as we build this library.</p>
+    <div class="breakdown-steps">
+      <div class="breakdown-step">
+        <div class="breakdown-step-num">01</div>
+        <div class="breakdown-step-title">Identify the Target Emotion</div>
+        <div class="breakdown-step-body">Name the PRIMARY emotion. Not "sad" — specific: grief at the loss of living memory, fear of the familiar made wrong. The more specific the emotion label, the more precise the prompt. One scene, one primary emotion.</div>
+      </div>
+      <div class="breakdown-step">
+        <div class="breakdown-step-num">02</div>
+        <div class="breakdown-step-title">Map the 4 Layers</div>
+        <div class="breakdown-step-body">Every scene has four emotional delivery layers:
+          <ul>
+            <li><strong>Visual:</strong> framing, distance, movement, lighting</li>
+            <li><strong>Audio:</strong> score, silence, ambient, sound design</li>
+            <li><strong>Narrative:</strong> information state, stakes, what the audience knows vs character</li>
+            <li><strong>Pacing:</strong> cut rate, hold duration, rhythm</li>
+          </ul>
+        </div>
+      </div>
+      <div class="breakdown-step">
+        <div class="breakdown-step-num">03</div>
+        <div class="breakdown-step-title">Isolate the 10-Second Window</div>
+        <div class="breakdown-step-body">Find the exact 10 seconds where the emotion peaks. Work backwards: what were the 30 seconds before that made that 10 seconds possible? That setup sequence is the template — not the peak itself.</div>
+      </div>
+      <div class="breakdown-step">
+        <div class="breakdown-step-num">04</div>
+        <div class="breakdown-step-title">Extract the Trigger Sequence</div>
+        <div class="breakdown-step-body">Write the sequence in plain language: "Sound drops. Camera holds. Character turns. Background figure visible. Character's face — 6 seconds. Cut." That sequence IS the prompt. The specific content (what the figure is, who the character is) can be replaced. The sequence is reusable.</div>
+      </div>
+      <div class="breakdown-step">
+        <div class="breakdown-step-num">05</div>
+        <div class="breakdown-step-title">Write the Emotion-First Prompt</div>
+        <div class="breakdown-step-body">Lead with EMOTION TARGET. Then: SETUP → MECHANICS → WHAT TO AVOID. The emotion comes before the content description. AI systems respond better to emotional intent + mechanical instruction than to pure visual description.</div>
+      </div>
+      <div class="breakdown-step">
+        <div class="breakdown-step-num">06</div>
+        <div class="breakdown-step-title">Test the "Cold Viewer" Rule</div>
+        <div class="breakdown-step-body">Would a viewer with zero context understand the emotional stakes in the first 10 seconds of this clip? If not, the scene needs re-engineering. Every scene is also a potential acquisition clip — design for cold viewers as well as invested ones.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ VIRAL SHARE DATA -->
+  <div class="section" id="viral">
+    <div class="sec-label">Viral Share Psychology</div>
+    <div style="font-size:1.1rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.5rem">Which Emotions Drive Sharing — and Why</div>
+    <p style="font-size:0.82rem;color:var(--muted);line-height:1.55;margin-bottom:1.25rem;max-width:700px">Based on Jonah Berger's STEPPS framework (Wharton / <em>Journal of Marketing Research</em>, 2012): <strong>high-arousal emotions drive sharing; valence (positive/negative) is secondary to arousal intensity.</strong> Awe is the #1 sharer. Sadness, despite high engagement, has LOW sharing rate — people experience grief privately. The implication: end on the <em>shareable</em> emotion, not the engaging one.</p>
+    <table class="share-table">
+      <thead>
+        <tr>
+          <th>Emotion</th>
+          <th>Share Rate</th>
+          <th>Share Motivation</th>
+          <th>Platform</th>
+          <th>Microdrama Application</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:#e2e8f0">Awe / Elevation</strong></td>
+          <td><div class="share-bar" style="width:95px;background:linear-gradient(90deg,#8b5cf6,#c084fc)"></div> #1</td>
+          <td>"You NEED to see this" — the social transmission impulse (Berger's highest)</td>
+          <td>All platforms</td>
+          <td>Scale reveals, beauty shots, the moment that makes someone feel small in the face of something vast.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fb923c">Anger / Outrage</strong></td>
+          <td><div class="share-bar" style="width:88px;background:linear-gradient(90deg,#ea580c,#fb923c)"></div> #2</td>
+          <td>"Can you BELIEVE this" — recruiting others to your position (Berger's #2)</td>
+          <td>Twitter/X, TikTok</td>
+          <td>The injustice scene. When she gets wronged publicly. Drives the revenge payoff later.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#7dd3fc">Grief / Catharsis</strong></td>
+          <td><div class="share-bar" style="width:55px;background:linear-gradient(90deg,#0ea5e9,#38bdf8)"></div> #5</td>
+          <td>"This destroyed me" — shared to signal depth and empathy (LOW share despite high engagement)</td>
+          <td>Twitter/X, Instagram Stories</td>
+          <td>The loss of a family member / the letter not sent. High retention, LOW sharing — people grieve privately.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fcd34d">Triumph / Revenge</strong></td>
+          <td><div class="share-bar" style="width:80px;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div> #2</td>
+          <td>"She SNAPPED" — moral vindication shared as cultural rallying</td>
+          <td>TikTok, Twitter</td>
+          <td>The boardroom scene. The one-line delivery. Clip that drives ep 1 starts.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#f9a8d4">Romantic Tension</strong></td>
+          <td><div class="share-bar" style="width:78px;background:linear-gradient(90deg,#ec4899,#f472b6)"></div> #2</td>
+          <td>"I physically cannot" — sharing as communal experience of desire</td>
+          <td>TikTok, Instagram Reels</td>
+          <td>"The look" scene. The almost-touch. The interrupted kiss. Highest rewatch.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#a78bfa">Fear / Dread</strong></td>
+          <td><div class="share-bar" style="width:60px;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div> #3</td>
+          <td>"Watch this alone at 2am I dare you" — shared as challenge/experience</td>
+          <td>TikTok, YouTube Shorts</td>
+          <td>The uncanny parent scene. The figure in background. The door that moved.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#6ee7b7">Revelation / Surprise</strong></td>
+          <td><div class="share-bar" style="width:70px;background:linear-gradient(90deg,#10b981,#34d399)"></div> #1 (new viewers)</td>
+          <td>"You need to watch this from episode 1" — drives acquisition</td>
+          <td>All platforms</td>
+          <td>The identity reveal. The document. The sentence that changes everything.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fda4af">Tenderness</strong></td>
+          <td><div class="share-bar" style="width:50px;background:linear-gradient(90deg,#f43f5e,#fb7185)"></div> #4</td>
+          <td>"I love them so much" — character attachment publicly declared</td>
+          <td>Twitter, Tumblr, Reddit</td>
+          <td>The kindness scene. The crying alone scene. Lowest virality, highest loyalty.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout callout-red" style="margin-top:1.25rem">
+      <div class="callout-title">The Mix Formula — The Emotion Ladder</div>
+      <p>The highest-performing microdrama series don't pick one emotion — they <strong>cycle through the library deliberately.</strong> Berger's key insight: content combining <strong>fear/dread</strong> (retention — they must finish) with <strong>awe/triumph</strong> (sharing — they must tell others) has the highest total value. End on the shareable emotion, not the engaging one. Optimal 12-episode arc: Tenderness (eps 1–3, create attachment) → Romantic tension (eps 4–7, keep watching) → Suspense (eps 6–9, overlapping) → Revelation (eps 10–11, drive sharing) → Triumph OR Grief (ep 12, catharsis). Fear threads throughout, peaking at eps 5 and 9. <strong>The last 5 seconds of every episode should be the frame someone screenshots or the moment someone replays.</strong></p>
+    </div>
+  </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ 8-POINT SHOT GRAMMAR -->
+  <div class="breakdown-tool" id="shotgrammar" style="margin-top:4rem">
+    <div class="sec-label">Professional AI Prompt Framework</div>
+    <div class="section-title" style="font-size:1.15rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:0.4rem">The 8-Point Shot Grammar</div>
+    <p style="font-size:0.83rem;color:var(--muted);line-height:1.55;max-width:700px;margin-bottom:1.25rem">The professional standard for prompting AI video platforms (Sora, Runway Gen 4.5, Veo 3, Kling). Key principle: <strong>express emotion through physical cues, not abstract labels.</strong> "Terrified" produces a cliche. "Jaw slack, eyes tracking right without moving her head, one hand gripping the doorframe white-knuckled" produces a performance.</p>
+    <div class="breakdown-steps">
+      <div class="breakdown-step">
+        <div class="breakdown-step-num" style="background:rgba(124,58,237,0.15);color:#a78bfa">S</div>
+        <div class="breakdown-step-title">Subject</div>
+        <div class="breakdown-step-body">Who + their emotional state, expressed physically. <strong>"A 17-year-old girl, eyes hollow, spine rigid"</strong> — not "a scared teenager."</div>
+      </div>
+      <div class="breakdown-step">
+        <div class="breakdown-step-num" style="background:rgba(236,72,153,0.15);color:#f9a8d4">E</div>
+        <div class="breakdown-step-title">Emotion</div>
+        <div class="breakdown-step-body">Physical expression of feeling — never abstract labels. <strong>"Terror masked as calm; jaw clenched, breathing shallow"</strong> — specify which muscles, which micro-expressions. Specify "activation of orbicularis oculi" for genuine smiles vs. performance.</div>
+      </div>
+      <div class="breakdown-step">
+        <div class="breakdown-step-num" style="background:rgba(96,165,250,0.15);color:#93c5fd">O</div>
+        <div class="breakdown-step-title">Optics</div>
+        <div class="breakdown-step-body">Lens and depth of field. <strong>"35mm, shallow depth of field, subject sharp, background soft blur"</strong> — AI platforms now recognize professional cinematography terminology. "85mm equivalent, rack focus from background dread to subject's unaware face" produces readable results.</div>
+      </div>
+      <div class="breakdown-step">
+        <div class="breakdown-step-num" style="background:rgba(245,158,11,0.15);color:#fcd34d">M</div>
+        <div class="breakdown-step-title">Motion</div>
+        <div class="breakdown-step-body">Camera movement mapped to emotional state. <strong>"Extremely slow dolly push, almost imperceptible"</strong> — stillness for dread, motion for anxiety, locked frame for horror. Steadicam produces the strongest embodied viewer engagement (2023 Frontiers neuroscience study).</div>
+      </div>
+      <div class="breakdown-step">
+        <div class="breakdown-step-num" style="background:rgba(14,165,233,0.15);color:#7dd3fc">L</div>
+        <div class="breakdown-step-title">Lighting</div>
+        <div class="breakdown-step-body">Tone and atmosphere. <strong>"Single practical light source from doorway, rest in near-darkness"</strong> — lighting encodes emotion before anything else. Desaturation + shadow = dread. Warm + soft = safety/intimacy. Chiaroscuro (high-contrast on faces) enhances empathic response.</div>
+      </div>
+      <div class="breakdown-step">
+        <div class="breakdown-step-num" style="background:rgba(16,185,129,0.15);color:#6ee7b7">R</div>
+        <div class="breakdown-step-title">Style Reference</div>
+        <div class="breakdown-step-body">Aesthetic anchor. <strong>"Found footage aesthetic, slight digital grain, timestamp overlay"</strong> or "Villeneuve procedural realism" or "Kubrick symmetrical dread." AI systems respond well to named filmmaker aesthetics.</div>
+      </div>
+      <div class="breakdown-step">
+        <div class="breakdown-step-num" style="background:rgba(244,63,94,0.15);color:#fda4af">A</div>
+        <div class="breakdown-step-title">Audio Note</div>
+        <div class="breakdown-step-body">Sound design direction. <strong>"Ambient electrical hum, diegetic footsteps above, no score"</strong> — even text-only prompts benefit from sound direction as it shapes the visual composition. "Low rumble beneath audibility, felt more than heard" signals infrasound aesthetic.</div>
+      </div>
+      <div class="breakdown-step">
+        <div class="breakdown-step-num" style="background:rgba(251,146,60,0.15);color:#fb923c">C</div>
+        <div class="breakdown-step-title">Continuity</div>
+        <div class="breakdown-step-body">Beat in sequence. <strong>"Mid-scene; character has just heard a sound they can't explain"</strong> — tells the AI what emotional state carries from the prior shot. For multi-shot sequences, continuity notes prevent tonal whiplash between generated clips.</div>
+      </div>
+    </div>
+    <div class="callout callout-purple" style="margin-top:1.5rem">
+      <div class="callout-title">The 3-Layer Prompt Structure</div>
+      <p>Professional AI video prompters use three layers: <strong>[PHYSICAL SCENE]</strong> — what exists in the frame, <strong>[EMOTIONAL SUBTEXT]</strong> — what the character feels beneath the surface, <strong>[CAMERA LANGUAGE]</strong> — how the camera communicates the emotion to the viewer. Lead with the physical, then the emotional, then the technical. This order produces the most coherent results across Sora, Runway, and Veo 3.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Pulse Reels × Atlas Pictures — Emotion Library v1 &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; Living document — add scenes, refine prompts, expand by emotion
+</footer>
+
+<script>
+  function showTab(btn, tabId) {
+    const block = btn.closest('.emotion-body');
+    block.querySelectorAll('.etab-btn').forEach(b => b.classList.remove('active'));
+    block.querySelectorAll('.etab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  }
+
+  function copyPrompt(btn) {
+    const pre = btn.closest('.prompt-block').querySelector('pre');
+    const text = pre.textContent;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 2000);
+      });
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    }
+  }
+</script>
+</body>
+</html>
