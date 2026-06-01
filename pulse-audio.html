@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulse Audio — Dipsea vs Quinn Competitive Brief</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a12;
+      --surface: #13131e;
+      --surface2: #1c1c2a;
+      --surface3: #232333;
+      --border: #2a2a3a;
+      --border-bright: #3a3a4f;
+      --text: #efece5;
+      --muted: #8a8a9e;
+      --muted2: #5e5e72;
+      --pulse: #ff3d77;
+      --pulse-dim: #cc2e5e;
+      --gold: #f0c97a;
+      --gold-dim: #b69156;
+      --plum: #a45cff;
+      --green: #5cc78c;
+      --red: #ef6f6f;
+      --blue: #6ea8ff;
+      --dipsea: #6db4ff;
+      --quinn: #ff3d77;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    header {
+      background: rgba(19,19,30,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .back-link {
+      font-size: 0.83rem;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .back-link:hover { color: var(--text); }
+    .header-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
+    .header-title .pulse { color: var(--pulse); }
+    .header-badge {
+      font-size: 0.72rem;
+      background: rgba(255,61,119,0.15);
+      color: var(--pulse);
+      border: 1px solid rgba(255,61,119,0.4);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .subnav {
+      position: sticky;
+      top: 60px;
+      z-index: 99;
+      background: rgba(10,10,18,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .subnav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.7rem 2rem;
+      display: flex;
+      gap: 1.5rem;
+    }
+    .subnav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.3rem 0;
+    }
+    .subnav a:hover { color: var(--text); }
+
+    .page { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+    section { margin-bottom: 4.5rem; scroll-margin-top: 130px; }
+    section h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    section h2 .num {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--pulse), var(--plum));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-right: 0.6rem;
+    }
+    section h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 1.8rem 0 0.6rem;
+      letter-spacing: -0.01em;
+    }
+    section .lede {
+      color: var(--muted);
+      font-size: 1.02rem;
+      margin-bottom: 1.5rem;
+      max-width: 75ch;
+    }
+    p { margin-bottom: 0.9rem; }
+
+    .hero {
+      padding: 4rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+    .hero .tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--pulse);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 .pulse { color: var(--pulse); }
+    .hero h1 .plum { color: var(--plum); }
+    .hero .sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 60ch;
+      line-height: 1.5;
+    }
+    .hero .meta {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 1.6rem;
+      font-size: 0.78rem;
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .hero .meta span strong { color: var(--text); font-weight: 700; }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0 2rem;
+    }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.1rem 1.2rem;
+    }
+    .stat .label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      margin-bottom: 0.4rem;
+    }
+    .stat .value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .stat .value.pulse { color: var(--pulse); }
+    .stat .value.plum { color: var(--plum); }
+    .stat .value.gold { color: var(--gold); }
+    .stat .value.dipsea { color: var(--dipsea); }
+    .stat .value.quinn { color: var(--quinn); }
+    .stat .note {
+      font-size: 0.74rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .vs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+      margin: 1.5rem 0 2rem;
+    }
+    @media (max-width: 720px) { .vs-grid { grid-template-columns: 1fr; } }
+    .vs-card {
+      border-radius: 16px;
+      padding: 1.6rem 1.8rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+    .vs-card.dipsea { border-left: 4px solid var(--dipsea); }
+    .vs-card.quinn { border-left: 4px solid var(--quinn); }
+    .vs-card h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.3rem;
+    }
+    .vs-card.dipsea h3 { color: var(--dipsea); }
+    .vs-card.quinn h3 { color: var(--quinn); }
+    .vs-card .vs-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      margin-bottom: 0.8rem;
+    }
+    .vs-card p {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+    .vs-card .vs-stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .vs-card .vs-stat-row:last-child { border-bottom: none; }
+    .vs-card .vs-stat-row .k { color: var(--muted2); font-weight: 600; }
+    .vs-card .vs-stat-row .v { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+    .title-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 0.8rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 1rem;
+      align-items: center;
+    }
+    .title-card .rank {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--muted2);
+      min-width: 36px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .title-card .meta {
+      min-width: 0;
+    }
+    .title-card .name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+    .title-card .desc {
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .title-card .platform {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+      flex-shrink: 0;
+    }
+    .title-card .platform.dipsea { background: rgba(109,180,255,0.12); color: var(--dipsea); border: 1px solid rgba(109,180,255,0.3); }
+    .title-card .platform.quinn { background: rgba(255,61,119,0.12); color: var(--quinn); border: 1px solid rgba(255,61,119,0.3); }
+
+    .data-table {
+      width: 100%;
+      font-size: 0.88rem;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      background: var(--surface);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 0.7rem 1rem;
+      background: var(--surface2);
+      font-weight: 700;
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table td.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+    }
+
+    .lane {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.4rem;
+      position: relative;
+    }
+    .lane.top {
+      border: 1px solid var(--pulse-dim);
+      box-shadow: 0 0 0 1px rgba(255,61,119,0.12), 0 20px 60px rgba(255,61,119,0.04);
+    }
+    .lane.top::before {
+      content: "RECOMMENDED FIRST LAUNCH";
+      position: absolute;
+      top: -10px; right: 20px;
+      background: var(--pulse);
+      color: #fff;
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+    .lane-num {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--pulse);
+      margin-bottom: 0.3rem;
+    }
+    .lane h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.6rem;
+      line-height: 1.2;
+    }
+    .lane .desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.1rem;
+    }
+    .lane-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem 1.5rem;
+      margin: 1rem 0;
+    }
+    @media (max-width: 720px) { .lane-grid { grid-template-columns: 1fr; } }
+    .lane-row {
+      display: flex;
+      gap: 0.6rem;
+      font-size: 0.88rem;
+      align-items: baseline;
+    }
+    .lane-row .k {
+      color: var(--muted2);
+      font-weight: 600;
+      flex-shrink: 0;
+      min-width: 100px;
+    }
+
+    .callout {
+      background: linear-gradient(135deg, rgba(255,61,119,0.08), rgba(164,92,255,0.06));
+      border: 1px solid rgba(255,61,119,0.25);
+      border-radius: 14px;
+      padding: 1.4rem 1.6rem;
+      margin: 1.6rem 0;
+    }
+    .callout .tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--pulse);
+      margin-bottom: 0.4rem;
+    }
+    .callout p {
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+    .callout p strong { color: var(--pulse); }
+
+    .thesis {
+      background: var(--surface);
+      border: 1px solid var(--pulse-dim);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+    .thesis blockquote {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      font-style: italic;
+    }
+    .thesis blockquote::before {
+      content: "“";
+      color: var(--pulse);
+      font-size: 3rem;
+      line-height: 0.5;
+      vertical-align: -0.4em;
+      margin-right: 0.2rem;
+    }
+    .thesis blockquote::after {
+      content: "”";
+      color: var(--pulse);
+      font-size: 3rem;
+      line-height: 0;
+      vertical-align: -0.5em;
+      margin-left: 0.1rem;
+    }
+    .thesis .who {
+      margin-top: 1rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .sources {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .sources a { color: var(--blue); text-decoration: none; word-break: break-all; }
+    .sources a:hover { text-decoration: underline; }
+    .sources li { margin-bottom: 0.5rem; }
+    ul, ol { padding-left: 1.2rem; }
+    ul li, ol li { margin-bottom: 0.35rem; color: var(--muted); }
+    ul li strong, ol li strong { color: var(--text); font-weight: 700; }
+
+    .footnote {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--muted2);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="back-link">← Home</a>
+  <div class="header-title"><span class="pulse">PULSE</span> · Audio Strategy</div>
+  <div class="header-badge">COMPETITIVE BRIEF · JUNE 2026</div>
+</header>
+
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a href="#summary">Summary</a>
+    <a href="#snapshot">Snapshot</a>
+    <a href="#dipsea">Dipsea</a>
+    <a href="#quinn">Quinn</a>
+    <a href="#top-titles">Top 10 Titles</a>
+    <a href="#genres">Genres</a>
+    <a href="#market">Market</a>
+    <a href="#lanes">5 Lanes</a>
+    <a href="#playbook">Playbook</a>
+    <a href="#sources">Sources</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="hero">
+    <div class="tag">Pulse Reels · Competitive Intelligence</div>
+    <h1>
+      <span class="pulse">Dipsea</span> made it prestige. <br>
+      <span class="plum">Quinn</span> made it viral. <br>
+      Pulse can make it <em>visible</em>.
+    </h1>
+    <p class="sub">
+      A side-by-side of the two audio erotica platforms Pulse will compete with as we add audio. Top titles, content models, audience data, market context, and five white-space lanes Pulse can own.
+    </p>
+    <div class="meta">
+      <span><strong>For:</strong> Pulse Reels team</span>
+      <span><strong>Author:</strong> Marie Nahon</span>
+      <span><strong>Updated:</strong> June 2026</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════ SUMMARY ════════════════════ -->
+  <section id="summary">
+    <h2><span class="num">01</span> The 60-second read</h2>
+
+    <div class="thesis">
+      <blockquote>
+        Dipsea is the HBO of audio romance — closed-shop, pro-produced, prestige. Quinn is the TikTok of audio romance — celebrity-narrated thirst, second-person POV, creator-driven. Neither has video. Neither has Latina or Asian-language originals. Neither has interactive or co-listen. Pulse can own all three.
+      </blockquote>
+      <div class="who">— The strategic frame</div>
+    </div>
+
+    <p>Both platforms exploded during 2020 lockdowns and have grown ~50× listening hours since 2021. The audio erotica category is now a defined niche inside the $56.6B digital adult content market, riding the BookTok / romantasy cultural engine. <strong>The interesting white space is everywhere they aren't.</strong></p>
+  </section>
+
+  <!-- ════════════════════ SNAPSHOT ════════════════════ -->
+  <section id="snapshot">
+    <h2><span class="num">02</span> Snapshot</h2>
+    <p class="lede">The two companies at a glance, as of June 2026.</p>
+
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="label">Dipsea ARR</div>
+        <div class="value dipsea">~$6M</div>
+        <div class="note">Acq'd by RevenueCat Sep 2024</div>
+      </div>
+      <div class="stat">
+        <div class="label">Dipsea paying subs</div>
+        <div class="value dipsea">~94K</div>
+        <div class="note">at time of acquisition</div>
+      </div>
+      <div class="stat">
+        <div class="label">Quinn ARR</div>
+        <div class="value quinn">~$12M+</div>
+        <div class="note">Independent, $10M VC raised</div>
+      </div>
+      <div class="stat">
+        <div class="label">Quinn subs</div>
+        <div class="value quinn">~300K</div>
+        <div class="note">75%+ female · TikTok-driven growth</div>
+      </div>
+      <div class="stat">
+        <div class="label">Listening time growth</div>
+        <div class="value gold">~50×</div>
+        <div class="note">Quinn: 3.2M min/yr (2021) → 14M min/mo (2023)</div>
+      </div>
+      <div class="stat">
+        <div class="label">Total addressable</div>
+        <div class="value">$56.6B</div>
+        <div class="note">Digital adult content market 2025 · 9.4% CAGR</div>
+      </div>
+    </div>
+
+    <div class="vs-grid">
+      <div class="vs-card dipsea">
+        <div class="vs-tag">Polished Prestige</div>
+        <h3>Dipsea</h3>
+        <p>Founded 2018 by Gina Gutierrez + Faye Keegan, San Francisco. Pro-produced, female-gaze, full-cast audio dramas. Closed catalog — staff writers + professional voice actors only. Acquired by RevenueCat Sept 2024.</p>
+        <div class="vs-stat-row"><span class="k">Pricing</span><span class="v">$12.99/mo · $69.99/yr</span></div>
+        <div class="vs-stat-row"><span class="k">Library</span><span class="v">1,000+ titles</span></div>
+        <div class="vs-stat-row"><span class="k">Format</span><span class="v">3rd-person narrative drama, multi-chapter</span></div>
+        <div class="vs-stat-row"><span class="k">Production</span><span class="v">Full sound design, music, ambient</span></div>
+        <div class="vs-stat-row"><span class="k">Team</span><span class="v">~7 (post-acquisition)</span></div>
+        <div class="vs-stat-row"><span class="k">Pain points</span><span class="v">"Not enough new stories" · bugs</span></div>
+      </div>
+      <div class="vs-card quinn">
+        <div class="vs-tag">Viral & Creator-Led</div>
+        <h3>Quinn</h3>
+        <p>Founded 2019 (app 2021) by Caroline Spiegel (sister of Evan/Snap), LA. Curated UGC marketplace + celebrity-narrated Quinn Originals. Second-person "to you" POV. Backed by Day One, Scooter Braun's TQ Ventures, M13.</p>
+        <div class="vs-stat-row"><span class="k">Pricing</span><span class="v">$7.99/mo · $59.99/yr</span></div>
+        <div class="vs-stat-row"><span class="k">Library</span><span class="v">UGC long tail + 11+ Originals</span></div>
+        <div class="vs-stat-row"><span class="k">Format</span><span class="v">2nd-person "to you" — no female voice</span></div>
+        <div class="vs-stat-row"><span class="k">Production</span><span class="v">Voice-led UGC · high-prod Originals</span></div>
+        <div class="vs-stat-row"><span class="k">Team</span><span class="v">~20 (doubled in past year)</span></div>
+        <div class="vs-stat-row"><span class="k">Pain points</span><span class="v">Recent price hike backlash</span></div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="tag">The single most important data point</div>
+      <p><strong>Ember &amp; Ice</strong> (Quinn's MM fae princes Original narrated by Hudson Williams &amp; Connor Storrie of Heated Rivalry) has hit <strong>39 million minutes listened</strong> — Quinn's most-listened series ever. Proves three things: (1) MM romance demand explodes when treated with prestige, (2) celebrity narrator + existing fanbase = TikTok-native growth engine, (3) the ceiling is much higher than either platform has tested.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════ DIPSEA ════════════════════ -->
+  <section id="dipsea">
+    <h2><span class="num">03</span> Dipsea — Deep Dive</h2>
+    <p class="lede">The premium incumbent. Now a RevenueCat "subscription lab."</p>
+
+    <h3>Business</h3>
+    <ul>
+      <li><strong>Founded:</strong> 2018, San Francisco · Gina Gutierrez (CEO), Faye Keegan (CTO)</li>
+      <li><strong>Funding:</strong> ~$13.6–15.1M across three rounds. Last raise $8.2M (March 2021).</li>
+      <li><strong>Acquisition:</strong> RevenueCat, Sept 26, 2024 — all-cash, undisclosed amount. Investors fully bought out.</li>
+      <li><strong>ARR at acquisition:</strong> ~$6M / ~$505K monthly</li>
+      <li><strong>Subs at acquisition:</strong> ~94K paying</li>
+      <li><strong>Team:</strong> Was 29 mid-2024, now ~7 post-acquisition (subsidiary)</li>
+      <li><strong>Pricing:</strong> $12.99/mo or $69.99/yr (~$5.83/mo). 7-day free trial. Frequent 50% promos.</li>
+    </ul>
+
+    <h3>Content model</h3>
+    <ul>
+      <li><strong>1,000+ titles</strong> — closed catalog, in-house writers + pro voice actors only</li>
+      <li><strong>Series-based</strong> — many multi-chapter arcs (20+ chapters)</li>
+      <li><strong>Categories (live on dipseastories.com/discover):</strong> Contemporary, Fantasy, Historical Romance, Audio Drama, Full Cast, Paranormal, Sapphic, Queer, M/M, M/F/M, Why Choose, Enemies to Lovers, Friends to Lovers, Second Chance, Slow Burn</li>
+      <li><strong>Sub-tags:</strong> Scottish/Irish/British Accent, Western, Werewolves, Vampires, Fae, Greek Mythology, Regency, Extra Spicy, BDSM, Summer Heat, Love Triangle, Black Voices, Sports, Campus Romance, Boyfriend Roleplay</li>
+      <li><strong>Featured collections:</strong> New Releases, Overheard Audios (no-dialogue sensual audio), "Top Characters + You" (interactive), Queer Romance, Extra Spicy &amp; BDSM, Sleep Scenes &amp; Stories, Wellness &amp; Education</li>
+      <li><strong>Production:</strong> full sound design, music, ambient — NOT celebrity-led</li>
+      <li><strong>Cadence:</strong> weekly new chapter drops on flagship serialized series</li>
+    </ul>
+
+    <h3>Hero titles (live on Discover)</h3>
+    <p>Through the Smoke · Lecture Me · The Highlander · The Local · Hometown · Lone Wolf · Leather &amp; Lace · <strong>Pinedale Falls</strong> (Wyoming cowboys Dan &amp; Wilder) · Close Companions · Night School · Gods &amp; Men · <strong>Wings of Winter</strong> (fae romantasy riding ACOTAR/Fourth Wing) · Courted · The Ticket · <strong>The Detour</strong> (Ewan, Irish stablehand — recurring favorite) · Plus One · Off the Coast · Raise the Bar · Under Construction · Office Hours · Familiar Face · Swipe Right · Truth or Dare · Secret Rooms · Bound · In the Dark · The List · Overheard · Evergreen · Luna + You · Wild Hearts · Avalon Academy · Carmilla · Sapphic Saddles · The Figure · Falling · On The Apps · Playing the Field · Self Touch · Partner Pleasure.</p>
+
+    <p style="color:var(--muted);font-size:0.92rem;"><strong>Reviewer-cited fan favorites:</strong> characters Lachlan, Ewan, Isa, Zoe, Andres, Ronan. "<strong>The Hunt</strong>" (character Nolan) is a recurring dark-romance favorite in App Store reviews.</p>
+
+    <div class="callout">
+      <div class="tag">Reviewer pain points (App Store · AppGrooves · Trustpilot)</div>
+      <p>"Not enough new stories" (#1 complaint — fans burn through favorites fast) · app bugs/crashes · queue/autoplay broken in recent updates · no filter for voice gender or spice level · pricing perceived as steep at $50–70/yr.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════ QUINN ════════════════════ -->
+  <section id="quinn">
+    <h2><span class="num">04</span> Quinn — Deep Dive</h2>
+    <p class="lede">The TikTok-native challenger. Celebrity-narrated, second-person, viral.</p>
+
+    <h3>Business</h3>
+    <ul>
+      <li><strong>Founded:</strong> 2019 (app launched 2021), LA · Caroline Spiegel (CEO, sister of Snap's Evan Spiegel)</li>
+      <li><strong>Funding:</strong> ~$10M total. Investors: Day One Ventures, TQ Ventures (Scooter Braun), M13 founder Courtney Reum, Great Oaks, Global Asset Capital, Adrian Grenier</li>
+      <li><strong>Subscribers:</strong> 300K+ (Fox Business) · 75%+ female</li>
+      <li><strong>ARR:</strong> ~$12M+ (Variety/Marie Claire 2025–2026)</li>
+      <li><strong>Listening hours:</strong> 3.2M minutes/year (2021) → <strong>14M+ minutes/month</strong> (2023). ~50× growth.</li>
+      <li><strong>Team:</strong> ~20 (doubled in past year)</li>
+      <li><strong>Pricing:</strong> $7.99/mo or $59.99/yr. Price increases caused review backlash late 2025.</li>
+    </ul>
+
+    <h3>Content model</h3>
+    <ul>
+      <li><strong>Hybrid:</strong> long-tail moderated UGC creators + premium "Quinn Originals"</li>
+      <li><strong>Creator program:</strong> auditions, background checks, all submissions reviewed pre-publish</li>
+      <li><strong>Creator monetization:</strong> subscription revenue share + "Roses" tipping (every listener gets 1 free Rose)</li>
+      <li><strong>Categories (live on tryquinn.com):</strong> Boyfriend (#1 most popular), Friends to Lovers, Enemies to Lovers, Best Friend's Brother, Professor/Student, Roommates to Lovers, Strangers to Lovers, "Hold the Moan", MDom, FDom, MSub</li>
+      <li><strong>Curated playlists:</strong> Best of All Time, Fan Favorites, Pride, Trending</li>
+      <li><strong>Active creators:</strong> Naudio, Cavern Kingston, Noble, Atlas, AugustInTheWinter, LonelyFans</li>
+      <li><strong>Format POV:</strong> second-person "to you" — no female voice, lets listener self-insert (mirrors BookTok first-person POV preference)</li>
+      <li><strong>Cadence:</strong> dozens of new stories/week from creator network · Originals released as multi-episode drops</li>
+    </ul>
+
+    <h3>Quinn Originals — ranked</h3>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Title</th><th>Narrator</th><th>Trope</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1</strong></td><td><strong>Ember &amp; Ice</strong></td><td>Hudson Williams + Connor Storrie (<em>Heated Rivalry</em>)</td><td>MM fae princes · 39M min listened</td></tr>
+        <tr><td>2</td><td>The Trials + Winter Solstice</td><td>Jamie Campbell Bower (<em>Stranger Things</em>)</td><td>Magical society · 4.6/5 spice</td></tr>
+        <tr><td>3</td><td>Compromised</td><td>Victoria Pedretti</td><td>Sapphic spy/bondage thriller</td></tr>
+        <tr><td>4</td><td>The Muse</td><td>Tom Blyth (<em>Hunger Games</em>)</td><td>Regency composer/forbidden</td></tr>
+        <tr><td>5</td><td>Hyperdrive</td><td>Manny Jacinto (<em>The Acolyte</em>)</td><td>Sci-fi memory-as-currency</td></tr>
+        <tr><td>6</td><td>Hidden Harbor</td><td>Chris Briney (<em>TSITP</em>)</td><td>Surfer/tourist · launched 2d after TSITP finale</td></tr>
+        <tr><td>7</td><td>The Queen's Guard</td><td>Andrew Scott (<em>Fleabag</em>)</td><td>Knight/queen love triangle</td></tr>
+        <tr><td>8</td><td>Amplified</td><td>Kate Moennig (<em>The L Word</em>)</td><td>Sapphic rockstar/ghostwriter</td></tr>
+        <tr><td>9</td><td>The Regent</td><td>Lucien Laviscount (<em>Emily in Paris</em>)</td><td>Jewel thieves rivals-to-lovers</td></tr>
+        <tr><td>10</td><td>The Inventor's Apprentice</td><td>Thomas Doherty (<em>Gossip Girl</em>)</td><td>Time-travel</td></tr>
+        <tr><td>11</td><td>The Misty Door</td><td>Jesse Williams (<em>Grey's Anatomy</em>)</td><td>Sapphic slow burn</td></tr>
+      </tbody>
+    </table>
+
+    <p style="color:var(--muted);font-size:0.92rem;"><strong>New in 2025–2026:</strong> Yes, Chef (Shawn Hatosy, 100K+ plays in first 12 hours) · Rent Free · Three Days in Galloway · projects by Tyriq Withers and Costa D'Angelo.</p>
+  </section>
+
+  <!-- ════════════════════ TOP 10 ════════════════════ -->
+  <section id="top-titles">
+    <h2><span class="num">05</span> Top 10 Titles Across Both</h2>
+    <p class="lede">Ranked by visible listening data, App Store mentions, TikTok virality.</p>
+
+    <div class="title-card">
+      <div class="rank">01</div>
+      <div class="meta">
+        <div class="name">Ember &amp; Ice</div>
+        <div class="desc">Hudson Williams + Connor Storrie. MM fae princes. <strong>39M minutes listened — Quinn's all-time #1.</strong> Rode <em>Heated Rivalry</em> / HBO Max wave on TikTok.</div>
+      </div>
+      <div class="platform quinn">Quinn</div>
+    </div>
+
+    <div class="title-card">
+      <div class="rank">02</div>
+      <div class="meta">
+        <div class="name">The Trials + Winter Solstice</div>
+        <div class="desc">Jamie Campbell Bower (<em>Stranger Things</em>). Magical society / library trope. Highest spice rating on platform (4.6/5). Stranger Things stan crossover.</div>
+      </div>
+      <div class="platform quinn">Quinn</div>
+    </div>
+
+    <div class="title-card">
+      <div class="rank">03</div>
+      <div class="meta">
+        <div class="name">The Detour</div>
+        <div class="desc">Ewan the Irish stablehand. Constantly named in Dipsea App Store reviews as a fan favorite. Accent-led intimacy hook.</div>
+      </div>
+      <div class="platform dipsea">Dipsea</div>
+    </div>
+
+    <div class="title-card">
+      <div class="rank">04</div>
+      <div class="meta">
+        <div class="name">Pinedale Falls</div>
+        <div class="desc">Wyoming cowboys Dan &amp; Wilder. Multi-chapter serialized small-town romance. Flagship Dipsea longform.</div>
+      </div>
+      <div class="platform dipsea">Dipsea</div>
+    </div>
+
+    <div class="title-card">
+      <div class="rank">05</div>
+      <div class="meta">
+        <div class="name">Yes, Chef</div>
+        <div class="desc">Shawn Hatosy. Restaurant power-dynamic trope. <strong>100K plays in first 12 hours.</strong> Strong cross-pitch to Kitsé/Ramsay narrative.</div>
+      </div>
+      <div class="platform quinn">Quinn</div>
+    </div>
+
+    <div class="title-card">
+      <div class="rank">06</div>
+      <div class="meta">
+        <div class="name">Hidden Harbor</div>
+        <div class="desc">Chris Briney (<em>The Summer I Turned Pretty</em>). Surfer/tourist trope. Strategically released 2 days after TSITP finale — masterclass in cultural-moment timing.</div>
+      </div>
+      <div class="platform quinn">Quinn</div>
+    </div>
+
+    <div class="title-card">
+      <div class="rank">07</div>
+      <div class="meta">
+        <div class="name">Through the Smoke</div>
+        <div class="desc">Dipsea fall 2024–2025 banner release. Heavy carousel placement; recurring App Store mention.</div>
+      </div>
+      <div class="platform dipsea">Dipsea</div>
+    </div>
+
+    <div class="title-card">
+      <div class="rank">08</div>
+      <div class="meta">
+        <div class="name">Wings of Winter</div>
+        <div class="desc">Fae romantasy riding the ACOTAR / Fourth Wing BookTok wave. Dipsea's answer to the romantasy boom.</div>
+      </div>
+      <div class="platform dipsea">Dipsea</div>
+    </div>
+
+    <div class="title-card">
+      <div class="rank">09</div>
+      <div class="meta">
+        <div class="name">Compromised</div>
+        <div class="desc">Victoria Pedretti. Sapphic spy / bondage thriller. Second-most spicy Original on Quinn.</div>
+      </div>
+      <div class="platform quinn">Quinn</div>
+    </div>
+
+    <div class="title-card">
+      <div class="rank">10</div>
+      <div class="meta">
+        <div class="name">The Hunt (Nolan)</div>
+        <div class="desc">Dark romance favorite. Recurring App Store mention as a "couldn't stop replaying" entry.</div>
+      </div>
+      <div class="platform dipsea">Dipsea</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ GENRES ════════════════════ -->
+  <section id="genres">
+    <h2><span class="num">06</span> Genres ranked by visible popularity</h2>
+    <p class="lede">Based on carousel placement, category prominence, App Store/Reddit mentions.</p>
+
+    <div class="vs-grid">
+      <div class="vs-card quinn">
+        <h3>Quinn — by promotion + category prominence</h3>
+        <ol style="margin-top: 1rem;">
+          <li><strong>Boyfriend</strong> (officially their #1 category)</li>
+          <li><strong>Best Friend's Brother</strong></li>
+          <li><strong>Enemies to Lovers / Rivals</strong></li>
+          <li><strong>MM romance</strong> (post Ember &amp; Ice)</li>
+          <li><strong>Roommates / Strangers to Lovers</strong></li>
+          <li>Professor / Student</li>
+          <li>Fae / Romantasy</li>
+          <li>Sapphic (Compromised, Amplified)</li>
+          <li>Hold the Moan / praise kink</li>
+          <li>MDom / FDom power dynamics</li>
+        </ol>
+      </div>
+      <div class="vs-card dipsea">
+        <h3>Dipsea — by carousel prominence + tag breadth</h3>
+        <ol style="margin-top: 1rem;">
+          <li><strong>Contemporary romance serialized longform</strong></li>
+          <li><strong>Romantasy / Fae / Fantasy</strong></li>
+          <li><strong>Western / Cowboy / Small Town</strong></li>
+          <li><strong>Sapphic / Queer</strong></li>
+          <li><strong>Scottish/Irish accent romances</strong></li>
+          <li>Extra Spicy / BDSM</li>
+          <li>Campus Romance / Office Hours</li>
+          <li>Paranormal / Werewolves / Vampires</li>
+          <li>Historical / Regency</li>
+          <li><strong>Sleep, Self Touch, Partner Pleasure</strong> (wellness-adjacent, unique to Dipsea)</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ MARKET ════════════════════ -->
+  <section id="market">
+    <h2><span class="num">07</span> Market context</h2>
+    <p class="lede">Why audio erotica is one of the fastest-growing slices of digital intimacy.</p>
+
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="label">Digital adult market</div>
+        <div class="value">$56.6B</div>
+        <div class="note">2025 · → $97.2B by 2031</div>
+      </div>
+      <div class="stat">
+        <div class="label">Category CAGR</div>
+        <div class="value green">9.43%</div>
+        <div class="note">Verified Market Research · Mordor</div>
+      </div>
+      <div class="stat">
+        <div class="label">Audio fiction share</div>
+        <div class="value gold">38.6%</div>
+        <div class="note">of total audiobook revenue 2026 — romance is largest</div>
+      </div>
+      <div class="stat">
+        <div class="label">Dipsea lockdown spike</div>
+        <div class="value">+84%</div>
+        <div class="note">Subscriber growth 2020</div>
+      </div>
+    </div>
+
+    <h3>Direct + adjacent competitors</h3>
+    <table class="data-table">
+      <thead><tr><th>Player</th><th>Angle</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Bloom Stories</strong></td><td>Smart erotica, longer-form, premium writing focus</td></tr>
+        <tr><td><strong>Emjoy</strong></td><td>Sexual wellness + education + erotic audio (women-focused, EU)</td></tr>
+        <tr><td><strong>Ferly</strong></td><td>Sexology/psychology-grounded wellbeing audio</td></tr>
+        <tr><td><strong>FrolicMe</strong></td><td>UK audio + video erotica</td></tr>
+        <tr><td><strong>Aud.</strong></td><td>Audio erotica niche</td></tr>
+        <tr><td><strong>Audible Originals romance</strong></td><td>Mainstream pressure on the category</td></tr>
+        <tr><td><strong>Wattpad audio adaptations</strong></td><td>Fanfic-to-audio pipeline</td></tr>
+        <tr><td><strong>Graphic Audio</strong></td><td>Dramatized full-cast adaptations of popular romantasy (e.g. Fourth Wing)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>The cultural engine: BookTok / romantasy</h3>
+    <p>Fourth Wing, ACOTAR, romantasy — these are the cultural fuel for everything happening in the audio erotica space right now. Graphic Audio's full-cast Fourth Wing dramatization is the strongest signal that audiences want cinematic audio adaptations of the books they're obsessed with. <strong>The BookTok-to-audio pipeline is wide open.</strong></p>
+
+    <h3>Microdrama context (Pulse's home turf)</h3>
+    <ul>
+      <li>ReelShort: ~18M downloads 2025 · DramaBox: ~11M · CandyJar: ~915K April downloads (fastest grower)</li>
+      <li>Industry produces ~40 verticals/month at $100–300K each</li>
+      <li>Intimacy coordinators on closed sets — the production muscle for spicy short-form vertical already exists in LA</li>
+      <li>Fox just committed 200+ vertical titles via Holywater — vertical food, vertical romance, vertical thriller is the platform-side bet</li>
+    </ul>
+  </section>
+
+  <!-- ════════════════════ 5 LANES ════════════════════ -->
+  <section id="lanes">
+    <h2><span class="num">08</span> Five white-space lanes for Pulse</h2>
+    <p class="lede">Where Pulse can win — specifically, things neither Dipsea nor Quinn has.</p>
+
+    <!-- LANE 1 -->
+    <div class="lane top">
+      <div class="lane-num">LANE 01 · NATIVE FORMAT EDGE</div>
+      <h3>Watch + Listen — vertical microdrama with audio-only cut</h3>
+      <p class="desc">Pulse already produces vertical-video spicy microdrama. Release every episode as both video and an audio-only cut. Now you have two distribution surfaces, two monetization moments, two organic discovery channels — for the same script.</p>
+
+      <div class="lane-grid">
+        <div class="lane-row"><span class="k">Why it wins</span><span>Neither Dipsea nor Quinn has video. ReelShort/DramaBox don't have audio. You sit between both.</span></div>
+        <div class="lane-row"><span class="k">Production cost</span><span>Marginal — voice tracks already exist on set</span></div>
+        <div class="lane-row"><span class="k">TikTok play</span><span>Vertical clips drive both directions: TikTok → app for video; TikTok → audio for listen-only</span></div>
+        <div class="lane-row"><span class="k">Subscription wedge</span><span>"Listen offline" is a premium tier feature</span></div>
+      </div>
+    </div>
+
+    <!-- LANE 2 -->
+    <div class="lane top">
+      <div class="lane-num">LANE 02 · DEMOGRAPHIC WHITE SPACE</div>
+      <h3>Spanish, Tagalog, Vietnamese, Mandarin originals</h3>
+      <p class="desc">Both Dipsea and Quinn are nearly 100% English. ReelShort and DramaBox have proven Latina and Asian audiences are voracious romance consumers — the same audience Pulse is already targeting. Launch <strong>Pulse Picante</strong> (Spanish), <strong>Pulse Bagong</strong> (Tagalog), <strong>Pulse Đêm</strong> (Vietnamese), <strong>Pulse 心动</strong> (Mandarin).</p>
+
+      <div class="lane-grid">
+        <div class="lane-row"><span class="k">Maps to memory</span><span>Marie's existing Latino + Asian microdrama research</span></div>
+        <div class="lane-row"><span class="k">Cost structure</span><span>Native-language voice talent in LA is abundant + reasonable</span></div>
+        <div class="lane-row"><span class="k">Distribution</span><span>Spotify Spanish romance podcasts have huge audiences with no premium competitor</span></div>
+        <div class="lane-row"><span class="k">Sponsor appeal</span><span>Multicultural beauty/wellness brands desperately want this audience</span></div>
+      </div>
+    </div>
+
+    <!-- LANE 3 -->
+    <div class="lane">
+      <div class="lane-num">LANE 03 · UNDERSERVED COMMUNITIES</div>
+      <h3>Queer-male and 50+ originals</h3>
+      <p class="desc">Ember &amp; Ice's 39M minutes proved MM demand explodes when treated with prestige. Dipsea has limited M/M; Quinn has Ember &amp; Ice plus a couple sapphic Originals but the broader queer-male catalog is thin. The 50+ romance audience driving "later-in-life rom-com" sales on Kindle is invisible on both platforms.</p>
+
+      <div class="lane-grid">
+        <div class="lane-row"><span class="k">Working names</span><span>Pulse Bound (queer-male) · Pulse Mature</span></div>
+        <div class="lane-row"><span class="k">Why now</span><span>Heated Rivalry / Red White &amp; Royal Blue / Fire Island — the wave hasn't crested</span></div>
+        <div class="lane-row"><span class="k">Comp</span><span>Diane Lane–era "mature heat" sub-genre is climbing in Kindle Unlimited</span></div>
+        <div class="lane-row"><span class="k">Risk</span><span>Premium production cost — but margin justifies if executed right</span></div>
+      </div>
+    </div>
+
+    <!-- LANE 4 -->
+    <div class="lane">
+      <div class="lane-num">LANE 04 · FORMAT INNOVATION</div>
+      <h3>Choose-your-own + co-listen + live</h3>
+      <p class="desc">Three format gaps that neither platform has solved:</p>
+      <ul style="margin-top:0.6rem">
+        <li><strong>Choose-your-own ending</strong> in vertical video — microdrama format already supports cliffhangers; just add branch logic</li>
+        <li><strong>Co-listen mode</strong> with synchronized playback + shared pause for partnered listening. Bloom does couple-focused content but it's passive.</li>
+        <li><strong>Live drops with chat</strong> — Quinn does scheduled Original premieres but no live event format with the cast/narrator present</li>
+      </ul>
+      <p style="margin-top:1rem;color:var(--muted)">Any one of these is a sticky retention feature; all three together is a moat.</p>
+    </div>
+
+    <!-- LANE 5 -->
+    <div class="lane">
+      <div class="lane-num">LANE 05 · CREATOR ECONOMY + IP STUDIO HYBRID</div>
+      <h3>The graduated-creator pipeline Quinn hasn't built</h3>
+      <p class="desc">Quinn is curated UGC + celebrity Originals — but there's nothing between them. Dipsea is closed-shop pro. Pulse can operate a third model: <strong>tiered creator program where top vertical-microdrama writers/actors graduate into multi-episode IP arcs that Pulse owns and licenses outward.</strong></p>
+
+      <div class="lane-grid">
+        <div class="lane-row"><span class="k">Tier 1</span><span>Open creator submission (Quinn-style)</span></div>
+        <div class="lane-row"><span class="k">Tier 2</span><span>Pulse "Verified" — revenue share + production support</span></div>
+        <div class="lane-row"><span class="k">Tier 3</span><span>Pulse Originals — Pulse owns IP, licenses to ReelShort / Spotify / TikTok</span></div>
+        <div class="lane-row"><span class="k">Licensing upside</span><span>BookTok-to-screen pipeline is undeveloped — vertical integration possible</span></div>
+      </div>
+
+      <div class="callout" style="margin-top:1.2rem">
+        <div class="tag">Bonus monetization layer</div>
+        <p>Marie owns Kitsé. A <strong>story-paired-to-product line</strong> — audio drama released alongside an intimate product, candle, lingerie, or food drop — is a layer neither platform can replicate without retail. <em>"Yes, Chef"</em> already proved restaurant power-dynamic stories perform; pair one with a Kitsé chef supper club for the obvious crossover.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ PLAYBOOK ════════════════════ -->
+  <section id="playbook">
+    <h2><span class="num">09</span> Recommended playbook</h2>
+    <p class="lede">What to launch first. What to test. What to skip.</p>
+
+    <h3>Phase 1 — Launch (next 90 days)</h3>
+    <ul>
+      <li><strong>Pick 3 vertical microdrama series Pulse already has scripts for.</strong> Re-record them as audio-only cuts at the same time as the video shoot — incremental cost ~$5–10K/episode for cleaner sound design.</li>
+      <li><strong>Release simultaneously:</strong> vertical app + Spotify podcast feed (audio-only). Spotify has zero gatekeeping for audio erotica, unlike Apple Podcasts.</li>
+      <li><strong>Pricing:</strong> $8.99/mo or $59.99/yr — undercut Dipsea, match Quinn.</li>
+      <li><strong>Audience seed:</strong> launch with one Spanish-language Original (Pulse Picante #1) to plant the demographic flag immediately.</li>
+    </ul>
+
+    <h3>Phase 2 — Differentiate (Q4 2026)</h3>
+    <ul>
+      <li><strong>Ship co-listen mode</strong> — easiest retention feature to differentiate on. Both Spotify and Apple Music have synchronized playback patents you can license/work around.</li>
+      <li><strong>Launch Pulse Originals slate:</strong> 4–6 multi-episode arcs with named talent. Target one MM original early to ride the Ember &amp; Ice wave.</li>
+      <li><strong>Open creator submissions</strong> — start the long tail. Background checks, revenue share, "Roses"-style tipping equivalent.</li>
+    </ul>
+
+    <h3>Phase 3 — Compound (2027)</h3>
+    <ul>
+      <li><strong>Interactive / choose-your-own</strong> for top Originals — pre-built script trees turn into 4–8 endings per arc</li>
+      <li><strong>License outward</strong> — Spotify Originals deal, Audible exclusive window, ReelShort co-production</li>
+      <li><strong>Kitsé crossover</strong> — at least one "Yes, Chef"-style food-and-romance drop with a real Kitsé chef and a paired supper club</li>
+    </ul>
+
+    <div class="callout" style="margin-top:1.5rem">
+      <div class="tag">What to skip</div>
+      <p>Don't fight Dipsea on prestige longform serialized romance head-on — the catalog gap is too big and 1,000+ stories is years of writing. Don't fight Quinn on TikTok-celebrity-narrator hype — the casting Rolodex is built. <strong>Win the lanes neither of them is running.</strong></p>
+    </div>
+  </section>
+
+  <!-- ════════════════════ SOURCES ════════════════════ -->
+  <section id="sources">
+    <h2><span class="num">10</span> Sources</h2>
+    <p class="lede">Primary platforms, press, and market research cited throughout.</p>
+
+    <h3>Dipsea</h3>
+    <ul class="sources">
+      <li><a href="https://www.crunchbase.com/organization/dipsea">Dipsea on Crunchbase</a></li>
+      <li><a href="https://techcrunch.com/2024/09/26/subscription-management-platform-revenuecat-acquires-a-spicy-audiobooks-app/">RevenueCat acquires Dipsea (TechCrunch)</a></li>
+      <li><a href="https://www.revenuecat.com/blog/company/dipsea-acquisition-announcement/">RevenueCat blog on Dipsea acquisition</a></li>
+      <li><a href="https://www.adolescent.net/a/the-creators-of-dipsea-are-empowering-women-through-audio-erotica">Dipsea founders profile (Adolescent.net)</a></li>
+      <li><a href="https://dipseastories.com/discover/">Dipsea Discover page (live catalog)</a></li>
+      <li><a href="https://apps.apple.com/us/app/dipsea-audio-stories/id1434242889">Dipsea on the App Store</a></li>
+      <li><a href="https://appgrooves.com/app/dipsea-sexy-audio-stories-by-dipsea-inc/positive">Dipsea reviews — positive (AppGrooves)</a></li>
+      <li><a href="https://appgrooves.com/app/dipsea-sexy-audio-stories-by-dipsea-inc/negative">Dipsea reviews — negative (AppGrooves)</a></li>
+      <li><a href="https://www.trustpilot.com/review/dipseastories.com">Dipsea reviews (Trustpilot)</a></li>
+    </ul>
+
+    <h3>Quinn</h3>
+    <ul class="sources">
+      <li><a href="https://www.crunchbase.com/organization/quinn-b377">Quinn on Crunchbase</a></li>
+      <li><a href="https://fortune.com/2022/10/25/caroline-spiegel-raises-3-2-million-audio-erotica-quinn/">Caroline Spiegel raises $3.2M (Fortune)</a></li>
+      <li><a href="https://www.foxbusiness.com/technology/erotic-app-quinn-founded-snapchat-ceos-sis-300k-subscribers">Quinn 300K subscribers (Fox Business)</a></li>
+      <li><a href="https://www.fastcompany.com/91236150/quinn-brands-that-matter-2024">Quinn — Brands That Matter 2024 (Fast Company)</a></li>
+      <li><a href="https://www.fastcompany.com/91279497/quinn-audio-erotica-r">Quinn carving out niche (Fast Company)</a></li>
+      <li><a href="https://rollingstonephilippines.com/culture/quinn-originals-audio-erotica-ranked/">Quinn Originals ranked (Rolling Stone Philippines)</a></li>
+      <li><a href="https://variety.com/2026/tv/news/quinn-app-shawn-hatosy-hudson-williams-audio-erotica-1236727045/">Quinn lures Hudson Williams, Shawn Hatosy (Variety)</a></li>
+      <li><a href="https://slate.com/culture/2026/03/quinn-app-audio-stories-erotica-ember-and-ice-rob-rausch-romance-books.html">Quinn Ember &amp; Ice analysis (Slate)</a></li>
+    </ul>
+
+    <h3>Market context</h3>
+    <ul class="sources">
+      <li><a href="https://www.dazeddigital.com/life-culture/article/58354/1/why-so-many-women-are-turning-to-audio-erotica-frolicme-dipsea">Audio erotica market overview (Dazed)</a></li>
+      <li><a href="https://www.romper.com/life/audio-erotica-app-dipsea-quinn">Dipsea vs Quinn comparison (Romper)</a></li>
+      <li><a href="https://cupofjo.com/2024/03/21/erotica-audio-apps-quinn/">Cup of Jo on Quinn</a></li>
+      <li><a href="https://www.coelle.app/post/the-best-guided-audio-intimacy-apps-for-couples-in-2025">Best intimacy apps 2025 (Coelle)</a></li>
+      <li><a href="https://finvsfin.com/best-intimacy-apps/">Best intimacy apps (Fin vs Fin)</a></li>
+      <li><a href="https://www.mordorintelligence.com/industry-reports/digital-adult-content-market">Digital adult content market (Mordor Intelligence)</a></li>
+      <li><a href="https://publishdrive.com/the-audiobook-surge-in-2025-why-authors-cant-ignore-it.html">Audiobook market 2025 (PublishDrive)</a></li>
+      <li><a href="https://www.hollywoodreporter.com/business/digital/microdramas-inside-mini-movies-hollywood-1236601176/">Microdrama industry overview (Hollywood Reporter)</a></li>
+      <li><a href="https://deadline.com/2026/01/microdrama-vertical-video-apps-international-new-wave-holywater-1236684224/">Microdramas Go Global (Deadline)</a></li>
+    </ul>
+  </section>
+
+  <div class="footnote">
+    Internal Pulse Reels strategy document · June 2026 · Not for external distribution<br>
+    Compiled from live platform browsing, press archives, App Store / Trustpilot review mining, and industry market research.
+  </div>
+
+</div>
+
+</body>
+</html>
